@@ -7,10 +7,10 @@ Ohjelma pitää listaa parhaista pelaajista, eli pelaajista, jotka ovat voittane
 **Käyttäjät:** Pelaaja
 
 **Pelaajan toiminnot:**
-	* Nimen antaminen
-	* Pelin aloittaminen
-	* Laivojen asettaminen
-	* Laivojen ampuminen
-	* Osumien ja hutien näkeminen
-	* Parhaiden pelaajien listaaminen
+* Nimen antaminen
+* Pelin aloittaminen
+* Laivojen asettaminen
+* Laivojen ampuminen
+* Osumien ja hutien näkeminen
+* Parhaiden pelaajien listaaminen
 
