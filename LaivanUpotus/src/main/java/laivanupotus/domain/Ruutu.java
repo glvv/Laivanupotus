@@ -5,29 +5,62 @@ public class Ruutu {
     private final int x;
     private final int y;
     private boolean osuttu;
-    private boolean sisaltaaLaivan;
+    private Laiva laiva;
 
     public Ruutu(int x, int y) {
         this.x = x;
         this.y = y;
         this.osuttu = false;
-        this.sisaltaaLaivan = false;
+        this.laiva = null;
     }
-    
+
     public boolean haeOsuttu() {
         return osuttu;
     }
-    
+
     public void onAmmuttu() {
         osuttu = true;
-    }
-    
-    public void sisallatLaivan() {
-        sisaltaaLaivan = true;
-    }
-    
-    public boolean sisallatkoLaivan() {
-        return sisaltaaLaivan;
+        if (this.laiva != null) {
+            //muokkaa tähän jotain
+        }
     }
 
+    public int haeX() {
+        return x;
+    }
+
+    public int haeY() {
+        return y;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 71 * hash + this.x;
+        hash = 71 * hash + this.y;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ruutu other = (Ruutu) obj;
+        if (this.x != other.x) {
+            return false;
+        }
+        return this.y == other.y;
+    }
+
+    public Laiva haeLaiva() {
+        return laiva;
+    }
+
+    public void asetaLaiva(Laiva laiva) {
+        this.laiva = laiva;
+    }
 }
