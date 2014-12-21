@@ -40,7 +40,7 @@ public class LaivojenAsettaja {
         return null;
     }
 
-    private Ruutu[] arvoRuudutLaivalle(int koko) {
+    public Ruutu[] arvoRuudutLaivalle(int koko) {
         Ruutu ensimmainenRuutu = arvoRuutu();
         boolean laivaOnVaakaSuorassa = (arpoja.nextInt(2) == 1);
         Ruutu[] ruudut = new Ruutu[koko];
@@ -61,7 +61,7 @@ public class LaivojenAsettaja {
         }
     }
 
-    private Ruutu arvoRuutu() {
+    public Ruutu arvoRuutu() {
         int ensimmaisenRuudunXKoordinaatti = arpoja.nextInt(pelilauta.haeLeveys());
         int ensimmaisenRuudunYKoordinaatti = arpoja.nextInt(pelilauta.haePituus());
         return new Ruutu(ensimmaisenRuudunXKoordinaatti, ensimmaisenRuudunYKoordinaatti);
@@ -79,14 +79,14 @@ public class LaivojenAsettaja {
         return true;
     }
 
-    private boolean onPelilaudalla(Ruutu ruutu) {
+    public boolean onPelilaudalla(Ruutu ruutu) {
         if (ruutu.haeX() > pelilauta.haeLeveys() - 1) {
             return false;
         }
         return ruutu.haeY() <= pelilauta.haePituus() - 1;
     }
 
-    private boolean eiOleVaratullaRuudulla(Ruutu ruutu) {
+    public boolean eiOleVaratullaRuudulla(Ruutu ruutu) {
         HashSet<Ruutu> varatutRuudut = pelilauta.haeVaratutRuudut();
         for (Ruutu ruutu2 : varatutRuudut) {
             if (ruutu2.equals(ruutu)) {
@@ -96,14 +96,14 @@ public class LaivojenAsettaja {
         return true;
     }
 
-    private void lisaaRuudutVaratuiksi(Laiva laiva) {
+    public void lisaaRuudutVaratuiksi(Laiva laiva) {
         if (!laivatSaaKoskea) {
             pelilauta.lisaaVarattujaRuutuja(luoLaivaaYmparoivatRuudut(laiva));
         }
         pelilauta.lisaaVarattujaRuutuja(laiva.haeRuudut());
     }
 
-    private Ruutu[] luoLaivaaYmparoivatRuudut(Laiva laiva) {
+    public Ruutu[] luoLaivaaYmparoivatRuudut(Laiva laiva) {
         HashSet<Ruutu> ruudut = new HashSet<>();
         for (Ruutu ruutu : laiva.haeRuudut()) {
             int x = ruutu.haeX();
@@ -113,7 +113,22 @@ public class LaivojenAsettaja {
             ruudut.add(new Ruutu(x - 1, y));
             ruudut.add(new Ruutu(x, y - 1));
         }
-        return (Ruutu[]) ruudut.toArray();
+        Ruutu[] ymparoivat = new Ruutu[ruudut.size()];
+        ruudut.toArray(ymparoivat);
+        return ymparoivat;
     }
+    
+    public Pelilauta haePelilauta() {
+        return this.pelilauta;
+    }
+    
+    public boolean laivatSaaKoskea() {
+        return laivatSaaKoskea;
+    }
+    
+    public void asetaPelilauta(Pelilauta pelilauta) {
+        this.pelilauta = pelilauta;
+    }
+    
 
 }

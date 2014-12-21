@@ -48,5 +48,17 @@ public class PelilautaTest {
         assertEquals(new Ruutu(3, 4), pelilauta.haeRuutu(3, 4));
     }
     
+    @Test
+    public void pelilautaAntaaOikeanRuudunRajaArvoilla() {
+        assertEquals(new Ruutu(11, 15), pelilauta.haeRuutu(11, 15));
+    }
+    
+    @Test
+    public void pelilautaAntaaOikeanRuudunRajaArvoilla2() {
+        assertEquals(new Ruutu(0, 0), pelilauta.haeRuutu(0, 0));
+    }
+    
+    
+    
     
 }
