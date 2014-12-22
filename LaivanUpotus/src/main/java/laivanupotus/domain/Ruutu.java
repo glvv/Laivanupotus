@@ -1,6 +1,6 @@
 package laivanupotus.domain;
 
-public class Ruutu {
+public class Ruutu implements Comparable<Ruutu> {
 
     private final int x;
     private final int y;
@@ -62,5 +62,16 @@ public class Ruutu {
 
     public void asetaLaiva(Laiva laiva) {
         this.laiva = laiva;
+    }
+
+    @Override
+    public int compareTo(Ruutu t) {
+        if (t.haeX() == this.x) {
+            return this.y - t.haeY(); 
+        } else if (t.haeY() == this.y) {
+            return this.x - t.haeX();
+        } else {
+            return 0;
+        }
     }
 }
