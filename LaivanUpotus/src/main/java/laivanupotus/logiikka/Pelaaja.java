@@ -1,13 +1,14 @@
 package laivanupotus.logiikka;
 
-import laivanupotus.domain.Pelilauta;
 import laivanupotus.domain.Ruutu;
 
 public abstract class Pelaaja {
-    public Pelilauta pelilauta;
+    final int pelilautaLeveys;
+    final int pelilautaKorkeus;
 
-    public Pelaaja(Pelilauta pelilauta) {
-        this.pelilauta = pelilauta;
+    public Pelaaja(int pelilautaLeveys, int pelilautaKorkeus) {
+        this.pelilautaLeveys = pelilautaLeveys;
+        this.pelilautaKorkeus = pelilautaKorkeus;
     }
     
     public abstract Ruutu teeSiirto();

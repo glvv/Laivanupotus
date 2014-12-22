@@ -3,7 +3,6 @@ package laivanupotus.logiikka;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import laivanupotus.domain.Pelilauta;
 import laivanupotus.domain.Ruutu;
 
 public class Tekoaly extends Pelaaja {
@@ -12,16 +11,16 @@ public class Tekoaly extends Pelaaja {
     private final Random arvaaja;
     private final ArrayList<Ruutu> osumat;
 
-    public Tekoaly(Pelilauta pelilauta) {
-        super(pelilauta);
+    public Tekoaly(int leveys, int korkeus) {
+        super(leveys, korkeus);
         this.arvatut = new ArrayList<>();
         this.arvaaja = new Random();
         this.osumat = new ArrayList<>();
     }
 
     public Ruutu arvaaSatunnainen() {
-        int x = arvaaja.nextInt(pelilauta.haeLeveys());
-        int y = arvaaja.nextInt(pelilauta.haePituus());
+        int x = arvaaja.nextInt(super.pelilautaLeveys);
+        int y = arvaaja.nextInt(super.pelilautaKorkeus);
         Ruutu arvaus = new Ruutu(x, y);
         if (!tarkistaArvaus(arvaus)) {
             return arvaaSatunnainen();
@@ -48,10 +47,10 @@ public class Tekoaly extends Pelaaja {
     }
 
     public boolean tarkistaArvaus(Ruutu arvaus) {
-        if (arvaus.haeX() > pelilauta.haeLeveys() - 1 || arvaus.haeX() < 0) {
+        if (arvaus.haeX() > pelilautaLeveys - 1 || arvaus.haeX() < 0) {
             return false;
         }
-        if (arvaus.haeY() > pelilauta.haePituus() - 1 || arvaus.haeY() < 0) {
+        if (arvaus.haeY() > pelilautaKorkeus - 1 || arvaus.haeY() < 0) {
             return false;
         }
         return !arvatut.contains(arvaus);
@@ -82,12 +81,28 @@ public class Tekoaly extends Pelaaja {
         if (osumat.size() < 2) {
             return arvaaVierekkainen(osumat.get(0));
         }
-        if (osumatVaakasuorassa()) {
-            return arvaaVaakasuorassaOlevienOsumienPerusteella();
+        Collections.sort(osumat);
+        int arvaus = arvaaja.nextInt(2);
+        Ruutu arvattuRuutu;
+        if (arvaus == 0) {
+            Ruutu ruutu = osumat.get(0);
+            if (osumatVaakasuorassa()) {
+                arvattuRuutu = new Ruutu(ruutu.haeX() - 1, ruutu.haeY());
+            } else {
+                arvattuRuutu = new Ruutu(ruutu.haeX(), ruutu.haeY() - 1);
+            }
         } else {
-            return null;
-            //kesken
+            Ruutu ruutu = osumat.get(osumat.size() - 1);
+            if (osumatVaakasuorassa()) {
+                arvattuRuutu = new Ruutu(ruutu.haeX() + 1, ruutu.haeY());
+            } else {
+                arvattuRuutu = new Ruutu(ruutu.haeX(), ruutu.haeY() + 1);
+            }
         }
+        if (!tarkistaArvaus(arvattuRuutu)) {
+            return arvaaOsumienPerusteella();
+        }
+        return arvattuRuutu;
     }
 
     public boolean osumatVaakasuorassa() {
@@ -100,24 +115,4 @@ public class Tekoaly extends Pelaaja {
         return true;
     }
 
-    public Ruutu arvaaVaakasuorassaOlevienOsumienPerusteella() {
-        Collections.sort(osumat);
-        int arvaus = arvaaja.nextInt(2);
-        Ruutu arvattuRuutu;
-        if (arvaus == 0) {
-            Ruutu ruutu = osumat.get(0);
-            arvattuRuutu = new Ruutu(ruutu.haeX() - 1, ruutu.haeY());
-        } else {
-            Ruutu ruutu = osumat.get(osumat.size() - 1);
-            arvattuRuutu = new Ruutu(ruutu.haeX() + 1, ruutu.haeY());
-        }
-        if (!tarkistaArvaus(arvattuRuutu)) {
-            return arvaaVaakasuorassaOlevienOsumienPerusteella();
-        }
-        return arvattuRuutu;
-    }
-//
-//    public void arvaaPystysuorassaOlevienOsumienPerusteella() {
-//        
-//    }
 }
