@@ -10,4 +10,10 @@
 
 4h Toteutettu logiikkaa, sekä domain-paketin testejä.
 
+**21.12.2014**
 
+3h Tehty testejä
+
+**22.12.2014**
+
+3h Toteutettu logiikkaa
