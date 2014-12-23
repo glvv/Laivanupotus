@@ -17,3 +17,7 @@
 **22.12.2014**
 
 3h Toteutettu logiikkaa
+
+**23.12.2014**
+
+2h Toteutettu logiikkaa
