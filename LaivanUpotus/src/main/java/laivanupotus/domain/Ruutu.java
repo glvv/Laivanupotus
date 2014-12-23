@@ -20,9 +20,6 @@ public class Ruutu implements Comparable<Ruutu> {
 
     public void onAmmuttu() {
         osuttu = true;
-        if (this.laiva != null) {
-            //muokkaa tähän jotain
-        }
     }
 
     public int haeX() {
@@ -31,6 +28,10 @@ public class Ruutu implements Comparable<Ruutu> {
 
     public int haeY() {
         return y;
+    }
+    
+    public boolean sisaltaaLaivan() {
+        return this.laiva != null;
     }
 
     @Override

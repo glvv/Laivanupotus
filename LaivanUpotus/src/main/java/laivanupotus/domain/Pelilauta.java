@@ -50,6 +50,18 @@ public class Pelilauta {
         varatutRuudut.addAll(Arrays.asList(ruudut1));
     }
     
+    public ArrayList<Ruutu> haeRuudutJoihinOnOsuttu() {
+        ArrayList<Ruutu> osututRuudut = new ArrayList<>();
+        for (Ruutu[] ruudukko : ruudut) {
+            for (Ruutu ruutu : ruudukko) {
+                if (ruutu.haeOsuttu()) {
+                    osututRuudut.add(ruutu);
+                }
+            }
+        } 
+        return osututRuudut;
+    }
+    
     
     
     
