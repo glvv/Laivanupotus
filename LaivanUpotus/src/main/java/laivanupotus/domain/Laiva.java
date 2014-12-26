@@ -21,7 +21,7 @@ public class Laiva {
 
     public boolean uppoaako() {
         for (Ruutu avain : osumat.keySet()) {
-            if (osumat.get(avain) == true) {
+            if (osumat.get(avain) == false) {
                 return false;
             }
         }
