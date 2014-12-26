@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class Pelilauta {
+
     private final int leveys;
     private final int pituus;
     private final Ruutu[][] ruudut;
@@ -17,7 +18,7 @@ public class Pelilauta {
         this.varatutRuudut = new HashSet<>();
         luoRuudut();
     }
-    
+
     private void luoRuudut() {
         for (int i = 0; i < leveys; i++) {
             for (int j = 0; j < pituus; j++) {
@@ -37,19 +38,19 @@ public class Pelilauta {
     public HashSet<Ruutu> haeVaratutRuudut() {
         return varatutRuudut;
     }
-    
+
     public Ruutu haeRuutu(int x, int y) {
         return ruudut[x][y];
     }
-    
+
     public Ruutu[][] haeRuudukko() {
         return ruudut;
     }
-    
+
     public void lisaaVarattujaRuutuja(Ruutu[] ruudut1) {
         varatutRuudut.addAll(Arrays.asList(ruudut1));
     }
-    
+
     public ArrayList<Ruutu> haeRuudutJoihinOnOsuttu() {
         ArrayList<Ruutu> osututRuudut = new ArrayList<>();
         for (Ruutu[] ruudukko : ruudut) {
@@ -58,11 +59,8 @@ public class Pelilauta {
                     osututRuudut.add(ruutu);
                 }
             }
-        } 
+        }
         return osututRuudut;
     }
-    
-    
-    
-    
+
 }

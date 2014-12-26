@@ -20,6 +20,9 @@ public class Ruutu implements Comparable<Ruutu> {
 
     public void onAmmuttu() {
         osuttu = true;
+        if (this.laiva != null) {
+            this.laiva.lisaaOsuma(this);
+        }
     }
 
     public int haeX() {

@@ -22,11 +22,21 @@ public class Logiikka {
     public Logiikka(int leveys, int pituus, HashMap<Integer, Integer> laivat, boolean laivatSaavatKoskettaa) {
         this.pelilautaPelaaja1 = new Pelilauta(leveys, pituus);
         this.pelilautaPelaaja2 = new Pelilauta(leveys, pituus);
-        this.laivojenAsettaja = new LaivojenAsettaja(false);
+        this.laivojenAsettaja = new LaivojenAsettaja(laivatSaavatKoskettaa);
         this.laivatPelaaja1 = laivojenAsettaja.luoLaivatAutomaattisesti(laivat, pelilautaPelaaja1);
         this.laivatPelaaja2 = laivojenAsettaja.luoLaivatAutomaattisesti(laivat, pelilautaPelaaja2);
+        liitaLaivatRuutuihin(laivatPelaaja1, pelilautaPelaaja1);
+        liitaLaivatRuutuihin(laivatPelaaja2, pelilautaPelaaja2);
         this.vuoro = 1;
         this.tekoaly = new Tekoaly(leveys, pituus);
+    }
+    
+    private void liitaLaivatRuutuihin(List<Laiva> laivat, Pelilauta pelilauta) {
+        for (Laiva laiva : laivat) {
+            for (Ruutu ruutu : laiva.haeRuudut()) {
+                pelilauta.haeRuutu(ruutu.haeX(), ruutu.haeY()).asetaLaiva(laiva);
+            }
+        }
     }
     
     public void pelaaVuoro(int[] siirto) {
@@ -66,6 +76,10 @@ public class Logiikka {
         return laivatPelaaja2;
     }
     
+//    public HashMap<Ruutu, Integer> haeTilanne() {
+//        return null;
+//    }
+//    
     
     
     

@@ -33,12 +33,12 @@ public class LaivojenAsettaja {
         return laivat;
     }
     
-    public ArrayList lisaaKayttajanAntamatLaivat(Pelilauta pelilauta) {
-        this.pelilauta = pelilauta;
-        //TEE JOTAIN
-        
-        return null;
-    }
+//    public ArrayList lisaaKayttajanAntamatLaivat(Pelilauta pelilauta) {
+//        this.pelilauta = pelilauta;
+//        //TEE JOTAIN
+//        // EI TEE MITÄÄN
+//        return null;
+//    }
 
     public Ruutu[] arvoRuudutLaivalle(int koko) {
         Ruutu ensimmainenRuutu = arvoRuutu();
