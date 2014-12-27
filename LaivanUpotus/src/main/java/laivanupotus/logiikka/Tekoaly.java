@@ -5,22 +5,25 @@ import java.util.Collections;
 import java.util.Random;
 import laivanupotus.domain.Ruutu;
 
-public class Tekoaly extends Pelaaja {
+public class Tekoaly {
 
     private final ArrayList<Ruutu> arvatut;
     private final Random arvaaja;
     private final ArrayList<Ruutu> osumat;
+    private final int leveys;
+    private final int pituus;
 
-    public Tekoaly(int leveys, int korkeus) {
-        super(leveys, korkeus);
+    public Tekoaly(int leveys, int pituus) {
+        this.leveys = leveys;
+        this.pituus = pituus;
         this.arvatut = new ArrayList<>();
         this.arvaaja = new Random();
         this.osumat = new ArrayList<>();
     }
 
     public Ruutu arvaaSatunnainen() {
-        int x = arvaaja.nextInt(super.pelilautaLeveys);
-        int y = arvaaja.nextInt(super.pelilautaKorkeus);
+        int x = arvaaja.nextInt(leveys);
+        int y = arvaaja.nextInt(pituus);
         Ruutu arvaus = new Ruutu(x, y);
         if (!tarkistaArvaus(arvaus)) {
             return arvaaSatunnainen();
@@ -47,16 +50,15 @@ public class Tekoaly extends Pelaaja {
     }
 
     public boolean tarkistaArvaus(Ruutu arvaus) {
-        if (arvaus.haeX() > pelilautaLeveys - 1 || arvaus.haeX() < 0) {
+        if (arvaus.haeX() > leveys - 1 || arvaus.haeX() < 0) {
             return false;
         }
-        if (arvaus.haeY() > pelilautaKorkeus - 1 || arvaus.haeY() < 0) {
+        if (arvaus.haeY() > pituus - 1 || arvaus.haeY() < 0) {
             return false;
         }
         return !arvatut.contains(arvaus);
     }
 
-    @Override
     public Ruutu teeSiirto() {
         if (osumat.isEmpty()) {
             Ruutu arvaus = arvaaSatunnainen();

@@ -47,6 +47,10 @@ public class Asetukset {
     public HashMap<Integer, Integer> haeLaivat() {
         return laivat;
     }
+    
+    public boolean onkoLaivaLisatty(int laivanKoko) {
+        return laivat.containsKey(laivanKoko);
+    }
 
     public int haePelilautaLeveys() {
         return pelilautaLeveys;
