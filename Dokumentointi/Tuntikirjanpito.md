@@ -28,6 +28,6 @@
 
 **27.12.2014**
 
-2h Lisätty virheellisten syötteiden käsittelyä.
+5h Lisätty virheellisten syötteiden käsittely, sekä muokattu tekstikäyttöliittymää.
 
 
