@@ -60,7 +60,7 @@ public class Asetukset {
         return pelilautaPituus;
     }
 
-    public boolean LaivatSaaKoskea() {
+    public boolean laivatSaaKoskea() {
         return laivatSaaKoskea;
     }
 

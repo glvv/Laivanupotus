@@ -25,7 +25,7 @@ public class Logiikka {
         HashMap<Integer, Integer> laivat = asetukset.haeLaivat();
         this.pelilautaPelaaja1 = new Pelilauta(leveys, pituus);
         this.pelilautaPelaaja2 = new Pelilauta(leveys, pituus);
-        this.laivojenAsettaja = new LaivojenAsettaja(asetukset.LaivatSaaKoskea());
+        this.laivojenAsettaja = new LaivojenAsettaja(asetukset.laivatSaaKoskea());
         this.laivatPelaaja1 = laivojenAsettaja.luoLaivatAutomaattisesti(laivat, pelilautaPelaaja1);
         this.laivatPelaaja2 = laivojenAsettaja.luoLaivatAutomaattisesti(laivat, pelilautaPelaaja2);
         liitaLaivatRuutuihin(laivatPelaaja1, pelilautaPelaaja1);
@@ -35,7 +35,7 @@ public class Logiikka {
         this.paivitettava = paivitettava;
     }
 
-    private void liitaLaivatRuutuihin(List<Laiva> laivat, Pelilauta pelilauta) {
+    public final void liitaLaivatRuutuihin(List<Laiva> laivat, Pelilauta pelilauta) {
         for (Laiva laiva : laivat) {
             for (Ruutu ruutu : laiva.haeRuudut()) {
                 pelilauta.haeRuutu(ruutu.haeX(), ruutu.haeY()).asetaLaiva(laiva);

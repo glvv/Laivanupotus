@@ -1,6 +1,7 @@
-package laivanupotus.kayttoliittyma;
+package laivanupotus.laivanupotus;
 
 import java.util.Scanner;
+import laivanupotus.kayttoliittyma.Tekstikayttoliittyma;
 
 public class Main {
 

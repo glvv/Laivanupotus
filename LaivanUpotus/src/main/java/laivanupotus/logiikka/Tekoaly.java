@@ -117,4 +117,14 @@ public class Tekoaly {
         return true;
     }
 
+    public ArrayList<Ruutu> haeArvatut() {
+        return arvatut;
+    }
+
+    public ArrayList<Ruutu> haeOsumat() {
+        return osumat;
+    }
+    
+    
+
 }

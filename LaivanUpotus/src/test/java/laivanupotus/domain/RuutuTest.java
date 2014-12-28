@@ -1,5 +1,7 @@
 package laivanupotus.domain;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -67,6 +69,17 @@ public class RuutuTest {
     public void osumanJalkeenRuutuunOnOsuttu() {
         ruutu.onAmmuttu();
         assertEquals(true, ruutu.haeOsuttu());
+    }
+    
+    @Test
+    public void ruudutJarjestyvatOikein() {
+        ArrayList<Ruutu> ruudut = new ArrayList<>();        
+        ruudut.add(new Ruutu(3, 7));
+        ruudut.add(new Ruutu(3, 6));
+        ruudut.add(ruutu);
+        ruudut.add(new Ruutu(3, 5));
+        Collections.sort(ruudut);
+        assertEquals(ruutu, ruudut.get(0));
     }
 
 }
