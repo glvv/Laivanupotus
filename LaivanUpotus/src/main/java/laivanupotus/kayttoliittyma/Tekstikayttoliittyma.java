@@ -1,7 +1,7 @@
 package laivanupotus.kayttoliittyma;
 
+import java.util.HashMap;
 import java.util.Scanner;
-import laivanupotus.logiikka.Asetukset;
 import laivanupotus.logiikka.Logiikka;
 import laivanupotus.logiikka.SyotteenKasittelija;
 
@@ -18,12 +18,12 @@ public class Tekstikayttoliittyma implements Paivitettava {
 
     public void kaynnista() {
         tulostaOhjeet();
-        Asetukset asetukset = kysyAsetukset();
-        this.logiikka = new Logiikka(asetukset, this);
+        kysyAsetukset();
+        this.logiikka = new Logiikka(syotteenkasittelija.haeAsetukset(), this);
         aloitaPeli();
     }
-    
-    public void tulostaOhjeet(){
+
+    public void tulostaOhjeet() {
         System.out.println("Tervetuloa laivanupotukseen");
         System.out.println("");
         System.out.println("Valinnat: ");
@@ -31,13 +31,13 @@ public class Tekstikayttoliittyma implements Paivitettava {
         System.out.println("2. Muokkaa asetuksia");
         System.out.println("");
     }
-    
-    public Asetukset kysyAsetukset() {
+
+    public void kysyAsetukset() {
         String syote;
         while (true) {
-            System.out.println("Anna komento (1 tai 2)");
+            System.out.print("Anna komento (1 tai 2) ");
             syote = lukija.nextLine();
-            if (syotteenkasittelija.tarkistaValinta(syote, 2)) {    
+            if (syotteenkasittelija.tarkistaValinta(syote, 2)) {
                 break;
             } else {
                 System.out.println("Virheellinen syöte");
@@ -45,22 +45,58 @@ public class Tekstikayttoliittyma implements Paivitettava {
             }
         }
         int valinta = Integer.parseInt(syote);
-        Asetukset oletus = syotteenkasittelija.haeAsetukset();
+        System.out.println("");
         if (valinta == 1) {
-            oletus.asetaOletusLaivat();
+            syotteenkasittelija.haeAsetukset().asetaOletusLaivat();
         } else {
-            kysyMittasuhteet(oletus);
-            kysyLaivat(oletus);
+            kysyLeveys();
+            kysyPituus();
+            System.out.println("");
+            kysyLaivat();
         }
-        return oletus;
-    }
-    
-    public Asetukset kysyMittasuhteet(Asetukset asetukset) {
-        return null;
     }
 
-    public Asetukset kysyLaivat(Asetukset asetukset) {
-        return null;
+    public void kysyLeveys() {
+        while (true) {
+            System.out.print("Anna pelilaudan leveys väliltä 10 - 100 ");
+            String syote = lukija.nextLine();
+            if (syotteenkasittelija.asetaPituus(syote)) {
+                break;
+            }
+            System.out.println("Virheellinen syöte");
+            System.out.println("");
+        }
+    }
+
+    public void kysyPituus() {
+        while (true) {
+            System.out.print("Anna pelilaudan pituus väliltä 10 - 100 ");
+            String syote = lukija.nextLine();
+            if (syotteenkasittelija.asetaLeveys(syote)) {
+                break;
+            }
+            System.out.println("Virheellinen syöte");
+            System.out.println("");
+        }
+    }
+
+    public void kysyLaivat() {
+        HashMap<Integer, String> kysymykset = new HashMap<>();
+        kysymykset.put(1, "Kuinka monta sukellusvenettä (1 ruutu) haluat? Valitse väliltä 1 - 3 ");
+        kysymykset.put(2, "Kuinka monta hävittäjää (2 ruutua) haluat? Valitse väliltä 0 - 2 ");
+        kysymykset.put(3, "Kuinka monta risteilijää (3 ruutua) haluat? Valitse väliltä 0 - 2 ");
+        kysymykset.put(4, "Kuinka monta taistelulaivaa (4 ruutua) haluat? Valitse väliltä 0 - 1 ");
+        kysymykset.put(5, "Kuinka monta lentotukialusta (5 ruutua) haluat? Valitse väliltä 0 - 1 ");
+        for (int i = 1; i < 6; i++) {
+            while (true) {
+                System.out.print(kysymykset.get(i));
+                String syote = lukija.nextLine();
+                if (syotteenkasittelija.lisaaLaiva(i, syote)) {
+                    break;
+                }
+                System.out.println("Virheellinen syöte");
+            }
+        }
     }
 
     public void aloitaPeli() {
@@ -71,10 +107,24 @@ public class Tekstikayttoliittyma implements Paivitettava {
     }
 
     public int[] kysySiirto() {
-        System.out.print("Anna X koordinaatti väliltä 1 - 10 ");
-        String x = lukija.nextLine();
-        System.out.print("Anna Y koordinaatti väliltä 1 - 10 ");
-        String y = lukija.nextLine();
+        String x;
+        String y;
+        while (true) {
+            System.out.print("Anna X koordinaatti väliltä 1 - 10 ");
+            x = lukija.nextLine();
+            if (syotteenkasittelija.tarkistaSiirto(x, false)) {
+                break;
+            }
+            System.out.println("Virheellinen syote");
+        }
+        while (true) {
+            System.out.print("Anna Y koordinaatti väliltä 1 - 10 ");
+            y = lukija.nextLine();
+            if (syotteenkasittelija.tarkistaSiirto(y, true)) {
+                break;
+            }
+            System.out.println("Virheellinen syöte");
+        }
         int xMuunnettu = Integer.parseInt(x);
         int yMuunnettu = Integer.parseInt(y);
         xMuunnettu = xMuunnettu - 1;
@@ -114,11 +164,6 @@ public class Tekstikayttoliittyma implements Paivitettava {
             }
             System.out.println("");
         }
-    }
-
-
-    public void kerroSaannot() {
-
     }
 
     @Override

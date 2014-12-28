@@ -41,13 +41,13 @@ public class SyotteenKasittelija {
         return false;
     }
 
-    public boolean lisaaLaiva(String kokoSyote, String maaraSyote) {
-        if (tarkistaKokonaisluku(kokoSyote) && tarkistaKokonaisluku(maaraSyote)) {
-            int koko = Integer.parseInt(kokoSyote);
+    public boolean lisaaLaiva(int koko, String maaraSyote) {
+        if (tarkistaKokonaisluku(maaraSyote)) {
             int maara = Integer.parseInt(maaraSyote);
             if (!asetukset.onkoLaivaLisatty(koko)) {
                 if (tarkistaKokoJaMaara(koko, maara)) {
                     asetukset.lisaaLaiva(koko, maara);
+                    return true;
                 }
             }
         }
@@ -59,10 +59,14 @@ public class SyotteenKasittelija {
 //    }
 
     private boolean tarkistaKokoJaMaara(int koko, int maara) {
-        if (koko > 0 && koko < 3) {
-            return (maara > 0 && maara < 5);
-        } else if (koko > 2 && koko < 6) {
+        if (koko == 1) {
             return (maara > 0 && maara < 4);
+        } else if (koko == 2) {
+            return (maara >= 0 && maara < 3);
+        } else if (koko == 3) {
+            return (maara >= 0 && maara < 3);
+        } else if (koko == 4 || koko == 5) {
+            return (maara == 0 || maara == 1);
         }
         return false;
     }
