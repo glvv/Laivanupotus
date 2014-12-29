@@ -7,19 +7,30 @@ import java.util.Random;
 import laivanupotus.domain.Laiva;
 import laivanupotus.domain.Pelilauta;
 import laivanupotus.domain.Ruutu;
-
+/**
+ * Luokka tarjoaa toiminnallisuuden automaattiseen laivojen asettamiseen ruudukkoon.
+ */
 public class LaivojenAsettaja {
 
     private final Random arpoja;
     private Pelilauta pelilauta;
     private final boolean laivatSaaKoskea;
-
+    /**
+     * Konstruktorissa luodaan uusi LaivojenAsettaja-olio
+     * Olion pelilauta saa ensin null-viitteen
+     * @param laivatSaaKoskea Saavatko laivat koskea toisiinsa
+     */
     public LaivojenAsettaja(boolean laivatSaaKoskea) {
         this.arpoja = new Random();
         this.pelilauta = null;
         this.laivatSaaKoskea = laivatSaaKoskea;
     }
-
+    /**
+     * Metodi arpoo laivojen sijainnit HashMap-olion sisältämän ohjeen mukaan ja palauttaa Laiva-oliot listana
+     * @param laivojenKokoJaLukumaara HashMap, jossa on avaimena laivan koko ja arvoina lukumaara
+     * @param pelilauta Pelilauta, joka pitää kirjaa varatuista ruuduista
+     * @return Lista, joka sisältää luodut laivat
+     */
     public ArrayList luoLaivatAutomaattisesti(HashMap<Integer, Integer> laivojenKokoJaLukumaara, Pelilauta pelilauta) {
         this.pelilauta = pelilauta;
         ArrayList<Laiva> laivat = new ArrayList<>();
@@ -32,13 +43,6 @@ public class LaivojenAsettaja {
         }
         return laivat;
     }
-    
-//    public ArrayList lisaaKayttajanAntamatLaivat(Pelilauta pelilauta) {
-//        this.pelilauta = pelilauta;
-//        //TEE JOTAIN
-//        // EI TEE MITÄÄN
-//        return null;
-//    }
 
     public Ruutu[] arvoRuudutLaivalle(int koko) {
         Ruutu ensimmainenRuutu = arvoRuutu();

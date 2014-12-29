@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Scanner;
 import laivanupotus.logiikka.Logiikka;
 import laivanupotus.logiikka.SyotteenKasittelija;
-
+/**
+ * Tekstikäyttöliittymä Laivanupotus-peliin.
+ */
 public class Tekstikayttoliittyma implements Paivitettava {
 
     private Logiikka logiikka;

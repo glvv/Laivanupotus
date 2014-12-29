@@ -30,4 +30,6 @@
 
 8h Lisätty virheellisten syötteiden käsittely, sekä tehty tekstikäyttöliittymä valmiiksi.
 
+**28.12.2014**
 
+8h Lisätty testejä, luokkakaavio, checkstyle- ja pit-raportti

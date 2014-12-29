@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import laivanupotus.domain.Ruutu;
-
+/**
+ * Luokka tarjoaa metodin, jolla saadaan siirtoja Laivanupotus-peliin.
+ */
 public class Tekoaly {
 
     private final ArrayList<Ruutu> arvatut;
@@ -58,7 +60,13 @@ public class Tekoaly {
         }
         return !arvatut.contains(arvaus);
     }
-
+    /**
+     * Metodi palauttaa satunnaisen ruudun jos se ei ole tehnyt osumia
+     * Jos osumia on yksi metodi palauttaa viereisen ruudun
+     * Jos osumia on enemmän kuin yksi metodi palauttaa ruudun jommastakummasta päästä 
+     * Metodi tarkistaa, että ruudut ovat pelilaudalla, eikä niitä olle jo arvattu
+     * @return Tekoalyn tekemä siirto
+     */
     public Ruutu teeSiirto() {
         if (osumat.isEmpty()) {
             Ruutu arvaus = arvaaSatunnainen();
@@ -74,7 +82,9 @@ public class Tekoaly {
     public void lisaaOsuma(Ruutu ruutu) {
         osumat.add(ruutu);
     }
-
+    /**
+     * Metodia käytetään kertomaan tekoälylle, että osumien ympäriltä ei saa enää arvata ruutuja.
+     */
     public void laivaUpotettu() {
         osumat.clear();
     }

@@ -8,6 +8,10 @@ import laivanupotus.domain.Pelilauta;
 import laivanupotus.domain.Ruutu;
 import laivanupotus.kayttoliittyma.Paivitettava;
 
+    /**
+     * Luokka tarjoaa metodeja siirtojen vastaanottamiseen ja pelitilanteen käsittelyyn.
+     */
+
 public class Logiikka {
 
     private int vuoro;
@@ -18,7 +22,13 @@ public class Logiikka {
     private final LaivojenAsettaja laivojenAsettaja;
     private final Paivitettava paivitettava;
     private final Tekoaly tekoaly;
-
+    
+    
+    /**
+     * Konstruktori luo ja alustaa pelin komponentit
+     * @param asetukset Pelin asetukset, sisältävä olio
+     * @param paivitettava Käyttöliittymien päivittämiseen tarkoitettu rajapinta
+     */
     public Logiikka(Asetukset asetukset, Paivitettava paivitettava) {
         int leveys = asetukset.haePelilautaLeveys();
         int pituus = asetukset.haePelilautaPituus();
@@ -34,7 +44,7 @@ public class Logiikka {
         this.tekoaly = new Tekoaly(leveys, pituus);
         this.paivitettava = paivitettava;
     }
-
+    
     public final void liitaLaivatRuutuihin(List<Laiva> laivat, Pelilauta pelilauta) {
         for (Laiva laiva : laivat) {
             for (Ruutu ruutu : laiva.haeRuudut()) {
@@ -83,7 +93,11 @@ public class Logiikka {
     public List<Laiva> haePelaaja2Laivat() {
         return laivatPelaaja2;
     }
-
+    /**
+     * Metodi käy lapi listan Laiva-olioita ja palauttaa uponneiden laivojen määrän
+     * @param laivat Laivoja sisältävä ArrayList, jonka metodi käy läpi
+     * @return Upotettujen laivojen määrä
+     */
     public int upotetutLaivat(List<Laiva> laivat) {
         int upotetut = 0;
         for (Laiva laiva : laivat) {
@@ -93,7 +107,12 @@ public class Logiikka {
         }
         return upotetut;
     }
-
+    /**
+     * Metodi palauttaa kuvauksen pelilaudan tilanteesta, jonka käyttöliittymät voivat käsitellä
+     * @param pelilauta Pelilauta, jota tarkastellaan
+     * @param laivat Pelilautaan liittyvät laivat
+     * @return char-taulukko, joka sisältää merkkejä, jotka kuvaavat ruutujen ominaisuuksia
+     */
     public char[][] haeTilanne(Pelilauta pelilauta, List<Laiva> laivat) {
         char[][] tilanne = new char[pelilauta.haeLeveys()][pelilauta.haePituus()];
         ArrayList<Ruutu> siirrot = pelilauta.haeRuudutJoihinOnOsuttu();

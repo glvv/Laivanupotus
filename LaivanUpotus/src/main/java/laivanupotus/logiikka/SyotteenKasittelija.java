@@ -3,11 +3,13 @@ package laivanupotus.logiikka;
 public class SyotteenKasittelija {
 
     private final Asetukset asetukset;
-
+    /**
+     * Luokka tarjoaa metodeja syötteiden tarkistamiseen.
+     */
     public SyotteenKasittelija() {
         this.asetukset = new Asetukset();
     }
-
+    
     public boolean tarkistaKokonaisluku(String syote) {
         try {
             int luku2 = Integer.parseInt(syote);
@@ -16,7 +18,7 @@ public class SyotteenKasittelija {
         }
         return true;
     }
-
+    
     public boolean tarkistaPelilaudanSivu(String syote) {
         if (tarkistaKokonaisluku(syote)) {
             int luku = Integer.parseInt(syote);
@@ -24,7 +26,13 @@ public class SyotteenKasittelija {
         }
         return false;
     }
-
+    /**
+     * Metodilla asetetaan leveys Asetukset-olioon
+     * Metodi tarkistaa syötteen ja palauttaa false, jos se on virheellinen
+     * Jos syöte on kunnollinen, leveys asetetaan ja metodi palauttaa true
+     * @param syote 
+     * @return Onnistuiko asettaminen
+     */
     public boolean asetaLeveys(String syote) {
         if (tarkistaPelilaudanSivu(syote)) {
             asetukset.asetaLeveys(Integer.parseInt(syote));
@@ -32,7 +40,13 @@ public class SyotteenKasittelija {
         }
         return false;
     }
-
+    /**
+     * Metodilla asetetaan pituus Asetukset-olioon
+     * Metodi tarkistaa syötteen ja palauttaa false, jos se on virheellinen
+     * Jos syöte on kunnollinen, pituus asetetaan ja metodi palauttaa true
+     * @param syote 
+     * @return Onnistuiko asettaminen
+     */
     public boolean asetaPituus(String syote) {
         if (tarkistaPelilaudanSivu(syote)) {
             asetukset.asetaPituus(Integer.parseInt(syote));
@@ -53,11 +67,7 @@ public class SyotteenKasittelija {
         }
         return false;
     }
-
-//    private boolean tarkistaKoko(int koko) {
-//        return (koko > 0 && koko < 7);
-//    }
-
+    
     private boolean tarkistaKokoJaMaara(int koko, int maara) {
         if (koko == 1) {
             return (maara > 0 && maara < 4);
@@ -74,7 +84,14 @@ public class SyotteenKasittelija {
     public Asetukset haeAsetukset() {
         return this.asetukset;
     }
-
+    
+    
+    /**
+     * Metodi tarkistaa, että parametrina annettu syote on kunnollinen siirto
+     * @param syote Tarkistettava syöte
+     * @param onkoX Tarkasteellaanko x-akselia vai y akselia
+     * @return Onko siirto kunnollinen
+     */
     public boolean tarkistaSiirto(String syote, boolean onkoX) {
         if (tarkistaKokonaisluku(syote)) {
             int siirto = Integer.parseInt(syote);
@@ -90,7 +107,12 @@ public class SyotteenKasittelija {
         }
         return false;
     }
-    
+    /**
+     * Metodi tarkistaa, että syöte on kokonaisluku annetulta väliltä
+     * @param syote Tarkistettava syöte
+     * @param valintoja Valintojen määrä
+     * @return Onko valinta kunnollinen
+     */
     public boolean tarkistaValinta(String syote, int valintoja) {
         if (tarkistaKokonaisluku(syote)) {
             int valinta = Integer.parseInt(syote);

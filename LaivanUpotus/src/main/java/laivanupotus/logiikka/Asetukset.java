@@ -2,14 +2,20 @@ package laivanupotus.logiikka;
 
 import java.util.HashMap;
 
+/**
+ * Luokka pitää sisällään pelin asetukset.
+ */
 public class Asetukset {
 
     private boolean laivatSaaKoskea;
     private int pelilautaLeveys;
     private int pelilautaPituus;
     private final HashMap<Integer, Integer> laivat;
-//    private List<Laiva> kayttajanLaivat;
 
+    /**
+     * Konstruktorissa leveydeksi ja pituudeksi asetetaan alussa 10 Oliolle
+     * luodaan tyhjä HashMap laivojen tallettamista varten.
+     */
     public Asetukset() {
         laivatSaaKoskea = false;
         pelilautaLeveys = 10;
@@ -29,10 +35,20 @@ public class Asetukset {
         this.laivatSaaKoskea = laivatSaaKoskea;
     }
 
+    /**
+     * Metodilla lisätään laiva Asetukset-olion HashMap-olioon
+     *
+     * @param koko Laivan koko, eli ruutujen määrä
+     * @param maara Laivojen määrä
+     */
     public void lisaaLaiva(int koko, int maara) {
         laivat.put(koko, maara);
     }
 
+    /**
+     * Metodi asettaa Laivanupotuksen oletuslaivat eli 1 sukellusvene, 1
+     * hävittäjä, 2 risteilijää, 1 taistelulaiva sekä 1 lentotukialus.
+     */
     public void asetaOletusLaivat() {
         lisaaLaiva(1, 1);
         lisaaLaiva(2, 1);
@@ -41,13 +57,16 @@ public class Asetukset {
         lisaaLaiva(5, 1);
     }
 
-//    public void lisaaKayttajanLaiva(int alkuX, int alkuY, int loppuX, int loppuY) {
-//        
-//    }
     public HashMap<Integer, Integer> haeLaivat() {
         return laivat;
     }
-    
+
+    /**
+     * Metodi palauttaa true jos parametrinä annettu laivankoko on jo lisätty
+     *
+     * @param laivanKoko Tarkistettava laivan koko
+     * @return totuusarvo Onko laiva jo lisätty
+     */
     public boolean onkoLaivaLisatty(int laivanKoko) {
         return laivat.containsKey(laivanKoko);
     }
