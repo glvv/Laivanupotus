@@ -33,3 +33,7 @@
 **28.12.2014**
 
 8h Lisätty testejä, luokkakaavio, checkstyle- ja pit-raportti
+
+**29.12.2014**
+
+8h Tehty katselmointi sekä lisätty javadoc-kuvauksia
