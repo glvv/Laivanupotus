@@ -1,136 +1,95 @@
 package laivanupotus.logiikka;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import laivanupotus.domain.Laiva;
-import laivanupotus.domain.Pelilauta;
+import laivanupotus.domain.Pelaaja;
 import laivanupotus.domain.Ruutu;
-import laivanupotus.kayttoliittyma.Paivitettava;
 
-    /**
-     * Luokka tarjoaa metodeja siirtojen vastaanottamiseen ja pelitilanteen käsittelyyn.
-     */
-
+/**
+ * Luokka tarjoaa metodeja siirtojen vastaanottamiseen ja pelitilanteen
+ * käsittelyyn.
+ */
 public class Logiikka {
 
     private int vuoro;
-    private final Pelilauta pelilautaPelaaja1;
-    private final Pelilauta pelilautaPelaaja2;
-    private final List<Laiva> laivatPelaaja1;
-    private final List<Laiva> laivatPelaaja2;
-    private final LaivojenAsettaja laivojenAsettaja;
-    private final Paivitettava paivitettava;
-    private final Tekoaly tekoaly;
-    
-    
+    private Pelaaja pelaaja1;
+    private Pelaaja pelaaja2;
+
     /**
      * Konstruktori luo ja alustaa pelin komponentit
-     * @param asetukset Pelin asetukset, sisältävä olio
-     * @param paivitettava Käyttöliittymien päivittämiseen tarkoitettu rajapinta
+     *
+     * @param asetukset Pelin asetukset sisältävä olio
      */
-    public Logiikka(Asetukset asetukset, Paivitettava paivitettava) {
-        int leveys = asetukset.haePelilautaLeveys();
-        int pituus = asetukset.haePelilautaPituus();
-        HashMap<Integer, Integer> laivat = asetukset.haeLaivat();
-        this.pelilautaPelaaja1 = new Pelilauta(leveys, pituus);
-        this.pelilautaPelaaja2 = new Pelilauta(leveys, pituus);
-        this.laivojenAsettaja = new LaivojenAsettaja(asetukset.laivatSaaKoskea());
-        this.laivatPelaaja1 = laivojenAsettaja.luoLaivatAutomaattisesti(laivat, pelilautaPelaaja1);
-        this.laivatPelaaja2 = laivojenAsettaja.luoLaivatAutomaattisesti(laivat, pelilautaPelaaja2);
-        liitaLaivatRuutuihin(laivatPelaaja1, pelilautaPelaaja1);
-        liitaLaivatRuutuihin(laivatPelaaja2, pelilautaPelaaja2);
+    public Logiikka(Asetukset asetukset) {
+        arvoLaivatJaLuoPelaajat(asetukset);
         this.vuoro = 1;
-        this.tekoaly = new Tekoaly(leveys, pituus);
-        this.paivitettava = paivitettava;
+    }
+
+    private void arvoLaivatJaLuoPelaajat(Asetukset asetukset) {
+        LaivojenAsettaja asettaja = new LaivojenAsettaja(asetukset);
+        ArrayList<Laiva> pelaaja1Laivat = asettaja.luoLaivatAutomaattisesti();
+        ArrayList<Laiva> pelaaja2Laivat = asettaja.luoLaivatAutomaattisesti();
+        this.pelaaja1 = new Pelaaja(pelaaja1Laivat);
+        this.pelaaja2 = new Pelaaja(pelaaja2Laivat);
+    }
+
+    public boolean pelaaVuoroPelaaja1(Ruutu siirto) {
+        pelaaja1.lisaaSiirto(siirto);
+        Laiva laiva = pelaaja2.katsoSiirto(siirto);
+        return kasitteleLaiva(laiva, siirto);
     }
     
-    public final void liitaLaivatRuutuihin(List<Laiva> laivat, Pelilauta pelilauta) {
-        for (Laiva laiva : laivat) {
-            for (Ruutu ruutu : laiva.haeRuudut()) {
-                pelilauta.haeRuutu(ruutu.haeX(), ruutu.haeY()).asetaLaiva(laiva);
-            }
-        }
+    public boolean pelaaVuoroPelaaja2(Ruutu siirto) {
+        pelaaja2.lisaaSiirto(siirto);
+        Laiva laiva = pelaaja1.katsoSiirto(siirto);
+        return kasitteleLaiva(laiva, siirto);
     }
-
-    public void pelaaVuoro(int[] siirto) {
-        Ruutu pelilaudanRuutu = pelilautaPelaaja2.haeRuutu(siirto[0], siirto[1]);
-        pelilaudanRuutu.onAmmuttu();
-        tekoalynVuoro();
+    
+    private boolean kasitteleLaiva(Laiva laiva, Ruutu siirto) {
+        if (laiva != null) {
+            laiva.lisaaOsuma(siirto);
+            return true;
+        }
+        return false;
+    }
+    
+    public void vuoroPelattu() {
         vuoro++;
-        paivitettava.paivity();
-    }
-
-    public void tekoalynVuoro() {
-        Ruutu siirto = tekoaly.teeSiirto();
-        Ruutu pelilaudanRuutu = pelilautaPelaaja1.haeRuutu(siirto.haeX(), siirto.haeY());
-        pelilaudanRuutu.onAmmuttu();
-        if (pelilaudanRuutu.sisaltaaLaivan()) {
-            tekoaly.lisaaOsuma(pelilaudanRuutu);
-            if (pelilaudanRuutu.haeLaiva().uppoaako()) {
-                tekoaly.laivaUpotettu();
-            }
-        }
-
     }
 
     public int haeVuoro() {
         return this.vuoro;
     }
-
-    public Pelilauta haePelaaja1Pelilauta() {
-        return this.pelilautaPelaaja1;
+    
+    public int haePisteetPelaaja1() {
+        return pelaaja1.haePisteet();
     }
-
-    public Pelilauta haePelaaja2Pelilauta() {
-        return this.pelilautaPelaaja2;
+    
+    public int haePisteetPelaaja2() {
+        return pelaaja2.haePisteet();
     }
-
-    public List<Laiva> haePelaaja1Laivat() {
-        return laivatPelaaja1;
+    
+    public ArrayList haePelaaja1Siirrot() {
+        return pelaaja1.haeSiirrot();
     }
-
-    public List<Laiva> haePelaaja2Laivat() {
-        return laivatPelaaja2;
+    
+    public ArrayList haePelaaja2Siirrot() {
+        return pelaaja2.haeSiirrot();
     }
-    /**
-     * Metodi käy lapi listan Laiva-olioita ja palauttaa uponneiden laivojen määrän
-     * @param laivat Laivoja sisältävä ArrayList, jonka metodi käy läpi
-     * @return Upotettujen laivojen määrä
-     */
-    public int upotetutLaivat(List<Laiva> laivat) {
-        int upotetut = 0;
-        for (Laiva laiva : laivat) {
-            if (laiva.uppoaako()) {
-                upotetut++;
-            }
+    
+    public boolean jatkuukoPeli() {
+        return (pelaaja1.voittaako() || pelaaja2.voittaako());
+    }
+    
+    public int haeVoittaja() {
+        if (pelaaja1.voittaako() && pelaaja2.voittaako()) {
+            return 0;
+        } else if (pelaaja1.voittaako()) {
+            return 1;
+        } else {
+            return 2;
         }
-        return upotetut;
     }
-    /**
-     * Metodi palauttaa kuvauksen pelilaudan tilanteesta, jonka käyttöliittymät voivat käsitellä
-     * @param pelilauta Pelilauta, jota tarkastellaan
-     * @param laivat Pelilautaan liittyvät laivat
-     * @return char-taulukko, joka sisältää merkkejä, jotka kuvaavat ruutujen ominaisuuksia
-     */
-    public char[][] haeTilanne(Pelilauta pelilauta, List<Laiva> laivat) {
-        char[][] tilanne = new char[pelilauta.haeLeveys()][pelilauta.haePituus()];
-        ArrayList<Ruutu> siirrot = pelilauta.haeRuudutJoihinOnOsuttu();
-        for (Ruutu ruutu : siirrot) {
-            if (ruutu.sisaltaaLaivan()) {
-                tilanne[ruutu.haeX()][ruutu.haeY()] = '*';
-            } else {
-                tilanne[ruutu.haeX()][ruutu.haeY()] = 'x';
-            }
-        }
-        for (Laiva laiva : laivat) {
-            if (laiva.uppoaako()) {
-                for (Ruutu ruutu : laiva.haeRuudut()) {
-                    tilanne[ruutu.haeX()][ruutu.haeY()] = 'S';
-                }
-            }
-        }
-        return tilanne;
-    }
-
+    
+    
 }

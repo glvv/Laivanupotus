@@ -1,11 +1,10 @@
 package laivanupotus.logiikka;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import laivanupotus.domain.Laiva;
-import laivanupotus.domain.Pelilauta;
 import laivanupotus.domain.Ruutu;
 /**
  * Luokka tarjoaa toiminnallisuuden automaattiseen laivojen asettamiseen ruudukkoon.
@@ -13,29 +12,30 @@ import laivanupotus.domain.Ruutu;
 public class LaivojenAsettaja {
 
     private final Random arpoja;
-    private Pelilauta pelilauta;
-    private final boolean laivatSaaKoskea;
+    private HashSet<Ruutu> varatutRuudut;
+    private final Asetukset asetukset;
+    
     /**
      * Konstruktorissa luodaan uusi LaivojenAsettaja-olio
-     * Olion pelilauta saa ensin null-viitteen
-     * @param laivatSaaKoskea Saavatko laivat koskea toisiinsa
+     * @param asetukset Pelin asetukset
      */
-    public LaivojenAsettaja(boolean laivatSaaKoskea) {
+    
+    public LaivojenAsettaja(Asetukset asetukset) {
         this.arpoja = new Random();
-        this.pelilauta = null;
-        this.laivatSaaKoskea = laivatSaaKoskea;
+        this.varatutRuudut = null;
+        this.asetukset = asetukset;
     }
+    
     /**
-     * Metodi arpoo laivojen sijainnit HashMap-olion sisältämän ohjeen mukaan ja palauttaa Laiva-oliot listana
-     * @param laivojenKokoJaLukumaara HashMap, jossa on avaimena laivan koko ja arvoina lukumaara
-     * @param pelilauta Pelilauta, joka pitää kirjaa varatuista ruuduista
+     * Metodi arpoo laivojen sijainnit Asetukset-olion sisältämän ohjeen mukaan ja palauttaa Laiva-oliot listana
      * @return Lista, joka sisältää luodut laivat
      */
-    public ArrayList luoLaivatAutomaattisesti(HashMap<Integer, Integer> laivojenKokoJaLukumaara, Pelilauta pelilauta) {
-        this.pelilauta = pelilauta;
+    
+    public ArrayList luoLaivatAutomaattisesti() {
+        this.varatutRuudut = new HashSet<>();
         ArrayList<Laiva> laivat = new ArrayList<>();
-        for (Integer laivanKoko : laivojenKokoJaLukumaara.keySet()) {
-            for (int i = 0; i < laivojenKokoJaLukumaara.get(laivanKoko); i++) {
+        for (Integer laivanKoko : asetukset.haeLaivat().keySet()) {
+            for (int i = 0; i < asetukset.haeLaivat().get(laivanKoko); i++) {
                 Laiva uusi = (new Laiva(arvoRuudutLaivalle(laivanKoko)));
                 laivat.add(uusi);
                 lisaaRuudutVaratuiksi(uusi);
@@ -44,7 +44,7 @@ public class LaivojenAsettaja {
         return laivat;
     }
 
-    public Ruutu[] arvoRuudutLaivalle(int koko) {
+    private Ruutu[] arvoRuudutLaivalle(int koko) {
         Ruutu ensimmainenRuutu = arvoRuutu();
         boolean laivaOnVaakaSuorassa = (arpoja.nextInt(2) == 1);
         Ruutu[] ruudut = new Ruutu[koko];
@@ -65,13 +65,13 @@ public class LaivojenAsettaja {
         }
     }
 
-    public Ruutu arvoRuutu() {
-        int ensimmaisenRuudunXKoordinaatti = arpoja.nextInt(pelilauta.haeLeveys());
-        int ensimmaisenRuudunYKoordinaatti = arpoja.nextInt(pelilauta.haePituus());
+    private Ruutu arvoRuutu() {
+        int ensimmaisenRuudunXKoordinaatti = arpoja.nextInt(asetukset.haePelilautaLeveys());
+        int ensimmaisenRuudunYKoordinaatti = arpoja.nextInt(asetukset.haePelilautaPituus());
         return new Ruutu(ensimmaisenRuudunXKoordinaatti, ensimmaisenRuudunYKoordinaatti);
     }
 
-    public boolean voikoLaivanAsettaa(Ruutu[] ruudut) {
+    private boolean voikoLaivanAsettaa(Ruutu[] ruudut) {
         for (Ruutu ruutu : ruudut) {
             if (!onPelilaudalla(ruutu)) {
                 return false;
@@ -83,15 +83,14 @@ public class LaivojenAsettaja {
         return true;
     }
 
-    public boolean onPelilaudalla(Ruutu ruutu) {
-        if (ruutu.haeX() > pelilauta.haeLeveys() - 1) {
+    private boolean onPelilaudalla(Ruutu ruutu) {
+        if (ruutu.haeX() > asetukset.haePelilautaLeveys() - 1) {
             return false;
         }
-        return ruutu.haeY() <= pelilauta.haePituus() - 1;
+        return ruutu.haeY() <= asetukset.haePelilautaPituus() - 1;
     }
 
-    public boolean eiOleVaratullaRuudulla(Ruutu ruutu) {
-        HashSet<Ruutu> varatutRuudut = pelilauta.haeVaratutRuudut();
+    private boolean eiOleVaratullaRuudulla(Ruutu ruutu) {
         for (Ruutu ruutu2 : varatutRuudut) {
             if (ruutu2.equals(ruutu)) {
                 return false;
@@ -100,14 +99,19 @@ public class LaivojenAsettaja {
         return true;
     }
 
-    public void lisaaRuudutVaratuiksi(Laiva laiva) {
-        if (!laivatSaaKoskea) {
-            pelilauta.lisaaVarattujaRuutuja(luoLaivaaYmparoivatRuudut(laiva));
+    private void lisaaRuudutVaratuiksi(Laiva laiva) {
+        if (!asetukset.laivatSaaKoskea()) {
+            lisaaVarattujaRuutuja(luoLaivaaYmparoivatRuudut(laiva));
         }
-        pelilauta.lisaaVarattujaRuutuja(laiva.haeRuudut());
+        lisaaVarattujaRuutuja(laiva.haeRuudut());
     }
+    
+    private void lisaaVarattujaRuutuja(Ruutu[] ruudut) {
+        varatutRuudut.addAll(Arrays.asList(ruudut));
+    }
+    
 
-    public Ruutu[] luoLaivaaYmparoivatRuudut(Laiva laiva) {
+    private Ruutu[] luoLaivaaYmparoivatRuudut(Laiva laiva) {
         HashSet<Ruutu> ruudut = new HashSet<>();
         for (Ruutu ruutu : laiva.haeRuudut()) {
             int x = ruutu.haeX();
@@ -121,18 +125,5 @@ public class LaivojenAsettaja {
         ruudut.toArray(ymparoivat);
         return ymparoivat;
     }
-    
-    public Pelilauta haePelilauta() {
-        return this.pelilauta;
-    }
-    
-    public boolean laivatSaaKoskea() {
-        return laivatSaaKoskea;
-    }
-    
-    public void asetaPelilauta(Pelilauta pelilauta) {
-        this.pelilauta = pelilauta;
-    }
-    
 
 }

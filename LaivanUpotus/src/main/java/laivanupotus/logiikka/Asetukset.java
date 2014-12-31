@@ -83,4 +83,8 @@ public class Asetukset {
         return laivatSaaKoskea;
     }
 
+    public int haeLaivojenMaaranKerroin() {
+        return pelilautaLeveys * pelilautaPituus / 10;
+    }
+
 }

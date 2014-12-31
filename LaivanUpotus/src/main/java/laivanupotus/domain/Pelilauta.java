@@ -1,81 +1,44 @@
 package laivanupotus.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.List;
 
 /**
- * Pelilauta kuvaa Laivanupotus-pelin pelilautaa.
+ * Pelilauta - oliosta voi katsoa osuuko siirto.
  */
-
 public class Pelilauta {
-    
-    private final int leveys;
-    private final int pituus;
-    private final Ruutu[][] ruudut;
-    private final HashSet<Ruutu> varatutRuudut;
+
+    private final HashMap<Ruutu, Laiva> laivaRuudukko;
+
     /**
-     * Konstruktori luo ruudukon ja luo siihen ruudut oikeilla koordinaateilla
-     * @param leveys Pelilaudan leveys
-     * @param pituus Pelilaudan pituus
+     * Konstruktori luo tyhjän HashMap - olion ja käy lapi parametrina annetut
+     * Laiva-oliot
+     *
+     *
+     * @param laivat Pelilaudalla olevat laivat
      */
-    public Pelilauta(int leveys, int pituus) {
-        this.leveys = leveys;
-        this.pituus = pituus;
-        this.ruudut = new Ruutu[leveys][pituus];
-        this.varatutRuudut = new HashSet<>();
-        luoRuudut();
+    public Pelilauta(List<Laiva> laivat) {
+        this.laivaRuudukko = new HashMap<>();
+        liitaLaivat(laivat);
     }
 
-    private void luoRuudut() {
-        for (int i = 0; i < leveys; i++) {
-            for (int j = 0; j < pituus; j++) {
-                ruudut[i][j] = new Ruutu(i, j);
+    private void liitaLaivat(List<Laiva> laivat) {
+        for (Laiva laiva : laivat) {
+            for (Ruutu ruutu : laiva.haeRuudut()) {
+                laivaRuudukko.put(ruutu, laiva);
             }
         }
     }
 
-    public int haePituus() {
-        return pituus;
-    }
-
-    public int haeLeveys() {
-        return leveys;
-    }
-
-    public HashSet<Ruutu> haeVaratutRuudut() {
-        return varatutRuudut;
-    }
-
-    public Ruutu haeRuutu(int x, int y) {
-        return ruudut[x][y];
-    }
-
-    public Ruutu[][] haeRuudukko() {
-        return ruudut;
-    }
     /**
-     * Tätä metodia käyttää LaivojenAsettaja-luokka, pitääkseen kirjaa ruuduista, joihin ei saa lisätä laivaa
-     * @param ruudut1 varatut Ruutu-oliot 
+     * Metodi palauttaa ruutuun liittyvän laivan, jos ruutuun ei liity laivaa
+     * metodi palauttaa null-viitteen
+     *
+     * @param siirto Ruutu - oliona annettu siirto, jota käytetään HashMap-olion avaimena
+     * @return Ruutuun liittyvä laiva
      */
-    public void lisaaVarattujaRuutuja(Ruutu[] ruudut1) {
-        varatutRuudut.addAll(Arrays.asList(ruudut1));
-    }
-    
-    /**
-     * Metodi palauttaa pelilaudan ruudut, joihin on osuttu
-     * @return Lista ruuduista, joihin on osuttu
-     */
-    public ArrayList<Ruutu> haeRuudutJoihinOnOsuttu() {
-        ArrayList<Ruutu> osututRuudut = new ArrayList<>();
-        for (Ruutu[] ruudukko : ruudut) {
-            for (Ruutu ruutu : ruudukko) {
-                if (ruutu.haeOsuttu()) {
-                    osututRuudut.add(ruutu);
-                }
-            }
-        }
-        return osututRuudut;
+    public Laiva haeLaiva(Ruutu siirto) {
+        return laivaRuudukko.get(siirto);
     }
 
 }

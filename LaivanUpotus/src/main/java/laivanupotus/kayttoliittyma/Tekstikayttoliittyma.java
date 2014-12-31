@@ -2,14 +2,13 @@ package laivanupotus.kayttoliittyma;
 
 import java.util.HashMap;
 import java.util.Scanner;
-import laivanupotus.logiikka.Logiikka;
 import laivanupotus.logiikka.SyotteenKasittelija;
+
 /**
  * Tekstikäyttöliittymä Laivanupotus-peliin.
  */
-public class Tekstikayttoliittyma implements Paivitettava {
+public class Tekstikayttoliittyma implements Kayttoliittyma {
 
-    private Logiikka logiikka;
     private Scanner lukija = new Scanner(System.in);
     private final SyotteenKasittelija syotteenkasittelija;
 
@@ -18,14 +17,7 @@ public class Tekstikayttoliittyma implements Paivitettava {
         this.syotteenkasittelija = new SyotteenKasittelija();
     }
 
-    public void kaynnista() {
-        tulostaOhjeet();
-        kysyAsetukset();
-        this.logiikka = new Logiikka(syotteenkasittelija.haeAsetukset(), this);
-        aloitaPeli();
-    }
-
-    public void tulostaOhjeet() {
+    private void tulostaOhjeet() {
         System.out.println("Tervetuloa laivanupotukseen");
         System.out.println("");
         System.out.println("Valinnat: ");
@@ -98,13 +90,6 @@ public class Tekstikayttoliittyma implements Paivitettava {
                 }
                 System.out.println("Virheellinen syöte");
             }
-        }
-    }
-
-    public void aloitaPeli() {
-        while (true) {
-            tulostaTilanne();
-            logiikka.pelaaVuoro(kysySiirto());
         }
     }
 

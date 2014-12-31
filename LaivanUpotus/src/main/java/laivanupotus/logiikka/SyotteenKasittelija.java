@@ -3,14 +3,15 @@ package laivanupotus.logiikka;
 public class SyotteenKasittelija {
 
     private final Asetukset asetukset;
+
     /**
      * Luokka tarjoaa metodeja syötteiden tarkistamiseen.
      */
     public SyotteenKasittelija() {
         this.asetukset = new Asetukset();
     }
-    
-    public boolean tarkistaKokonaisluku(String syote) {
+
+    private boolean tarkistaKokonaisluku(String syote) {
         try {
             int luku2 = Integer.parseInt(syote);
         } catch (Exception x) {
@@ -18,19 +19,21 @@ public class SyotteenKasittelija {
         }
         return true;
     }
-    
-    public boolean tarkistaPelilaudanSivu(String syote) {
+
+    private boolean tarkistaPelilaudanSivu(String syote) {
         if (tarkistaKokonaisluku(syote)) {
             int luku = Integer.parseInt(syote);
-            return luku >= 10 && luku <= 100;
+            return luku >= 10 && luku <= 50;
         }
         return false;
     }
+
     /**
-     * Metodilla asetetaan leveys Asetukset-olioon
-     * Metodi tarkistaa syötteen ja palauttaa false, jos se on virheellinen
-     * Jos syöte on kunnollinen, leveys asetetaan ja metodi palauttaa true
-     * @param syote 
+     * Metodilla asetetaan leveys Asetukset-olioon Metodi tarkistaa syötteen ja
+     * palauttaa false, jos se on virheellinen Jos syöte on kunnollinen, leveys
+     * asetetaan ja metodi palauttaa true
+     *
+     * @param syote
      * @return Onnistuiko asettaminen
      */
     public boolean asetaLeveys(String syote) {
@@ -40,11 +43,13 @@ public class SyotteenKasittelija {
         }
         return false;
     }
+
     /**
-     * Metodilla asetetaan pituus Asetukset-olioon
-     * Metodi tarkistaa syötteen ja palauttaa false, jos se on virheellinen
-     * Jos syöte on kunnollinen, pituus asetetaan ja metodi palauttaa true
-     * @param syote 
+     * Metodilla asetetaan pituus Asetukset-olioon Metodi tarkistaa syötteen ja
+     * palauttaa false, jos se on virheellinen Jos syöte on kunnollinen, pituus
+     * asetetaan ja metodi palauttaa true
+     *
+     * @param syote
      * @return Onnistuiko asettaminen
      */
     public boolean asetaPituus(String syote) {
@@ -67,16 +72,17 @@ public class SyotteenKasittelija {
         }
         return false;
     }
-    
+
     private boolean tarkistaKokoJaMaara(int koko, int maara) {
+        int kerroin = asetukset.haeLaivojenMaaranKerroin();
         if (koko == 1) {
-            return (maara > 0 && maara < 4);
+            return (maara > 0 && maara < (4 * kerroin));
         } else if (koko == 2) {
-            return (maara >= 0 && maara < 3);
+            return (maara >= 0 && maara < (3 * kerroin));
         } else if (koko == 3) {
-            return (maara >= 0 && maara < 3);
+            return (maara >= 0 && maara < (3 * kerroin));
         } else if (koko == 4 || koko == 5) {
-            return (maara == 0 || maara == 1);
+            return (maara >= 0 && maara < (1 * kerroin));
         }
         return false;
     }
@@ -84,10 +90,10 @@ public class SyotteenKasittelija {
     public Asetukset haeAsetukset() {
         return this.asetukset;
     }
-    
-    
+
     /**
      * Metodi tarkistaa, että parametrina annettu syote on kunnollinen siirto
+     *
      * @param syote Tarkistettava syöte
      * @param onkoX Tarkasteellaanko x-akselia vai y akselia
      * @return Onko siirto kunnollinen
@@ -107,8 +113,10 @@ public class SyotteenKasittelija {
         }
         return false;
     }
+
     /**
      * Metodi tarkistaa, että syöte on kokonaisluku annetulta väliltä
+     *
      * @param syote Tarkistettava syöte
      * @param valintoja Valintojen määrä
      * @return Onko valinta kunnollinen

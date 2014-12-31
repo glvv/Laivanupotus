@@ -37,3 +37,7 @@
 **29.12.2014**
 
 8h Tehty katselmointi sekä lisätty javadoc-kuvauksia
+
+**30.12.2014**
+
+5h Koodia refaktoroitu ja luokkien toiminnallisuutta muutettu
