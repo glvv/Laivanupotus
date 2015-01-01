@@ -1,13 +1,22 @@
 package laivanupotus.laivanupotus;
 
-import java.util.Scanner;
-import laivanupotus.kayttoliittyma.Tekstikayttoliittyma;
+import javax.swing.SwingUtilities;
+import laivanupotus.kayttoliittyma.LaivanupotusGUI;
+import laivanupotus.logiikka.Asetukset;
+import laivanupotus.logiikka.Logiikka;
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner lukija = new Scanner(System.in);
-        Tekstikayttoliittyma tekstikayttoliittyma = new Tekstikayttoliittyma(lukija);
+        Asetukset asetukset = new Asetukset();
+        asetukset.asetaOletusLaivat();
+        asetukset.asetaLeveys(10);
+        asetukset.asetaPituus(10);
+        Laivanupotus laivanupotus = new Laivanupotus();
+        Logiikka logiikka = new Logiikka(asetukset);
+        LaivanupotusGUI gui = new LaivanupotusGUI(asetukset, laivanupotus, logiikka);
+        SwingUtilities.invokeLater(gui);
     }
+
 
 }

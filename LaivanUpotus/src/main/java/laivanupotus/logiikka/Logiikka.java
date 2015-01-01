@@ -102,6 +102,13 @@ public class Logiikka {
             return 2;
         }
     }
-    
+
+    public Pelaaja haePelaaja1() {
+        return pelaaja1;
+    }
+
+    public Pelaaja haePelaaja2() {
+        return pelaaja2;
+    }
     
 }

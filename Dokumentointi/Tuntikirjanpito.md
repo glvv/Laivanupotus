@@ -12,15 +12,15 @@
 
 **21.12.2014**
 
-3h Tehty testejä
+3h Tehty testejä.
 
 **22.12.2014**
 
-3h Toteutettu logiikkaa
+3h Toteutettu logiikkaa.
 
 **23.12.2014**
 
-2h Toteutettu logiikkaa
+2h Toteutettu logiikkaa.
 
 **26.12.2014**
 
@@ -32,16 +32,20 @@
 
 **28.12.2014**
 
-8h Lisätty testejä, luokkakaavio, checkstyle- ja pit-raportti
+8h Lisätty testejä, luokkakaavio, checkstyle- ja pit-raportti.
 
 **29.12.2014**
 
-8h Tehty katselmointi sekä lisätty javadoc-kuvauksia
+8h Tehty katselmointi sekä lisätty javadoc-kuvauksia.
 
 **30.12.2014**
 
-5h Koodia refaktoroitu ja luokkien toiminnallisuutta muutettu
+5h Koodia refaktoroitu ja luokkien toiminnallisuutta muutettu.
 
 **31.12.2014**
 
-8h Luokkien uutta toiminnallisuutta testattu
+8h Luokkien uutta toiminnallisuutta testattu.
+
+**1.1.2015**
+
+4h Aloitettu tekemään graafista käyttöliittymää, lisätty testejä.

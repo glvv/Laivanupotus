@@ -9,23 +9,23 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TekoalyTest {
-
+    
     private Tekoaly tekoaly;
     private Asetukset asetukset;
     private TestiArpoja testiarpoja;
     private Ruutu ruutu;
-
+    
     public TekoalyTest() {
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
         this.asetukset = new Asetukset();
@@ -34,11 +34,11 @@ public class TekoalyTest {
         tekoaly.asetaArpoja(testiarpoja);
         satunnainenRuutux5y5();
     }
-
+    
     @After
     public void tearDown() {
     }
-
+    
     private void satunnainenRuutux5y5() {
         testiarpoja.lisaaPalautusArvo(5);
         testiarpoja.lisaaPalautusArvo(5);
@@ -79,22 +79,95 @@ public class TekoalyTest {
         assertEquals(new Ruutu(6, 5), ruutu);
     }
     
-    @Test
-    public void teeSiirtoArvaaLaivanPaastaKunOsumiaOnEnemmanKuin1() {
+    private void arvaaOsumienPerusteellaKunOsumiaOnEnemmanKuin1LaivatVaakasuoraan() {
         tekoaly.lisaaOsuma(new Ruutu(5, 5));
         testiarpoja.lisaaPalautusArvo(0);
         tekoaly.teeSiirto();
         tekoaly.lisaaOsuma(new Ruutu(4, 5));
         testiarpoja.lisaaPalautusArvo(0);
         ruutu = tekoaly.teeSiirto();
+    }
+    
+    @Test
+    public void teeSiirtoArvaaLaivanPaastaKunOsumiaOnEnemmanKuin1KunLaivatVaakasuorassa() {
+        arvaaOsumienPerusteellaKunOsumiaOnEnemmanKuin1LaivatVaakasuoraan();
         assertEquals(new Ruutu(3, 5), ruutu);
     }
     
     @Test
-    public void teeSiirtoArvaaToisestaPaastaKunToinenPaaOnArvattu() {
-        
+    public void teeSiirtoArvaaToisestaPaastaKunToinenPaaOnArvattuKunLaivatVaakasuorassa() {
+        arvaaOsumienPerusteellaKunOsumiaOnEnemmanKuin1LaivatVaakasuoraan();
+        testiarpoja.lisaaPalautusArvo(0);
+        testiarpoja.lisaaPalautusArvo(1);
+        ruutu = tekoaly.teeSiirto();
+        assertEquals(new Ruutu(6, 5), ruutu);
     }
     
+    private void arvaaOsumienPerusteellaKunOsumiaOnEnemmanKuin1LaivatPystysuoraan() {
+        tekoaly.lisaaOsuma(ruutu);
+        testiarpoja.lisaaPalautusArvo(2);
+        ruutu = tekoaly.teeSiirto();
+        tekoaly.lisaaOsuma(ruutu);
+        testiarpoja.lisaaPalautusArvo(0);
+        ruutu = tekoaly.teeSiirto();
+    }
     
-
+    @Test
+    public void teeSiirtoArvaaLaivanPaastaKunOsumiaOnEnemmanKuin1LaivatPystysuorassa() {
+        arvaaOsumienPerusteellaKunOsumiaOnEnemmanKuin1LaivatPystysuoraan();
+        assertEquals(new Ruutu(5, 4), ruutu);
+    }
+    
+    @Test
+    public void teeSiirtoArvaaToisestaPaastaKunOsumiaOnEnemmanKuin1JaToisessaPaassaEiOleOsumaaLaivatPystysuorassa() {
+        arvaaOsumienPerusteellaKunOsumiaOnEnemmanKuin1LaivatPystysuoraan();
+        testiarpoja.lisaaPalautusArvo(0);
+        testiarpoja.lisaaPalautusArvo(1);
+        ruutu = tekoaly.teeSiirto();
+        assertEquals(new Ruutu(5, 7), ruutu);
+    }
+    
+    @Test
+    public void teeSiirtoArvaaSatunnaisenRuudunKunLaivaOnUpotettu() {
+        arvaaOsumienPerusteellaKunOsumiaOnEnemmanKuin1LaivatPystysuoraan();
+        tekoaly.laivaUpotettu();
+        testiarpoja.lisaaPalautusArvo(3);
+        testiarpoja.lisaaPalautusArvo(7);
+        ruutu = tekoaly.teeSiirto();
+        assertEquals(new Ruutu(3, 7), ruutu);
+    }
+    
+    @Test
+    public void teeSiirtoArvaaVierekkaisenRuudunKunOsumiaOnYksi() {
+        tekoaly.lisaaOsuma(ruutu);
+        testiarpoja.lisaaPalautusArvo(3);
+        ruutu = tekoaly.teeSiirto();
+        assertEquals(new Ruutu(5, 4), ruutu);
+    }
+    
+    private void teeOsumaPelilaudanYlareunaan() {
+        testiarpoja.lisaaPalautusArvo(9);
+        testiarpoja.lisaaPalautusArvo(9);
+        ruutu = tekoaly.teeSiirto();
+        tekoaly.lisaaOsuma(ruutu);
+    }
+    
+    @Test
+    public void teeSiirtoArvaaUudenRuudunJosRuutuYKoordinaattiEiOlePelilaudalla() {
+        teeOsumaPelilaudanYlareunaan();
+        testiarpoja.lisaaPalautusArvo(2);
+        testiarpoja.lisaaPalautusArvo(3);
+        ruutu = tekoaly.teeSiirto();
+        assertEquals(new Ruutu(9, 8), ruutu);
+    }
+    
+    @Test
+    public void teeSiirtoArvaaUudenRuudunJosRuutuXKoordinaattiEiOlePelilaudalla() {
+        teeOsumaPelilaudanYlareunaan();
+        testiarpoja.lisaaPalautusArvo(1);
+        testiarpoja.lisaaPalautusArvo(0);
+        ruutu = tekoaly.teeSiirto();
+        assertEquals(new Ruutu(8, 9), ruutu);
+    }
+    
 }
