@@ -84,7 +84,7 @@ public class Asetukset {
     }
 
     public int haeLaivojenMaaranKerroin() {
-        return pelilautaLeveys * pelilautaPituus / 10;
+        return pelilautaLeveys * pelilautaPituus / 100;
     }
 
 }

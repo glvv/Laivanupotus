@@ -82,7 +82,7 @@ public class SyotteenKasittelija {
         } else if (koko == 3) {
             return (maara >= 0 && maara < (3 * kerroin));
         } else if (koko == 4 || koko == 5) {
-            return (maara >= 0 && maara < (1 * kerroin));
+            return (maara >= 0 && maara <= (1 * kerroin));
         }
         return false;
     }
@@ -131,6 +131,9 @@ public class SyotteenKasittelija {
             }
         }
         return false;
+    }
+    public int haeLaivojenMaaranKerroin() {
+        return asetukset.haeLaivojenMaaranKerroin();
     }
 
 }

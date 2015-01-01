@@ -2,6 +2,7 @@ package laivanupotus.kayttoliittyma;
 
 import java.util.HashMap;
 import java.util.Scanner;
+import laivanupotus.logiikka.Asetukset;
 import laivanupotus.logiikka.SyotteenKasittelija;
 
 /**
@@ -17,6 +18,10 @@ public class Tekstikayttoliittyma implements Kayttoliittyma {
         this.syotteenkasittelija = new SyotteenKasittelija();
     }
 
+    public void paivity() {
+
+    }
+
     private void tulostaOhjeet() {
         System.out.println("Tervetuloa laivanupotukseen");
         System.out.println("");
@@ -26,7 +31,7 @@ public class Tekstikayttoliittyma implements Kayttoliittyma {
         System.out.println("");
     }
 
-    public void kysyAsetukset() {
+    public Asetukset kysyAsetukset() {
         String syote;
         while (true) {
             System.out.print("Anna komento (1 tai 2) ");
@@ -48,11 +53,12 @@ public class Tekstikayttoliittyma implements Kayttoliittyma {
             System.out.println("");
             kysyLaivat();
         }
+        return syotteenkasittelija.haeAsetukset();
     }
 
-    public void kysyLeveys() {
+    private void kysyLeveys() {
         while (true) {
-            System.out.print("Anna pelilaudan leveys väliltä 10 - 100 ");
+            System.out.print("Anna pelilaudan leveys väliltä 10 - 50 ");
             String syote = lukija.nextLine();
             if (syotteenkasittelija.asetaPituus(syote)) {
                 break;
@@ -62,9 +68,9 @@ public class Tekstikayttoliittyma implements Kayttoliittyma {
         }
     }
 
-    public void kysyPituus() {
+    private void kysyPituus() {
         while (true) {
-            System.out.print("Anna pelilaudan pituus väliltä 10 - 100 ");
+            System.out.print("Anna pelilaudan pituus väliltä 10 - 50 ");
             String syote = lukija.nextLine();
             if (syotteenkasittelija.asetaLeveys(syote)) {
                 break;
@@ -74,13 +80,14 @@ public class Tekstikayttoliittyma implements Kayttoliittyma {
         }
     }
 
-    public void kysyLaivat() {
+    private void kysyLaivat() {
+        int kerroin = syotteenkasittelija.haeLaivojenMaaranKerroin();
         HashMap<Integer, String> kysymykset = new HashMap<>();
-        kysymykset.put(1, "Kuinka monta sukellusvenettä (1 ruutu) haluat? Valitse väliltä 1 - 3 ");
-        kysymykset.put(2, "Kuinka monta hävittäjää (2 ruutua) haluat? Valitse väliltä 0 - 2 ");
-        kysymykset.put(3, "Kuinka monta risteilijää (3 ruutua) haluat? Valitse väliltä 0 - 2 ");
-        kysymykset.put(4, "Kuinka monta taistelulaivaa (4 ruutua) haluat? Valitse väliltä 0 - 1 ");
-        kysymykset.put(5, "Kuinka monta lentotukialusta (5 ruutua) haluat? Valitse väliltä 0 - 1 ");
+        kysymykset.put(1, "Kuinka monta sukellusvenettä (1 ruutu) haluat? Valitse väliltä 1 - " + 3 * kerroin + " ");
+        kysymykset.put(2, "Kuinka monta hävittäjää (2 ruutua) haluat? Valitse väliltä 0 - " + 2 * kerroin + " ");
+        kysymykset.put(3, "Kuinka monta risteilijää (3 ruutua) haluat? Valitse väliltä 0 - " + 2 * kerroin + " ");
+        kysymykset.put(4, "Kuinka monta taistelulaivaa (4 ruutua) haluat? Valitse väliltä 0 - " + 1 * kerroin + " ");
+        kysymykset.put(5, "Kuinka monta lentotukialusta (5 ruutua) haluat? Valitse väliltä 0 - " + 1 * kerroin + " ");
         for (int i = 1; i < 6; i++) {
             while (true) {
                 System.out.print(kysymykset.get(i));
@@ -96,8 +103,10 @@ public class Tekstikayttoliittyma implements Kayttoliittyma {
     public int[] kysySiirto() {
         String x;
         String y;
+        int leveys = syotteenkasittelija.haeAsetukset().haePelilautaLeveys();
+        int pituus = syotteenkasittelija.haeAsetukset().haePelilautaPituus();
         while (true) {
-            System.out.print("Anna X koordinaatti väliltä 1 - 10 ");
+            System.out.print("Anna X koordinaatti väliltä 1 - " + leveys);
             x = lukija.nextLine();
             if (syotteenkasittelija.tarkistaSiirto(x, false)) {
                 break;
@@ -105,7 +114,7 @@ public class Tekstikayttoliittyma implements Kayttoliittyma {
             System.out.println("Virheellinen syote");
         }
         while (true) {
-            System.out.print("Anna Y koordinaatti väliltä 1 - 10 ");
+            System.out.print("Anna Y koordinaatti väliltä 1 - " + pituus);
             y = lukija.nextLine();
             if (syotteenkasittelija.tarkistaSiirto(y, true)) {
                 break;
@@ -115,47 +124,17 @@ public class Tekstikayttoliittyma implements Kayttoliittyma {
         int xMuunnettu = Integer.parseInt(x);
         int yMuunnettu = Integer.parseInt(y);
         xMuunnettu = xMuunnettu - 1;
-        yMuunnettu = logiikka.haePelaaja1Pelilauta().haeLeveys() - yMuunnettu;
+        yMuunnettu = leveys - yMuunnettu;
         int[] siirto = {yMuunnettu, xMuunnettu};
         return siirto;
     }
 
-    public void tulostaTilanne() {
-        System.out.println("Vuoro = " + logiikka.haeVuoro());
-        char[][] tilannePelaaja1 = logiikka.haeTilanne(logiikka.haePelaaja1Pelilauta(), logiikka.haePelaaja1Laivat());
-        System.out.println();
-        System.out.println("Pelaajan ruudut");
-        tulostaPelilauta(tilannePelaaja1);
-        char[][] tilannePelaaja2 = logiikka.haeTilanne(logiikka.haePelaaja2Pelilauta(), logiikka.haePelaaja2Laivat());
-        System.out.println();
-        System.out.println("Tekoalyn ruudut");
-        tulostaPelilauta(tilannePelaaja2);
-        System.out.println("");
-        tulostaPisteet();
-        System.out.println("");
+    private void tulostaPelilauta(char[][] tilanne) {
+        //pelilaudoille
     }
-
-    public void tulostaPisteet() {
-        System.out.println("Pelaajan pisteet " + logiikka.upotetutLaivat(logiikka.haePelaaja2Laivat()));
-        System.out.println("Tekoalyn pisteet " + logiikka.upotetutLaivat(logiikka.haePelaaja1Laivat()));
-    }
-
-    public void tulostaPelilauta(char[][] tilanne) {
-        for (char[] taulukko : tilanne) {
-            for (char kirjain : taulukko) {
-                if (kirjain != '\0') {
-                    System.out.print(kirjain + " ");
-                } else {
-                    System.out.print("v ");
-                }
-            }
-            System.out.println("");
-        }
-    }
-
-    @Override
-    public void paivity() {
-
+    
+    private void tulostaPisteet(int pelaaja1, int pelaaja2) {
+        
     }
 
 }

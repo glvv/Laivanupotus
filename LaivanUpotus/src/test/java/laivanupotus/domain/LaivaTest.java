@@ -5,6 +5,7 @@
  */
 package laivanupotus.domain;
 
+import java.util.HashMap;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,6 +40,41 @@ public class LaivaTest {
     
     @After
     public void tearDown() {
+    }
+    
+    @Test
+    public void luodunLaivan1RuutuOnOikein() {
+        Ruutu[] laivanRuudut = laiva.haeRuudut();
+        assertEquals(new Ruutu(3, 4), laivanRuudut[0]);
+    }
+    
+    @Test
+    public void luodunLaivan2RuutuOnOikein() {
+        Ruutu[] laivanRuudut = laiva.haeRuudut();
+        assertEquals(new Ruutu(3, 5), laivanRuudut[1]);
+    }
+    
+    @Test
+    public void laivaUppoaaJosKaikissaRuuduissaOnOsuma() {
+        laiva.lisaaOsuma(new Ruutu(3, 4));
+        laiva.lisaaOsuma(new Ruutu(3, 5));
+        assertEquals(true, laiva.uppoaako());
+    }
+    
+    @Test
+    public void laivaEiuppoaJosKaikissaRuuduissaEiOleOsumaa() {
+        laiva.lisaaOsuma(new Ruutu(3, 4));
+        assertEquals(false, laiva.uppoaako());
+    }
+    
+    @Test
+    public void luodullaLaivallaEiOleOsumia() {
+        boolean onOsuma = false;
+        HashMap<Ruutu, Boolean> osumat = laiva.haeOsumat();
+        for (Ruutu avain : laiva.haeRuudut()) {
+            onOsuma = osumat.get(avain);
+        }
+        assertEquals(false, onOsuma);
     }
     
     

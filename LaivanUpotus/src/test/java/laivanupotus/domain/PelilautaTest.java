@@ -1,5 +1,6 @@
 package laivanupotus.domain;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -10,6 +11,7 @@ import static org.junit.Assert.*;
 public class PelilautaTest {
 
     private Pelilauta pelilauta;
+    private Laiva laiva;
 
     public PelilautaTest() {
     }
@@ -24,7 +26,12 @@ public class PelilautaTest {
 
     @Before
     public void setUp() {
-        this.pelilauta = new Pelilauta(12, 16);
+        Ruutu ruutu = new Ruutu(5, 6);
+        Ruutu ruutu2 = new Ruutu(5, 7);
+        this.laiva = new Laiva(ruutu, ruutu2);
+        ArrayList<Laiva> laivat = new ArrayList<>();
+        laivat.add(laiva);
+        this.pelilauta = new Pelilauta(laivat);
     }
 
     @After
@@ -32,33 +39,14 @@ public class PelilautaTest {
     }
 
     @Test
-    public void luotuPelilautaSisaltaaRuutujaOikeanMaaran() {
-        int ruutujenSumma = 0;
-        Ruutu[][] ruudut = pelilauta.haeRuudukko();
-        for (Ruutu[] ruudukko : ruudut) {
-            for (Ruutu ruutu : ruudukko) {
-                ruutujenSumma++;
-            }
-        }
-        assertEquals(12 * 16, ruutujenSumma);
+    public void luodustaPelilaudastaLoytyyOikeallaRuudullaSiihenLiittyvaLaiva() {
+        assertEquals(laiva, pelilauta.haeLaiva(new Ruutu(5, 6)));
     }
     
     @Test
-    public void luotuPelilautaAntaaOikeanRuudun() {
-        assertEquals(new Ruutu(3, 4), pelilauta.haeRuutu(3, 4));
+    public void pelilautaPalauttaaNullJosRuutuunEiLiityLaivaa() {
+        assertEquals(null, pelilauta.haeLaiva(new Ruutu(0, 0)));
     }
-    
-    @Test
-    public void pelilautaAntaaOikeanRuudunRajaArvoilla() {
-        assertEquals(new Ruutu(11, 15), pelilauta.haeRuutu(11, 15));
-    }
-    
-    @Test
-    public void pelilautaAntaaOikeanRuudunRajaArvoilla2() {
-        assertEquals(new Ruutu(0, 0), pelilauta.haeRuutu(0, 0));
-    }
-    
-    
     
     
 }

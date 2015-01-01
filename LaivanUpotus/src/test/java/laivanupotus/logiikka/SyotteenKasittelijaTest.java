@@ -30,51 +30,7 @@ public class SyotteenKasittelijaTest {
     @After
     public void tearDown() {
     }
-
-    @Test
-    public void tarkistaKokonaislukuPalauttaaFalseKunSyotteessaOnMuutaKuinKokonaislukuja1() {
-        assertEquals(false, sk.tarkistaKokonaisluku("pizzacake"));
-    }
-
-    @Test
-    public void tarkistaKokonaislukuPalauttaaFalseKunSyotteessaOnMuutaKuinKokonaislukuja2() {
-        assertEquals(false, sk.tarkistaKokonaisluku("0.34444"));
-    }
-
-    @Test
-    public void tarkistaKokonaislukuPalauttaaFalseKunSyotteessaOnMuutaKuinKokonaislukuja3() {
-        assertEquals(false, sk.tarkistaKokonaisluku("1.000000"));
-    }
-
-    @Test
-    public void tarkistaKokonaislukuPalauttaaFalseKunSyoteOnTyhja() {
-        assertEquals(false, sk.tarkistaKokonaisluku(""));
-    }
-
-    @Test
-    public void tarkistaKokonaislukuPalauttaaTrueKunSyoteOnKokonaisluku() {
-        assertEquals(true, sk.tarkistaKokonaisluku("8"));
-    }
-
-    @Test
-    public void tarkistaPelilaudanSivuPalauttaaFalseJosSivuOnAlle10() {
-        assertEquals(false, sk.tarkistaPelilaudanSivu("9"));
-    }
-
-    @Test
-    public void tarkistaPelilaudanSivuPalauttaaFalseJosSivuOnYli100() {
-        assertEquals(false, sk.tarkistaPelilaudanSivu("999"));
-    }
-
-    @Test
-    public void tarkistaPelilaudanSivuPalauttaaTrueJosSyoteOn10() {
-        assertEquals(true, sk.tarkistaPelilaudanSivu("10"));
-    }
-
-    @Test
-    public void tarkistaPelilaudanSivuPalauttaaTrueJosSyoteOn100() {
-        assertEquals(true, sk.tarkistaPelilaudanSivu("100"));
-    }
+    
     
     @Test
     public void tarkistaSiirtoPalauttaaFalseJosSyoteOnPienempiKuin1() {
@@ -115,5 +71,106 @@ public class SyotteenKasittelijaTest {
     public void tarkistaValintaPalauttaaTrueKunValintaOn2JaValintoja2() {
         assertEquals(true, sk.tarkistaValinta("2", 2));
     }
+    
+    @Test
+    public void asetaLeveysPalauttaaFalseJosSyoteEiOleKokonaisluku() {
+        assertEquals(false, sk.asetaLeveys("lolcat"));
+    }
+    
+    @Test
+    public void asetaLeveysPalauttaaFalseJosSyoteOnKokonaisLukuMuttaLiianPieni() {
+        assertEquals(false, sk.asetaLeveys("9"));
+    }
+    
+    @Test
+    public void asetaLeveysPalauttaaFalseJosSyoteOnKokonaisLukuMuttaLiianIso() {
+        assertEquals(false, sk.asetaLeveys("51"));
+    }
+    
+    @Test
+    public void asetaLeveysPalauttaaTrueJosSyoteOnKokonaislukuJaRajoissa() {
+        assertEquals(true, sk.asetaLeveys("13"));
+    }
+    
+    @Test
+    public void asetaLeveysMuuttaaLeveyttaKunSyoteOnKunnollinen() {
+        sk.asetaLeveys("13");
+        assertEquals(13, sk.haeAsetukset().haePelilautaLeveys());
+    }
+    
+    @Test
+    public void asetaLeveysEiMuutaLeveyttaJosSyoteEiOleKunnollinen() {
+        sk.asetaLeveys("2");
+        assertEquals(10, sk.haeAsetukset().haePelilautaLeveys());
+    }
+    
+    @Test
+    public void asetaPituusPalauttaaTrueKunSyoteOnKunnollinen() {
+        assertEquals(true, sk.asetaPituus("13"));
+    }
+    
+    @Test
+    public void asetaPituusPalauttaaFalseKunSyoteEiOleKunnollinen() {
+        assertEquals(false, sk.asetaPituus("pizzacake"));
+    }
+    
+    @Test
+    public void lisaaLaivaPalauttaaFalseKunLaivanKokoOnLiianSuuri() {
+        assertEquals(false, sk.lisaaLaiva(900, "1"));
+    }
+    
+    @Test
+    public void lisaaLaivaEiLisaaLaivaaKunLaivanMaaraOnLiianSuuri() {
+        sk.lisaaLaiva(1, "90");
+        assertEquals(true, sk.haeAsetukset().haeLaivat().isEmpty());
+    }
+            
+    @Test
+    public void lisaaLaivaPalauttaaTrueKunMaaraOn0() {
+        assertEquals(true, sk.lisaaLaiva(2, "0"));
+    }
+    
+    @Test
+    public void lisaaLaivaPalauttaaFalseKunMaaraEiOleKokonaisluku(){
+        assertEquals(false, sk.lisaaLaiva(1, "llllllll"));
+    }
+    
+    @Test
+    public void lisaaLaivaLaivanMaaranKerroinToimii() {
+        sk.asetaLeveys("50");
+        sk.asetaPituus("50");
+        assertEquals(true, sk.lisaaLaiva(5, "25"));
+    }
+    
+    @Test
+    public void lisaaLaivaLaivanLisaaminenTapahtuuJosSyoteOnKunnollinen() {
+        sk.lisaaLaiva(1, "1");
+        assertEquals(true, sk.haeAsetukset().haeLaivat().get(1) == 1);
+    }
+    
+    @Test
+    public void lisaaLaivaOnnistuuKunKokoOn1JaMaara3() {
+        assertEquals(true, sk.lisaaLaiva(1, "3"));
+    }
+    
+    @Test
+    public void lisaaLaivaOnnistuuKunKokoOn2JaMaara2() {
+        assertEquals(true, sk.lisaaLaiva(2, "2"));
+    }
+    
+    @Test
+    public void lisaaLaivaOnnistuuKunKokoOn3JaMaara2() {
+        assertEquals(true, sk.lisaaLaiva(3, "2"));
+    }
+    
+    @Test
+    public void lisaaLaivaOnnistuuKunKokoOn4jaMaara1() {
+        assertEquals(true, sk.lisaaLaiva(4, "1"));
+    }
+    
+    
+    
+    
+    
 
 }

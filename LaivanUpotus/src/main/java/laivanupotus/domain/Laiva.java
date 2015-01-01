@@ -43,12 +43,12 @@ public class Laiva {
         return ruudut;
     }
 
-    public HashMap haeOsumat() {
-        return osumat;
-    }
-
     public void lisaaOsuma(Ruutu osuma) {
         osumat.put(osuma, true);
+    }
+    
+    public HashMap haeOsumat() {
+        return this.osumat;
     }
 
 }

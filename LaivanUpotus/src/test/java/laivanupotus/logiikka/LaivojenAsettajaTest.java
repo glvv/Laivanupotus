@@ -1,8 +1,7 @@
 package laivanupotus.logiikka;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import laivanupotus.domain.Laiva;
-import laivanupotus.domain.Pelilauta;
 import laivanupotus.domain.Ruutu;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,13 +12,9 @@ import static org.junit.Assert.*;
 
 public class LaivojenAsettajaTest {
 
-    private LaivojenAsettaja asettajaLaivatEiSaaKoskea;
-    private LaivojenAsettaja asettajaLaivatSaaKoskea;
-    private Laiva laiva;
-    private Ruutu[] ruudut;
-    private Pelilauta pelilauta;
-    private Ruutu ruutu1;
-    private Ruutu ruutu2;
+    private LaivojenAsettaja asettaja;
+    private TestiArpoja testiarpoja;
+    private Asetukset asetukset;
 
     public LaivojenAsettajaTest() {
     }
@@ -34,128 +29,103 @@ public class LaivojenAsettajaTest {
 
     @Before
     public void setUp() {
-        this.asettajaLaivatEiSaaKoskea = new LaivojenAsettaja(false);
-        this.asettajaLaivatSaaKoskea = new LaivojenAsettaja(true);
-        this.ruutu1 = new Ruutu(3, 4);
-        this.ruutu2 = new Ruutu(3, 5);
-        ruudut = new Ruutu[2];
-        ruudut[0] = ruutu1;
-        ruudut[1] = ruutu2;
-        this.laiva = new Laiva(ruudut);
-        this.pelilauta = new Pelilauta(10, 10);
-        asettajaLaivatEiSaaKoskea.asetaPelilauta(pelilauta);
+        this.asetukset = new Asetukset();
+        asetukset.lisaaLaiva(1, 1);
+        this.asettaja = new LaivojenAsettaja(asetukset);
+        this.testiarpoja = new TestiArpoja();
+        asettaja.asetaArpoja(testiarpoja);
     }
 
     @After
     public void tearDown() {
     }
 
-    @Test
-    public void juuriLuotuunAsettajaanEiLiityPelilautaa() {
-        LaivojenAsettaja asettaja = new LaivojenAsettaja(false);
-        assertEquals(null, asettaja.haePelilauta());
+    private void lisaaPalautusArvot(int x, int y, int vaaka0pysty1) {
+        testiarpoja.lisaaPalautusArvo(x);
+        testiarpoja.lisaaPalautusArvo(y);
+        testiarpoja.lisaaPalautusArvo(vaaka0pysty1);
     }
 
-    @Test
-    public void juuriluodunAsettajanSaantoOnOikein() {
-        assertEquals(false, asettajaLaivatEiSaaKoskea.laivatSaaKoskea());
-    }
-
-    @Test
-    public void juuriLuodunAsettajanSaantoOnOikein2() {
-        assertEquals(true, asettajaLaivatSaaKoskea.laivatSaaKoskea());
-    }
-
-    @Test
-    public void luoLaivaaYmparoivatRuudutLuoOikeatRuudut() {
-        Ruutu[] metodinTuottamatRuudut = asettajaLaivatEiSaaKoskea.luoLaivaaYmparoivatRuudut(laiva);
-        boolean taulukossaOnVaadittavatRuudut = true;
-        Ruutu[] oikeatRuudut = {new Ruutu(3, 3), new Ruutu(4, 4), new Ruutu(2, 4), new Ruutu(2, 5), new Ruutu(4, 5), new Ruutu(3, 6)};
-        for (Ruutu ruutu : oikeatRuudut) {
-            boolean loytyy = false;
-            for (Ruutu ruutu3 : metodinTuottamatRuudut) {
-                if (ruutu.equals(ruutu3)) {
-                    loytyy = true;
+    private boolean tarkistaEttaLaivassaOnOikeatRuudut(int laivanIndeksi, Ruutu... odotetut) {
+        ArrayList<Laiva> lista = asettaja.luoLaivatAutomaattisesti();
+        Laiva tarkistettava = lista.get(laivanIndeksi);
+        Ruutu[] laivanRuudut = tarkistettava.haeRuudut();
+        if (laivanRuudut.length == odotetut.length) {
+            for (int i = 0; i < odotetut.length; i++) {
+                if (odotetut[i].equals(laivanRuudut[i])) {
+                    return true;
                 }
             }
-            taulukossaOnVaadittavatRuudut = loytyy;
         }
-        assertEquals(true, taulukossaOnVaadittavatRuudut);
+        return false;
     }
 
     @Test
-    public void luoLaivaaYmparoivatRuudutLuoTarpeeksiRuutuja() {
-        Ruutu[] metodinTuottamatRuudut = asettajaLaivatEiSaaKoskea.luoLaivaaYmparoivatRuudut(laiva);
-        assertEquals(true, metodinTuottamatRuudut.length >= laiva.haeRuudut().length * 2 + 2);
+    public void asetaLaivatAutomaattisestiAsettaaYhdenLaivanOikeisiinKoordinaatteihinKunArpojaAntaa5Ja5() {
+        lisaaPalautusArvot(5, 5, 1);
+        assertEquals(true, tarkistaEttaLaivassaOnOikeatRuudut(0, new Ruutu(5, 5)));
     }
-    
+
     @Test
-    public void lisaaRuudutVaratuiksiLisaaOikeanMaaranRuutujaKunLaivatSaavatKoskea() {
-        asettajaLaivatSaaKoskea.asetaPelilauta(pelilauta);
-        asettajaLaivatSaaKoskea.lisaaRuudutVaratuiksi(laiva);
-        assertEquals(2, pelilauta.haeVaratutRuudut().size());
+    public void toinenLaivaArvotaanMuualleKunSeOsuuEnsimmaiseenLaivaan() {
+        lisaaPalautusArvot(5, 5, 1);
+        lisaaPalautusArvot(5, 5, 1);
+        lisaaPalautusArvot(0, 1, 0);
+        asetukset.lisaaLaiva(2, 1);
+        assertEquals(true, tarkistaEttaLaivassaOnOikeatRuudut(1, new Ruutu(0, 1), new Ruutu(1, 1)));
     }
-    
+
     @Test
-    public void lisaaRuudutVaratuiksiLisaaOikeanMaaranRuutujaKunLaivatEivatSaaKoskea() {
-        asettajaLaivatEiSaaKoskea.lisaaRuudutVaratuiksi(laiva);
-        assertEquals(8, pelilauta.haeVaratutRuudut().size());
+    public void asetaLaivatAutomaattisestiEiPalautaNull() {
+        lisaaPalautusArvot(5, 5, 1);
+        ArrayList<Laiva> lista = asettaja.luoLaivatAutomaattisesti();
+        assertEquals(true, lista != null);
     }
-    
+
     @Test
-    public void eiOleVaratullaRuudullaPalauttaaFalseJosRuutuOnVarattu() {
-        pelilauta.lisaaVarattujaRuutuja(laiva.haeRuudut());
-        boolean tulos = asettajaLaivatEiSaaKoskea.eiOleVaratullaRuudulla(laiva.haeRuudut()[0]);
-        assertEquals(false, tulos);
+    public void asetaLaivatAutomaattisestiArpooUudenLaivanJosLaivaEiMahduPelilaudalle() {
+        asetukset.lisaaLaiva(2, 1);
+        lisaaPalautusArvot(5, 5, 0);
+        lisaaPalautusArvot(9, 9, 0);
+        lisaaPalautusArvot(2, 2, 1);
+        assertEquals(true, tarkistaEttaLaivassaOnOikeatRuudut(1, new Ruutu(2, 2), new Ruutu(2, 3)));
     }
-    
+
     @Test
-    public void eiOleVaratullaRuudullaPalauttaaTrueJosRuutuEiOleVarattu() {
-        boolean tulos = asettajaLaivatEiSaaKoskea.eiOleVaratullaRuudulla(laiva.haeRuudut()[0]);
-        assertEquals(true, tulos);
+    public void asetaLaivatAutomaattisestiEiArvoUuttaLaivaaJosLaivaKoskeeReunaa1() {
+        lisaaPalautusArvot(9, 9, 0);
+        assertEquals(true, tarkistaEttaLaivassaOnOikeatRuudut(0, new Ruutu(9, 9)));
     }
-    
+
     @Test
-    public void onPelilaudallaPalauttaaTrueKunRuutuOnPelilaudalla() {
-        assertEquals(true, asettajaLaivatEiSaaKoskea.onPelilaudalla(ruutu1));
+    public void asetaLaivatAutomaattisestiEiArvoUuttaLaivaaJosLaivaKoskeeReunaa2() {
+        lisaaPalautusArvot(0, 0, 0);
+        assertEquals(true, tarkistaEttaLaivassaOnOikeatRuudut(0, new Ruutu(0, 0)));
     }
-    
+
     @Test
-    public void onPelilaudallaPalauttaaFalseKunRuutuEiOlePelilaudalla() {
-        Ruutu eiLaudalla = new Ruutu(662, 555);
-        assertEquals(false, asettajaLaivatEiSaaKoskea.onPelilaudalla(eiLaudalla));
+    public void asetaLaivatAutomaattisestiArpooUudenLaivanJosSeKoskeeToistaLaivaa() {
+        lisaaPalautusArvot(0, 0, 0);
+        lisaaPalautusArvot(1, 0, 1);
+        lisaaPalautusArvot(5, 5, 0);
+        asetukset.lisaaLaiva(2, 1);
+        assertEquals(true, tarkistaEttaLaivassaOnOikeatRuudut(1, new Ruutu(5, 5), new Ruutu(6, 5)));
     }
-    
+
     @Test
-    public void voikoLaivanAsettaaPalauttaaFalseKunLaivaMeneeYliLaudan() {
-        Ruutu[] ruudukko = {new Ruutu(3, 9), new Ruutu(3, 10), new Ruutu(3, 11)};
-        assertEquals(false, asettajaLaivatEiSaaKoskea.voikoLaivanAsettaa(ruudukko));
+    public void asetaLaivatAutomaattisestiEiArvoUuttaLaivaaJosLaivanRuutuKoskeeDiagonaalisestiToistaLaivaa() {
+        lisaaPalautusArvot(5, 5, 0);
+        lisaaPalautusArvot(3, 6, 0);
+        asetukset.lisaaLaiva(2, 1);
+        assertEquals(true, tarkistaEttaLaivassaOnOikeatRuudut(1, new Ruutu(3, 6), new Ruutu(4, 6)));
     }
-    
+
     @Test
-    public void voikoLaivanAsettaaPalauttaaTrueKunLaivaOnPelilaudalla() {
-        assertEquals(true, asettajaLaivatEiSaaKoskea.voikoLaivanAsettaa(laiva.haeRuudut()));
+    public void asetaLaivatAutomaattisestiLuoOikeatRuudutViidenRuudunLaivalle() {
+        lisaaPalautusArvot(5, 5, 0);
+        lisaaPalautusArvot(0, 0, 0);
+        asetukset.lisaaLaiva(5, 1);
+        assertEquals(true, tarkistaEttaLaivassaOnOikeatRuudut(1, new Ruutu(0, 0), new Ruutu(0, 1), new Ruutu(0, 2), new Ruutu(0, 3), new Ruutu(0, 4)));
     }
-    
-    @Test
-    public void arvoRuudutLaivalleArpooOikeanMaaranRuutuja() {
-        assertEquals(4, asettajaLaivatEiSaaKoskea.arvoRuudutLaivalle(4).length);
-    }
-    
-    @Test
-    public void luoLaivatAutomaattisestiPalauttaaOikeanMaaranLaivoja() {
-        HashMap<Integer, Integer> laivat = new HashMap<>();
-        laivat.put(1, 3);
-        laivat.put(2, 4);
-        assertEquals(7, asettajaLaivatEiSaaKoskea.luoLaivatAutomaattisesti(laivat, pelilauta).size());
-    }
-    
-    
-    
-    
-    
-    
-    
-    
 
 }

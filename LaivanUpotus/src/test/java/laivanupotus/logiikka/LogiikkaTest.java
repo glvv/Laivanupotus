@@ -28,30 +28,11 @@ public class LogiikkaTest {
 
     @Before
     public void setUp() {
-        Asetukset asetukset = new Asetukset();
-        asetukset.asetaOletusLaivat();
-        this.logiikka = new Logiikka(asetukset, new Tekstikayttoliittyma(new Scanner(System.in)));
+
     }
 
     @After
     public void tearDown() {
-    }
-
-    @Test
-    public void liitaLaivatRuutuihinLiittaaLaivanRuutuun() {
-        Laiva laiva = logiikka.haePelaaja1Laivat().get(0);
-        int ruutuX = laiva.haeRuudut()[0].haeX();
-        int ruutuY = laiva.haeRuudut()[0].haeY();
-        assertEquals(laiva, logiikka.haePelaaja1Pelilauta().haeRuutu(ruutuX, ruutuY).haeLaiva());
-    }
-
-    @Test
-    public void upotetutLaivatPalauttaa1Kun1LaivaOnUpotettu() {
-        Laiva laiva = logiikka.haePelaaja1Laivat().get(0);
-        for (Ruutu ruutu : laiva.haeRuudut()) {
-            logiikka.haePelaaja1Pelilauta().haeRuutu(ruutu.haeX(), ruutu.haeY()).onAmmuttu();
-        }
-        assertEquals(1, logiikka.upotetutLaivat(logiikka.haePelaaja1Laivat()));
     }
 
 }

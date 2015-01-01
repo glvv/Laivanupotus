@@ -36,13 +36,25 @@ public class Logiikka {
     public boolean pelaaVuoroPelaaja1(Ruutu siirto) {
         pelaaja1.lisaaSiirto(siirto);
         Laiva laiva = pelaaja2.katsoSiirto(siirto);
-        return kasitteleLaiva(laiva, siirto);
+        if (kasitteleLaiva(laiva, siirto)) {
+            if (laiva.uppoaako()) {
+                pelaaja1.lisaaPiste();
+            }
+            return true;
+        }
+        return false;
     }
     
     public boolean pelaaVuoroPelaaja2(Ruutu siirto) {
         pelaaja2.lisaaSiirto(siirto);
         Laiva laiva = pelaaja1.katsoSiirto(siirto);
-        return kasitteleLaiva(laiva, siirto);
+        if (kasitteleLaiva(laiva, siirto)) {
+            if (laiva.uppoaako()) {
+                pelaaja2.lisaaPiste();
+            }
+            return true;
+        }
+        return false;
     }
     
     private boolean kasitteleLaiva(Laiva laiva, Ruutu siirto) {

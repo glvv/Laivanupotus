@@ -6,31 +6,34 @@ import java.util.HashSet;
 import java.util.Random;
 import laivanupotus.domain.Laiva;
 import laivanupotus.domain.Ruutu;
+
 /**
- * Luokka tarjoaa toiminnallisuuden automaattiseen laivojen asettamiseen ruudukkoon.
+ * Luokka tarjoaa toiminnallisuuden automaattiseen laivojen asettamiseen
+ * ruudukkoon.
  */
 public class LaivojenAsettaja {
 
-    private final Random arpoja;
+    private Random arpoja;
     private HashSet<Ruutu> varatutRuudut;
     private final Asetukset asetukset;
-    
+
     /**
      * Konstruktorissa luodaan uusi LaivojenAsettaja-olio
+     *
      * @param asetukset Pelin asetukset
      */
-    
     public LaivojenAsettaja(Asetukset asetukset) {
         this.arpoja = new Random();
         this.varatutRuudut = null;
         this.asetukset = asetukset;
     }
-    
+
     /**
-     * Metodi arpoo laivojen sijainnit Asetukset-olion sisältämän ohjeen mukaan ja palauttaa Laiva-oliot listana
+     * Metodi arpoo laivojen sijainnit Asetukset-olion sisältämän ohjeen mukaan
+     * ja palauttaa Laiva-oliot listana
+     *
      * @return Lista, joka sisältää luodut laivat
      */
-    
     public ArrayList luoLaivatAutomaattisesti() {
         this.varatutRuudut = new HashSet<>();
         ArrayList<Laiva> laivat = new ArrayList<>();
@@ -44,12 +47,16 @@ public class LaivojenAsettaja {
         return laivat;
     }
 
+    public void asetaArpoja(Random arpoja) {
+        this.arpoja = arpoja;
+    }
+
     private Ruutu[] arvoRuudutLaivalle(int koko) {
         Ruutu ensimmainenRuutu = arvoRuutu();
-        boolean laivaOnVaakaSuorassa = (arpoja.nextInt(2) == 1);
+        boolean laivaOnPystySuorassa = (arpoja.nextInt(2) == 1);
         Ruutu[] ruudut = new Ruutu[koko];
         ruudut[0] = ensimmainenRuutu;
-        if (laivaOnVaakaSuorassa) {
+        if (laivaOnPystySuorassa) {
             for (int i = 1; i < koko; i++) {
                 ruudut[i] = (new Ruutu(ensimmainenRuutu.haeX(), ensimmainenRuutu.haeY() + i));
             }
@@ -105,11 +112,10 @@ public class LaivojenAsettaja {
         }
         lisaaVarattujaRuutuja(laiva.haeRuudut());
     }
-    
+
     private void lisaaVarattujaRuutuja(Ruutu[] ruudut) {
         varatutRuudut.addAll(Arrays.asList(ruudut));
     }
-    
 
     private Ruutu[] luoLaivaaYmparoivatRuudut(Laiva laiva) {
         HashSet<Ruutu> ruudut = new HashSet<>();

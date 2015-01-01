@@ -44,11 +44,6 @@ public class RuutuTest {
     }
 
     @Test
-    public void luotuunRuutuunEiKuuluLaivaa() {
-        assertEquals(null, ruutu.haeLaiva());
-    }
-
-    @Test
     public void kaksiRuutuaJoillaSamatKoordinaatitOvatSamat() {
         Ruutu ruutu2 = new Ruutu(3, 4);
         assertEquals(true, ruutu.equals(ruutu2));
@@ -61,19 +56,8 @@ public class RuutuTest {
     }
 
     @Test
-    public void luotuunRuutuunEiOleOsuttu() {
-        assertEquals(false, ruutu.haeOsuttu());
-    }
-
-    @Test
-    public void osumanJalkeenRuutuunOnOsuttu() {
-        ruutu.onAmmuttu();
-        assertEquals(true, ruutu.haeOsuttu());
-    }
-    
-    @Test
-    public void ruudutJarjestyvatOikein() {
-        ArrayList<Ruutu> ruudut = new ArrayList<>();        
+    public void ruudutJarjestyvatOikeinKunXKoordinaatitOvatSamat() {
+        ArrayList<Ruutu> ruudut = new ArrayList<>();
         ruudut.add(new Ruutu(3, 7));
         ruudut.add(new Ruutu(3, 6));
         ruudut.add(ruutu);
@@ -81,5 +65,45 @@ public class RuutuTest {
         Collections.sort(ruudut);
         assertEquals(ruutu, ruudut.get(0));
     }
+
+    @Test
+    public void kahdellaRuudullaJoillaOnSamatXYOnSamaHashCode() {
+        Ruutu ruutu2 = new Ruutu(3, 4);
+        assertEquals(ruutu.hashCode(), ruutu2.hashCode());
+    }
+
+    @Test
+    public void ruudutJarjestyvatOikeinKunYKoordinaatitOvatSamat() {
+        ArrayList<Ruutu> ruudut = new ArrayList<>();
+        ruudut.add(new Ruutu(4, 4));
+        ruudut.add(ruutu);
+        ruudut.add(new Ruutu(5, 4));
+        ruudut.add(new Ruutu(6, 4));
+        Collections.sort(ruudut);
+        assertEquals(ruutu, ruudut.get(0));
+    }
+    
+    @Test
+    public void jarjestettaessaRuuduilleEiTehdaMitaanJosNiidenYtaiXKoordinaatitEivatOleSamat() {
+        ArrayList<Ruutu> ruudut = new ArrayList<>();
+        ruudut.add(new Ruutu(8, 9));
+        ruudut.add(new Ruutu(1, 6));
+        ruudut.add(ruutu);
+        Collections.sort(ruudut);
+        assertEquals(ruutu, ruudut.get(2));
+    }
+    
+    @Test
+    public void kaksiRuutuaEivatOleSamatJosToinenOnNull() {
+        Ruutu ruutu2 = null;
+        assertEquals(false, ruutu.equals(ruutu2));
+    }
+    
+    @Test
+    public void ruutuEiOleSamaKuinEriOlio() {
+        String nimi = "jjj";
+        assertEquals(false, ruutu.equals(nimi));
+    }
+    
 
 }

@@ -41,3 +41,7 @@
 **30.12.2014**
 
 5h Koodia refaktoroitu ja luokkien toiminnallisuutta muutettu
+
+**31.12.2014**
+
+8h Luokkien uutta toiminnallisuutta testattu
