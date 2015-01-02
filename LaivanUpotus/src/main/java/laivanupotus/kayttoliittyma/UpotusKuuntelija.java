@@ -27,17 +27,15 @@ public class UpotusKuuntelija implements ActionListener {
         this.logiikka = logiikka;
         this.panel = panel;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent ae) {
         nappula.setEnabled(false);
         tekstikentta.setText("");
-        if (logiikka.katsoSiirtoPelilaudasta(ruutu,1)) {
+        if (logiikka.katsoSiirtoPelilaudasta(ruutu, 1)) {
             tekstikentta.setText("Osuma!");
             nappula.setBackground(Color.black);
-        } else {
-            panel.setEnabled(false);
-        }
+        } 
     }
-    
+
 }

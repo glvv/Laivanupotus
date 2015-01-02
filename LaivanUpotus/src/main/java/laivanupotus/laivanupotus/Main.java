@@ -12,8 +12,8 @@ public class Main {
         SwingUtilities.invokeLater(new Paavalikko());
         Asetukset asetukset = new Asetukset();
         asetukset.asetaOletusLaivat();
-        asetukset.asetaLeveys(30);
-        asetukset.asetaPituus(30);
+        asetukset.asetaLeveys(10);
+        asetukset.asetaPituus(10);
         Laivanupotus laivanupotus = new Laivanupotus();
         Logiikka logiikka = new Logiikka(asetukset);
         LaivanupotusGUI gui = new LaivanupotusGUI(asetukset, laivanupotus, logiikka);

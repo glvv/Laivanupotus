@@ -14,8 +14,8 @@ public class Logiikka {
 
     private int vuoro;
     private final int pistemaaraVoittoon;
-    private HashMap<Integer, Pelilauta> pelilaudat;
-    private HashMap<Integer, Integer> pisteet;
+    private final HashMap<Integer, Pelilauta> pelilaudat;
+    private final HashMap<Integer, Integer> pisteet;
 
     /**
      * Konstruktori luo ja alustaa pelin komponentit

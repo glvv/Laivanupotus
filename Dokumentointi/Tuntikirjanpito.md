@@ -49,3 +49,7 @@
 **1.1.2015**
 
 4h Aloitettu tekemään graafista käyttöliittymää, lisätty testejä.
+
+**2.1.2015**
+
+4h Lisätty kaavioita, refaktoroitu.
