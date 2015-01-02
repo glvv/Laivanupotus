@@ -29,7 +29,7 @@ public class UpotusKuuntelija implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         nappula.setEnabled(false);
         tekstikentta.setText("");
-        if (logiikka.pelaaVuoroPelaaja1(ruutu)) {
+        if (logiikka.katsoSiirtoPelilaudasta(ruutu,1)) {
             tekstikentta.setText("Osuma!");
             nappula.setBackground(Color.black);
         }

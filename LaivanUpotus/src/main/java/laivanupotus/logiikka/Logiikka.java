@@ -1,8 +1,9 @@
 package laivanupotus.logiikka;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import laivanupotus.domain.Laiva;
-import laivanupotus.domain.Pelaaja;
+import laivanupotus.domain.Pelilauta;
 import laivanupotus.domain.Ruutu;
 
 /**
@@ -12,8 +13,9 @@ import laivanupotus.domain.Ruutu;
 public class Logiikka {
 
     private int vuoro;
-    private Pelaaja pelaaja1;
-    private Pelaaja pelaaja2;
+    private final int pistemaaraVoittoon;
+    private HashMap<Integer, Pelilauta> pelilaudat;
+    private HashMap<Integer, Integer> pisteet;
 
     /**
      * Konstruktori luo ja alustaa pelin komponentit
@@ -21,42 +23,43 @@ public class Logiikka {
      * @param asetukset Pelin asetukset sisältävä olio
      */
     public Logiikka(Asetukset asetukset) {
+        this.pelilaudat = new HashMap<>();
+        this.pisteet = new HashMap<>();
         arvoLaivatJaLuoPelaajat(asetukset);
+        pisteet.put(1, 0);
+        pisteet.put(2, 0);
         this.vuoro = 1;
+        this.pistemaaraVoittoon = asetukset.haeLaivojenMaara();
     }
 
     private void arvoLaivatJaLuoPelaajat(Asetukset asetukset) {
         LaivojenAsettaja asettaja = new LaivojenAsettaja(asetukset);
         ArrayList<Laiva> pelaaja1Laivat = asettaja.luoLaivatAutomaattisesti();
         ArrayList<Laiva> pelaaja2Laivat = asettaja.luoLaivatAutomaattisesti();
-        this.pelaaja1 = new Pelaaja(pelaaja1Laivat);
-        this.pelaaja2 = new Pelaaja(pelaaja2Laivat);
+        pelilaudat.put(1, new Pelilauta(pelaaja1Laivat));
+        pelilaudat.put(2, new Pelilauta(pelaaja2Laivat));
     }
 
-    public boolean pelaaVuoroPelaaja1(Ruutu siirto) {
-        pelaaja1.lisaaSiirto(siirto);
-        Laiva laiva = pelaaja2.katsoSiirto(siirto);
+    public boolean katsoSiirtoPelilaudasta(Ruutu siirto, int pelilauta) {
+        pelilaudat.get(pelilauta).lisaaSiirto(siirto);
+        Laiva laiva = pelilaudat.get(pelilauta).katsoRuutu(siirto);
         if (kasitteleLaiva(laiva, siirto)) {
             if (laiva.uppoaako()) {
-                pelaaja1.lisaaPiste();
+                lisaaPiste(pelilauta);
             }
             return true;
         }
         return false;
     }
-    
-    public boolean pelaaVuoroPelaaja2(Ruutu siirto) {
-        pelaaja2.lisaaSiirto(siirto);
-        Laiva laiva = pelaaja1.katsoSiirto(siirto);
-        if (kasitteleLaiva(laiva, siirto)) {
-            if (laiva.uppoaako()) {
-                pelaaja2.lisaaPiste();
-            }
-            return true;
+
+    private void lisaaPiste(int pelilauta) {
+        if (pelilauta == 1) {
+            pisteet.put(2, pisteet.get(2) + 1);
+        } else if (pelilauta == 2) {
+            pisteet.put(1, pisteet.get(1) + 1);
         }
-        return false;
     }
-    
+
     private boolean kasitteleLaiva(Laiva laiva, Ruutu siirto) {
         if (laiva != null) {
             laiva.lisaaOsuma(siirto);
@@ -64,7 +67,7 @@ public class Logiikka {
         }
         return false;
     }
-    
+
     public void vuoroPelattu() {
         vuoro++;
     }
@@ -72,43 +75,27 @@ public class Logiikka {
     public int haeVuoro() {
         return this.vuoro;
     }
-    
-    public int haePisteetPelaaja1() {
-        return pelaaja1.haePisteet();
-    }
-    
-    public int haePisteetPelaaja2() {
-        return pelaaja2.haePisteet();
-    }
-    
-    public ArrayList haePelaaja1Siirrot() {
-        return pelaaja1.haeSiirrot();
-    }
-    
-    public ArrayList haePelaaja2Siirrot() {
-        return pelaaja2.haeSiirrot();
-    }
-    
+
     public boolean jatkuukoPeli() {
-        return (pelaaja1.voittaako() || pelaaja2.voittaako());
+        return (voittaakoPelaaja(1) || voittaakoPelaaja(2));
     }
-    
+
+    private boolean voittaakoPelaaja(int pelaaja) {
+        return pisteet.get(pelaaja) >= pistemaaraVoittoon;
+    }
+
     public int haeVoittaja() {
-        if (pelaaja1.voittaako() && pelaaja2.voittaako()) {
+        if (voittaakoPelaaja(1) && voittaakoPelaaja(2)) {
             return 0;
-        } else if (pelaaja1.voittaako()) {
+        } else if (voittaakoPelaaja(1)) {
             return 1;
         } else {
             return 2;
         }
     }
 
-    public Pelaaja haePelaaja1() {
-        return pelaaja1;
+    public Pelilauta haePelilauta(int pelilauta) {
+        return pelilaudat.get(pelilauta);
     }
 
-    public Pelaaja haePelaaja2() {
-        return pelaaja2;
-    }
-    
 }

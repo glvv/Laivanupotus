@@ -26,9 +26,7 @@ public class PelilautaTest {
 
     @Before
     public void setUp() {
-        Ruutu ruutu = new Ruutu(5, 6);
-        Ruutu ruutu2 = new Ruutu(5, 7);
-        this.laiva = new Laiva(ruutu, ruutu2);
+        this.laiva = new Laiva(new Ruutu(2, 3), new Ruutu(2, 4));
         ArrayList<Laiva> laivat = new ArrayList<>();
         laivat.add(laiva);
         this.pelilauta = new Pelilauta(laivat);
@@ -39,14 +37,29 @@ public class PelilautaTest {
     }
 
     @Test
-    public void luodustaPelilaudastaLoytyyOikeallaRuudullaSiihenLiittyvaLaiva() {
-        assertEquals(laiva, pelilauta.haeLaiva(new Ruutu(5, 6)));
+    public void siirronLisaamisenJalkeenListassaOnSiirto() {
+        pelilauta.lisaaSiirto(new Ruutu(3, 4));
+        assertEquals(new Ruutu(3, 4), pelilauta.haeSiirrot().get(0));
     }
-    
+
+    @Test
+    public void katsoSiirtoPalauttaaRuutuunLiittyvanLaivan() {
+        assertEquals(laiva, pelilauta.katsoRuutu(new Ruutu(2, 3)));
+    }
+
+    @Test
+    public void luodullaPelilaudallaOnKonstruktorissaAnnettuLaiva() {
+        assertEquals(laiva, pelilauta.haeLaivat().get(0));
+    }
+
+    @Test
+    public void luodustaPelilaudastaLoytyyOikeallaRuudullaSiihenLiittyvaLaiva() {
+        assertEquals(laiva, pelilauta.katsoRuutu(new Ruutu(2, 3)));
+    }
+
     @Test
     public void pelilautaPalauttaaNullJosRuutuunEiLiityLaivaa() {
-        assertEquals(null, pelilauta.haeLaiva(new Ruutu(0, 0)));
+        assertEquals(null, pelilauta.katsoRuutu(new Ruutu(0, 0)));
     }
-    
-    
+
 }
