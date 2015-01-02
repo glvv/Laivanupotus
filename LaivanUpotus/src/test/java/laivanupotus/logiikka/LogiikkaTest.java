@@ -42,19 +42,11 @@ public class LogiikkaTest {
     }
     
     @Test
-    public void pelaaVuoroPelaaja1PalauttaaTrueKunSiirtoOsuu() {
-        ArrayList<Laiva> laivat = logiikka.haePelaaja2().haeLaivat();
+    public void katsoSiirtoPalauttaaTrueKunSiirtoOsuu1() {
+        ArrayList<Laiva> laivat = logiikka.haePelilauta(1).haeLaivat();
         Laiva laiva = laivat.get(0);
         Ruutu siirto = laiva.haeRuudut()[0];
-        assertEquals(true, logiikka.pelaaVuoroPelaaja1(siirto));
-    }
-    
-    @Test
-    public void pelaaVuoroPelaaja2PalauttaaTrueKunSiirtoOsuu() {
-        ArrayList<Laiva> laivat = logiikka.haePelaaja1().haeLaivat();
-        Laiva laiva = laivat.get(0);
-        Ruutu siirto = laiva.haeRuudut()[0];
-        assertEquals(true, logiikka.pelaaVuoroPelaaja2(siirto));
+        assertEquals(true, logiikka.katsoSiirtoPelilaudasta(siirto, 1));
     }
     
     @Test

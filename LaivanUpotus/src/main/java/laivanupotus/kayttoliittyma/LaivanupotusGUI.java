@@ -9,6 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,12 +28,21 @@ public class LaivanupotusGUI implements Runnable {
     private final Asetukset asetukset;
     private final Laivanupotus laivanupotus;
     private final Logiikka logiikka;
+<<<<<<< HEAD
     private JPanel j1;
 
+=======
+    private final List<JButton> nappulatLauta1;
+    private final List<JButton> nappulatLauta2;
+    //nappulat pitää lisätä listoihin
+    
+>>>>>>> 3e2496539fe5c909d117fbda6423ab81d0fc5519
     public LaivanupotusGUI(Asetukset asetukset, Laivanupotus peli, Logiikka logiikka) {
         this.asetukset = asetukset;
         this.laivanupotus = peli;
         this.logiikka = logiikka;
+        this.nappulatLauta1 = new ArrayList<>();
+        this.nappulatLauta2 = new ArrayList<>();
     }
 
     @Override

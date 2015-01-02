@@ -86,5 +86,13 @@ public class Asetukset {
     public int haeLaivojenMaaranKerroin() {
         return pelilautaLeveys * pelilautaPituus / 100;
     }
+    
+    public int haeLaivojenMaara() {
+        int laivoja = 0;
+        for (Integer avain : laivat.keySet()) {
+            laivoja += laivat.get(avain);
+        }
+        return laivoja;
+    }
 
 }
