@@ -26,6 +26,7 @@ public class LaivanupotusGUI implements Runnable {
     private final Asetukset asetukset;
     private final Laivanupotus laivanupotus;
     private final Logiikka logiikka;
+    private JPanel j1;
 
     public LaivanupotusGUI(Asetukset asetukset, Laivanupotus peli, Logiikka logiikka) {
         this.asetukset = asetukset;
@@ -64,12 +65,13 @@ public class LaivanupotusGUI implements Runnable {
         for (int x = 0; x < leveys; x++) {
             for (int y = 0; y < pituus; y++) {
                 JButton nappula = new JButton();
-                UpotusKuuntelija kuuntelija = new UpotusKuuntelija(new Ruutu(x, y), laivanupotus, nappula, tekstikentta, logiikka);
+                UpotusKuuntelija kuuntelija = new UpotusKuuntelija(new Ruutu(x, y), laivanupotus, nappula, tekstikentta, logiikka, lauta1);
                 nappula.addActionListener(kuuntelija);
                 lauta1.add(nappula);
             }
         }
         lautaJaTekstiKentta.add(lauta1, BorderLayout.CENTER);
+        j1 = lauta1;
         return lautaJaTekstiKentta;
     }
 
