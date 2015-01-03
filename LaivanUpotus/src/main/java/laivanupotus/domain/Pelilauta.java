@@ -1,6 +1,7 @@
 package laivanupotus.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Pelilauta {
@@ -40,7 +41,7 @@ public class Pelilauta {
         return this.laivat;
     }
     
-    public ArrayList<Laiva> haeUponneetLaivat() {
+    private ArrayList<Laiva> haeUponneetLaivat() {
         ArrayList<Laiva> uponneet = new ArrayList<>();
         for (Laiva laiva : laivat) {
             if (laiva.uppoaako()) {
@@ -49,5 +50,33 @@ public class Pelilauta {
         }
         return uponneet;
     }
+    
+    public ArrayList<Ruutu> haeUponneidenLaivojenRuudut() {
+        ArrayList<Ruutu> upotetutLaivat = new ArrayList<>();
+        for (Laiva laiva : haeUponneetLaivat()) {
+            upotetutLaivat.addAll(Arrays.asList(laiva.haeRuudut()));
+        }
+        return upotetutLaivat;
+    }
+    
+    public ArrayList<Ruutu> haeLaivojenRuudut() {
+        ArrayList<Ruutu> laivojenRuudut = new ArrayList<>();
+        for (Laiva laiva : laivat) {
+            laivojenRuudut.addAll(Arrays.asList(laiva.haeRuudut()));
+        }
+        return laivojenRuudut;
+    }
+    
+    public boolean uppoaakoRuutuunLiittyvaLaiva(Ruutu siirto) {
+        return laivaRuudukko.get(siirto).uppoaako();
+    }
+    
+    public boolean kaikkiLaivatUpotettu() {
+        return (haeUponneetLaivat().size() == laivat.size());
+    }
+    
+    
+    
+    
 
 }

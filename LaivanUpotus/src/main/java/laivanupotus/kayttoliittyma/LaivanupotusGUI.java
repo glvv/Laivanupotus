@@ -9,8 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,26 +16,19 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import laivanupotus.domain.Ruutu;
-import laivanupotus.laivanupotus.Laivanupotus;
 import laivanupotus.logiikka.Asetukset;
-import laivanupotus.logiikka.Logiikka;
 
 public class LaivanupotusGUI implements Runnable {
 
     private JFrame frame;
     private final Asetukset asetukset;
-    private final Laivanupotus laivanupotus;
-    private final Logiikka logiikka;
-    private final List<JButton> nappulatLauta1;
-    private final List<JButton> nappulatLauta2;
-    //nappulat pitää lisätä listoihin
+    private final LaivanupotusGUILogiikka logiikka;
+    private int pelilautaIndeksi;
     
-    public LaivanupotusGUI(Asetukset asetukset, Laivanupotus peli, Logiikka logiikka) {
+    public LaivanupotusGUI(Asetukset asetukset) {
         this.asetukset = asetukset;
-        this.laivanupotus = peli;
-        this.logiikka = logiikka;
-        this.nappulatLauta1 = new ArrayList<>();
-        this.nappulatLauta2 = new ArrayList<>();
+        this.logiikka = new LaivanupotusGUILogiikka(asetukset, this);
+        this.pelilautaIndeksi = 1;
     }
 
     @Override
@@ -57,11 +48,13 @@ public class LaivanupotusGUI implements Runnable {
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         container.add(luoLauta());
         container.add(luoLauta());
+        logiikka.tarkistaOnkoYksinPeliJaLuoTekoalyJosOn();
     }
 
     private JPanel luoLauta() {
         JPanel lautaJaTekstiKentta = new JPanel(new BorderLayout());
         JTextField tekstikentta = new JTextField("");
+        logiikka.lisaaJTextField(tekstikentta, pelilautaIndeksi);
         tekstikentta.setEditable(false);
         lautaJaTekstiKentta.add(tekstikentta, BorderLayout.NORTH);
         int leveys = asetukset.haePelilautaLeveys();
@@ -71,12 +64,14 @@ public class LaivanupotusGUI implements Runnable {
         for (int x = 0; x < leveys; x++) {
             for (int y = 0; y < pituus; y++) {
                 JButton nappula = new JButton();
-                UpotusKuuntelija kuuntelija = new UpotusKuuntelija(new Ruutu(x, y), laivanupotus, nappula, tekstikentta, logiikka, lauta1);
+                logiikka.lisaaJButton(nappula, new Ruutu(x, y), pelilautaIndeksi);
+                UpotusKuuntelija kuuntelija = new UpotusKuuntelija(new Ruutu(x, y), pelilautaIndeksi, logiikka);
                 nappula.addActionListener(kuuntelija);
                 lauta1.add(nappula);
             }
         }
         lautaJaTekstiKentta.add(lauta1, BorderLayout.CENTER);
+        pelilautaIndeksi++;
         return lautaJaTekstiKentta;
     }
 

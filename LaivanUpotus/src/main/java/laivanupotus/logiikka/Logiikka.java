@@ -13,9 +13,7 @@ import laivanupotus.domain.Ruutu;
 public class Logiikka {
 
     private int vuoro;
-    private final int pistemaaraVoittoon;
     private final HashMap<Integer, Pelilauta> pelilaudat;
-    private final HashMap<Integer, Integer> pisteet;
 
     /**
      * Konstruktori luo ja alustaa pelin komponentit
@@ -24,12 +22,8 @@ public class Logiikka {
      */
     public Logiikka(Asetukset asetukset) {
         this.pelilaudat = new HashMap<>();
-        this.pisteet = new HashMap<>();
         arvoLaivatJaLuoPelaajat(asetukset);
-        pisteet.put(1, 0);
-        pisteet.put(2, 0);
         this.vuoro = 1;
-        this.pistemaaraVoittoon = asetukset.haeLaivojenMaara();
     }
 
     private void arvoLaivatJaLuoPelaajat(Asetukset asetukset) {
@@ -43,21 +37,7 @@ public class Logiikka {
     public boolean katsoSiirtoPelilaudasta(Ruutu siirto, int pelilauta) {
         pelilaudat.get(pelilauta).lisaaSiirto(siirto);
         Laiva laiva = pelilaudat.get(pelilauta).katsoRuutu(siirto);
-        if (kasitteleLaiva(laiva, siirto)) {
-            if (laiva.uppoaako()) {
-                lisaaPiste(pelilauta);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    private void lisaaPiste(int pelilauta) {
-        if (pelilauta == 1) {
-            pisteet.put(2, pisteet.get(2) + 1);
-        } else if (pelilauta == 2) {
-            pisteet.put(1, pisteet.get(1) + 1);
-        }
+        return kasitteleLaiva(laiva, siirto);
     }
 
     private boolean kasitteleLaiva(Laiva laiva, Ruutu siirto) {
@@ -76,12 +56,12 @@ public class Logiikka {
         return this.vuoro;
     }
 
-    public boolean jatkuukoPeli() {
+    public boolean voittaakoJompikumpi() {
         return (voittaakoPelaaja(1) || voittaakoPelaaja(2));
     }
 
     private boolean voittaakoPelaaja(int pelaaja) {
-        return pisteet.get(pelaaja) >= pistemaaraVoittoon;
+        return pelilaudat.get(pelaaja).kaikkiLaivatUpotettu();
     }
 
     public int haeVoittaja() {
@@ -96,6 +76,18 @@ public class Logiikka {
 
     public Pelilauta haePelilauta(int pelilauta) {
         return pelilaudat.get(pelilauta);
+    }
+    
+    public ArrayList<Ruutu> haeUpotettujenLaivojenRuudut(int pelilauta) {
+        return pelilaudat.get(pelilauta).haeUponneidenLaivojenRuudut();
+    }
+    
+    public ArrayList<Ruutu> haeLaivojenRuudut(int pelilauta) {
+        return pelilaudat.get(pelilauta).haeLaivojenRuudut();
+    }
+    
+    public boolean upottikoSiirtoLaivan(Ruutu siirto, int pelilauta) {
+        return pelilaudat.get(pelilauta).uppoaakoRuutuunLiittyvaLaiva(siirto);
     }
 
 }

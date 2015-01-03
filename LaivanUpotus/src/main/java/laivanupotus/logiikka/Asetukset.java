@@ -11,6 +11,7 @@ public class Asetukset {
     private int pelilautaLeveys;
     private int pelilautaPituus;
     private final HashMap<Integer, Integer> laivat;
+    private boolean kaksinpeli;
 
     /**
      * Konstruktorissa leveydeksi ja pituudeksi asetetaan alussa 10 Oliolle
@@ -21,6 +22,7 @@ public class Asetukset {
         pelilautaLeveys = 10;
         pelilautaPituus = 10;
         laivat = new HashMap<>();
+        kaksinpeli = false;
     }
 
     public void asetaLeveys(int leveys) {
@@ -89,10 +91,18 @@ public class Asetukset {
     
     public int haeLaivojenMaara() {
         int laivoja = 0;
-        for (Integer avain : laivat.keySet()) {
-            laivoja += laivat.get(avain);
+        for (Integer luku : laivat.values()) {
+            laivoja += luku;
         }
         return laivoja;
+    }
+    
+    public void asetaKaksinpeli(boolean onKaksinpeli) {
+        kaksinpeli = onKaksinpeli;
+    }
+    
+    public boolean onkoKaksinpeli() {
+        return kaksinpeli;
     }
 
 }

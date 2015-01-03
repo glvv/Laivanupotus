@@ -4,7 +4,6 @@ import javax.swing.SwingUtilities;
 import laivanupotus.kayttoliittyma.LaivanupotusGUI;
 import laivanupotus.kayttoliittyma.Paavalikko;
 import laivanupotus.logiikka.Asetukset;
-import laivanupotus.logiikka.Logiikka;
 
 public class Main {
 
@@ -14,11 +13,9 @@ public class Main {
         asetukset.asetaOletusLaivat();
         asetukset.asetaLeveys(10);
         asetukset.asetaPituus(10);
-        Laivanupotus laivanupotus = new Laivanupotus();
-        Logiikka logiikka = new Logiikka(asetukset);
-        LaivanupotusGUI gui = new LaivanupotusGUI(asetukset, laivanupotus, logiikka);
+        asetukset.asetaKaksinpeli(false);
+        LaivanupotusGUI gui = new LaivanupotusGUI(asetukset);
         SwingUtilities.invokeLater(gui);
     }
-
-
+    
 }

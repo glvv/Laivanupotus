@@ -53,3 +53,7 @@
 **2.1.2015**
 
 4h Lisätty kaavioita, refaktoroitu.
+
+**3.1.2015**
+
+4h Tehty graafista käyttöliittymää
