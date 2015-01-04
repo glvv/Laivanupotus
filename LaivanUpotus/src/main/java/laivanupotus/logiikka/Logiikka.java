@@ -60,7 +60,7 @@ public class Logiikka {
         return (voittaakoPelaaja(1) || voittaakoPelaaja(2));
     }
 
-    private boolean voittaakoPelaaja(int pelaaja) {
+    public boolean voittaakoPelaaja(int pelaaja) {
         return pelilaudat.get(pelaaja).kaikkiLaivatUpotettu();
     }
 

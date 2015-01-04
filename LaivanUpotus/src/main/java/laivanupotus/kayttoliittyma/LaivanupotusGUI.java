@@ -65,7 +65,7 @@ public class LaivanupotusGUI implements Runnable {
             for (int y = 0; y < pituus; y++) {
                 JButton nappula = new JButton();
                 logiikka.lisaaJButton(nappula, new Ruutu(x, y), pelilautaIndeksi);
-                UpotusKuuntelija kuuntelija = new UpotusKuuntelija(new Ruutu(x, y), pelilautaIndeksi, logiikka);
+                LaivanupotusGUIKuuntelija kuuntelija = new LaivanupotusGUIKuuntelija(new Ruutu(x, y), pelilautaIndeksi, logiikka);
                 nappula.addActionListener(kuuntelija);
                 lauta1.add(nappula);
             }

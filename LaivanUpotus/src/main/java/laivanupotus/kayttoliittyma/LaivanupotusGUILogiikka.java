@@ -38,34 +38,52 @@ public class LaivanupotusGUILogiikka {
     }
 
     public void kokeileSiirto(Ruutu ruutu, int pelilauta) {
-        JTextField laudanTekstikentta = tekstikentat.get(pelilauta);
         if (pelilauta % 2 == logiikka.haeVuoro() % 2) {
-            JButton ruudunNappula = pelilaudat.get(pelilauta).get(ruutu);
-            ruudunNappula.setEnabled(false);
-            ruudunNappula.setBackground(Color.GRAY);
+            asetaRuutuunKuuluvaNappulaOsutuksi(pelilauta, ruutu);
             if (!logiikka.katsoSiirtoPelilaudasta(ruutu, pelilauta)) {
-                laudanTekstikentta.setText("Huti.");
-                logiikka.vuoroPelattu();
-                if (!asetukset.onkoKaksinpeli()) {
-                    tekoalynVuoro();
-                }
+                siirtoEiOsunut(pelilauta);
             } else {
-                laudanTekstikentta.setText("Osuma! Saat uuden vuoron.");
-                pelilaudat.get(pelilauta).get(ruutu).setBackground(Color.RED);
+                siirtoOsui(pelilauta, ruutu);
             }
             paivitaUponneetLaivat(pelilauta);
-            if (logiikka.voittaakoJompikumpi()) {
-                lopetaPeli();
-            }
         } else {
-            laudanTekstikentta.setText("Ei ole sinun vuorosi.");
+            tekstikentat.get(pelilauta).setText("Ei ole sinun vuorosi.");
         }
     }
     
+    private void asetaRuutuunKuuluvaNappulaOsutuksi(int pelilauta, Ruutu ruutu) {
+        JButton ruudunNappula = pelilaudat.get(pelilauta).get(ruutu);
+        ruudunNappula.setEnabled(false);
+        ruudunNappula.setBackground(Color.GRAY);
+    }
+
+    private void siirtoOsui(int pelilauta, Ruutu ruutu) {
+        if (!logiikka.voittaakoPelaaja(pelilauta)) {
+            tekstikentat.get(pelilauta).setText("Osuma! Saat uuden vuoron.");
+        } else {
+            tekstikentat.get(pelilauta).setText("Osuma! Kaikki laivat upotettu.");
+            tarkistaJatkuukoPeliTeeKeinoalynVuoroJosYksinpeli();
+        }
+        pelilaudat.get(pelilauta).get(ruutu).setBackground(Color.RED);
+    }
+
+    private void siirtoEiOsunut(int pelilauta) {
+        tekstikentat.get(pelilauta).setText("Huti.");
+        tarkistaJatkuukoPeliTeeKeinoalynVuoroJosYksinpeli();
+    }
+    
+    private void tarkistaJatkuukoPeliTeeKeinoalynVuoroJosYksinpeli() {
+        logiikka.vuoroPelattu();
+        jatkuukoPeli();
+        if (!asetukset.onkoKaksinpeli()) {
+            tekoalynVuoro();
+        }
+    }
+
     public void lisaaJButton(JButton nappula, Ruutu ruutu, int pelilauta) {
         pelilaudat.get(pelilauta).put(ruutu, nappula);
     }
-    
+
     public void lisaaJTextField(JTextField tekstikentta, int pelilauta) {
         tekstikentat.put(pelilauta, tekstikentta);
     }
@@ -91,6 +109,7 @@ public class LaivanupotusGUILogiikka {
     private void tekoalynVuoro() {
         tekoAlynSiirto();
         logiikka.vuoroPelattu();
+        jatkuukoPeli();
     }
 
     private void tekoAlynSiirto() {
@@ -106,12 +125,34 @@ public class LaivanupotusGUILogiikka {
             tekoAlynSiirto();
         }
     }
-    
-    private void lopetaPeli() {
-        asetaRuudutToimimattomiksi(1);
-        asetaRuudutToimimattomiksi(2);
-        tekstikentat.get(1).setText("pizzaa");
-        tekstikentat.get(2).setText("iiii");
+
+    private void jatkuukoPeli() {
+        if (logiikka.voittaakoJompikumpi()) {
+            if (logiikka.haeVuoro() % 2 == 1) {
+                asetaRuudutToimimattomiksi(1);
+                asetaRuudutToimimattomiksi(2);
+                String voittaja = haeVoittaja();
+                tekstikentat.get(1).setText(voittaja);
+                tekstikentat.get(2).setText(voittaja);
+            }
+        }
+    }
+
+    private String haeVoittaja() {
+        String tuloste;
+        int voittaja = logiikka.haeVoittaja();
+        if (voittaja == 0) {
+            tuloste = "Tasapeli";
+        } else if (voittaja == 1) {
+            tuloste = "Pelaaja 1 on voittaja.";
+        } else {
+            if (!asetukset.onkoKaksinpeli()) {
+                tuloste = "Tekoäly on voittaja.";
+            } else {
+                tuloste = "Pelaaja 2 on voittaja.";
+            }
+        }
+        return tuloste;
     }
 
 }

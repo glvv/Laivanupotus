@@ -8,8 +8,10 @@ import laivanupotus.logiikka.SyotteenKasittelija;
 /**
  * Tekstikäyttöliittymä Laivanupotus-peliin.
  */
-public class Tekstikayttoliittyma implements Kayttoliittyma {
+public class Tekstikayttoliittyma {
 
+    //ei toimi
+    
     private Scanner lukija = new Scanner(System.in);
     private final SyotteenKasittelija syotteenkasittelija;
 

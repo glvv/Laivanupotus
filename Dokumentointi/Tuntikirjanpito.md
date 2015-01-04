@@ -56,4 +56,8 @@
 
 **3.1.2015**
 
-4h Tehty graafista käyttöliittymää
+4h Tehty graafista käyttöliittymää.
+
+**4.1.2015**
+
+4h Tehty graafista käyttöliittymää.

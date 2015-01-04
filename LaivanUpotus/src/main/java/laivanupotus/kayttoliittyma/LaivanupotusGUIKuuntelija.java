@@ -5,13 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import laivanupotus.domain.Ruutu;
 
-public class UpotusKuuntelija implements ActionListener {
+public class LaivanupotusGUIKuuntelija implements ActionListener {
 
     private final Ruutu ruutu;
     private final int pelilauta;
     private final LaivanupotusGUILogiikka logiikka;
     
-    public UpotusKuuntelija(Ruutu ruutu, int pelilauta, LaivanupotusGUILogiikka logiikka) {
+    public LaivanupotusGUIKuuntelija(Ruutu ruutu, int pelilauta, LaivanupotusGUILogiikka logiikka) {
         this.ruutu = ruutu;
         this.pelilauta = pelilauta;
         this.logiikka = logiikka;
