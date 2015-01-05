@@ -94,6 +94,31 @@ public class AsetuksetTest {
         assertEquals(25, asetukset.haeLaivojenMaaranKerroin());
     }
     
+    @Test
+    public void haeLaivojenMaaraPalauttaaOikeanMaaran() {
+        asetukset.asetaOletusLaivat();
+        assertEquals(6, asetukset.haeLaivojenMaara());
+    }
+    
+    @Test
+    public void haeLaivojenMaaranKerroinPalauttaaOikeanArvon2() {
+        asetukset.asetaLeveys(30);
+        asetukset.asetaPituus(30);
+        assertEquals(9, asetukset.haeLaivojenMaaranKerroin());
+    }
+    
+    @Test
+    public void asetaKaksinpeliAsettaaOikein() {
+        asetukset.asetaKaksinpeli(true);
+        assertEquals(true, asetukset.onkoKaksinpeli());
+    }
+    
+    @Test
+    public void asetaKaksinpeliAsettaaOikein2() {
+        asetukset.asetaKaksinpeli(false);
+        assertEquals(false, asetukset.onkoKaksinpeli());
+    }
+    
     
     
 

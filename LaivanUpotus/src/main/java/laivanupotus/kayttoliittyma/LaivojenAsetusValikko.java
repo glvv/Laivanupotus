@@ -3,6 +3,7 @@ package laivanupotus.kayttoliittyma;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.util.HashMap;
 import java.util.Hashtable;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -13,12 +14,12 @@ import javax.swing.JSlider;
 import javax.swing.WindowConstants;
 import laivanupotus.logiikka.Asetukset;
 
-public class AsetusValikkoLaivat implements Runnable {
+public class LaivojenAsetusValikko implements Runnable {
 
     private JFrame frame;
-    private Asetukset asetukset;
+    private final Asetukset asetukset;
 
-    public AsetusValikkoLaivat(Asetukset asetukset) {
+    public LaivojenAsetusValikko(Asetukset asetukset) {
         this.asetukset = asetukset;
     }
 
@@ -46,7 +47,7 @@ public class AsetusValikkoLaivat implements Runnable {
     private JPanel luoLaivojenAsetus() {
         JSlider[] laivat = luoLaivatSlider();
         JButton aloitaPeli = new JButton("Aloita peli");
-        AsetusValikkoLaivatKuuntelija kuuntelija = new AsetusValikkoLaivatKuuntelija(laivat, aloitaPeli, this.getFrame());
+        LaivojenAsetusValikkoKuuntelija kuuntelija = new LaivojenAsetusValikkoKuuntelija(laivat, this.getFrame(), asetukset);
         aloitaPeli.addActionListener(kuuntelija);
         JPanel laivojenAsetus = new JPanel();
         laivojenAsetus.setLayout(new BoxLayout(laivojenAsetus, BoxLayout.Y_AXIS));
@@ -58,17 +59,29 @@ public class AsetusValikkoLaivat implements Runnable {
     private JSlider[] luoLaivatSlider(){
         int laivojenKerroin = asetukset.haeLaivojenMaaranKerroin();
         JSlider[] laivat = new JSlider[5];
-        laivat[0] = luoJSlider(1, 4 * laivojenKerroin, "Sukellusveneet(1 ruutu)");
-        laivat[1] = luoJSlider(0, 3 * laivojenKerroin, "Havittajat(2 ruutua)");
-        laivat[2] = luoJSlider(0, 3 * laivojenKerroin, "Risteilijat(3 ruutua)");
-        laivat[3] = luoJSlider(0, 1 * laivojenKerroin, "Taistelulaivoja(4 ruutua");
-        laivat[4] = luoJSlider(0, 1 * laivojenKerroin, "Lentotukialuksia(5 ruutua)");
+        laivat[0] = luoJSlider(1, 2 * laivojenKerroin, "");
+        laivat[1] = luoJSlider(0, 2 * laivojenKerroin, "");
+        laivat[2] = luoJSlider(0, 1 * laivojenKerroin, "");
+        laivat[3] = luoJSlider(0, 1 * laivojenKerroin, "");
+        laivat[4] = luoJSlider(0, 1 * laivojenKerroin, "");
         return laivat;
     }
     
+    private HashMap<Integer, String> tekstit() {
+        HashMap<Integer, String> tekstit = new HashMap<>();
+        tekstit.put(0, "Sukellusveneitä (1 ruutu)");
+        tekstit.put(1, "Hävittäjiä (2 ruutua)");
+        tekstit.put(2, "Risteilijöitä (3 ruutua)");
+        tekstit.put(3, "Taistelulaivoja (4 ruutua)");
+        tekstit.put(4, "Lentotukialuksia (5 ruutua)");
+        return tekstit;
+    }
+    
     private JPanel lisaaLaivat(JSlider[] laivat, JPanel panel) {
-        for (JSlider slider : laivat) {
-            panel.add(slider);
+        HashMap<Integer, String> tekstit = tekstit();
+        for (int i = 0; i < laivat.length; i++) {
+            panel.add(new JLabel(tekstit.get(i)));
+            panel.add(laivat[i]);
         }
         return panel;
     }

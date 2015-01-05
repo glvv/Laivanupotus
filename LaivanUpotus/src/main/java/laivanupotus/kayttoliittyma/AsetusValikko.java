@@ -26,7 +26,7 @@ public class AsetusValikko implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Laivanupotus");
-        frame.setPreferredSize(new Dimension(350, 700));
+        frame.setPreferredSize(new Dimension(350, 350));
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,7 +59,7 @@ public class AsetusValikko implements Runnable {
         JRadioButton[] nappulat = lisaaMonivalintaYksinPeliVaiMoninPeli();
         JSlider leveysSlider = luoJSlider(10, 30, "Pelilaudan leveys");
         JButton asetaNappula = lisaaAsetustenAsetusNappula();
-        AsetusValikkoKuuntelija kuuntelija = new AsetusValikkoKuuntelija(leveysSlider, nappulat[0], nappulat[1], asetaNappula, asetukset);
+        AsetusValikkoKuuntelija kuuntelija = new AsetusValikkoKuuntelija(leveysSlider, nappulat[0], asetukset, this.getFrame());
         asetaNappula.addActionListener(kuuntelija);
         JPanel monivalinta = new JPanel();
         monivalinta.add(nappulat[0]);

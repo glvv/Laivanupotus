@@ -38,7 +38,7 @@ public class LaivanupotusGUILogiikka {
     }
 
     public void kokeileSiirto(Ruutu ruutu, int pelilauta) {
-        if (pelilauta % 2 == logiikka.haeVuoro() % 2) {
+        if (logiikka.oikeaVuoro(pelilauta)) {
             asetaRuutuunKuuluvaNappulaOsutuksi(pelilauta, ruutu);
             if (!logiikka.katsoSiirtoPelilaudasta(ruutu, pelilauta)) {
                 siirtoEiOsunut(pelilauta);
@@ -128,7 +128,7 @@ public class LaivanupotusGUILogiikka {
 
     private void jatkuukoPeli() {
         if (logiikka.voittaakoJompikumpi()) {
-            if (logiikka.haeVuoro() % 2 == 1) {
+            if (logiikka.tasoittavaVuoroPelattu()) {
                 asetaRuudutToimimattomiksi(1);
                 asetaRuudutToimimattomiksi(2);
                 String voittaja = haeVoittaja();

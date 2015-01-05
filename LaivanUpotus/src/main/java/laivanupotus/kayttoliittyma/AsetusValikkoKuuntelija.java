@@ -3,24 +3,24 @@ package laivanupotus.kayttoliittyma;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
 import laivanupotus.logiikka.Asetukset;
 
 public class AsetusValikkoKuuntelija implements ActionListener {
 
     private final JSlider leveysAsetin;
     private final JRadioButton kaksinpeli;
-    private final JRadioButton yksinpeli;
-    private final JButton asetusNappula;
     private final Asetukset asetukset;
+    private final JFrame valikko;
 
-    public AsetusValikkoKuuntelija(JSlider leveysAsetin, JRadioButton kaksinpeli, JRadioButton yksinpeli, JButton asetusNappula, Asetukset asetukset) {
+    public AsetusValikkoKuuntelija(JSlider leveysAsetin, JRadioButton kaksinpeli, Asetukset asetukset, JFrame valikko) {
         this.leveysAsetin = leveysAsetin;
         this.kaksinpeli = kaksinpeli;
-        this.yksinpeli = yksinpeli;
-        this.asetusNappula = asetusNappula;
         this.asetukset = asetukset;
+        this.valikko = valikko;
     }
     
     @Override
@@ -28,9 +28,8 @@ public class AsetusValikkoKuuntelija implements ActionListener {
         asetukset.asetaKaksinpeli(kaksinpeli.isSelected());
         asetukset.asetaLeveys(leveysAsetin.getValue());
         asetukset.asetaPituus(leveysAsetin.getValue());
-        asetusNappula.setEnabled(false);
-        leveysAsetin.setEnabled(false);
-        kaksinpeli.setEnabled(false);
-        yksinpeli.setEnabled(false);
+        valikko.dispose();
+        LaivojenAsetusValikko laivojenAsetus = new LaivojenAsetusValikko(asetukset);
+        SwingUtilities.invokeLater(laivojenAsetus);
     }
 }

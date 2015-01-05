@@ -7,12 +7,10 @@ import java.util.HashMap;
 public class Pelilauta {
 
     private final ArrayList<Laiva> laivat;    
-    private final ArrayList<Ruutu> siirrot;
     private final HashMap<Ruutu, Laiva> laivaRuudukko;
 
     public Pelilauta(ArrayList<Laiva> laivat) {
         this.laivat = laivat;
-        this.siirrot = new ArrayList<>();
         this.laivaRuudukko = new HashMap<>();
         liitaLaivat();
     }
@@ -23,14 +21,6 @@ public class Pelilauta {
                 laivaRuudukko.put(ruutu, laiva);
             }
         }
-    }
-
-    public void lisaaSiirto(Ruutu ruutu) {
-        this.siirrot.add(ruutu);
-    }
-
-    public ArrayList haeSiirrot() {
-        return this.siirrot;
     }
 
     public Laiva katsoRuutu(Ruutu siirto) {

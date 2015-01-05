@@ -35,7 +35,6 @@ public class Logiikka {
     }
 
     public boolean katsoSiirtoPelilaudasta(Ruutu siirto, int pelilauta) {
-        pelilaudat.get(pelilauta).lisaaSiirto(siirto);
         Laiva laiva = pelilaudat.get(pelilauta).katsoRuutu(siirto);
         return kasitteleLaiva(laiva, siirto);
     }
@@ -89,5 +88,14 @@ public class Logiikka {
     public boolean upottikoSiirtoLaivan(Ruutu siirto, int pelilauta) {
         return pelilaudat.get(pelilauta).uppoaakoRuutuunLiittyvaLaiva(siirto);
     }
-
+    
+    public boolean oikeaVuoro(int pelilauta) {
+        return pelilauta % 2 == vuoro % 2;
+    }
+    
+    public boolean tasoittavaVuoroPelattu() {
+        return vuoro % 2 == 1;
+    }
+    
+    
 }

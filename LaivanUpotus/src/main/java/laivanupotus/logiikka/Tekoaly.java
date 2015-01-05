@@ -65,6 +65,7 @@ public class Tekoaly {
      * @see Tekoaly#teeSiirto()
      */
     public void laivaUpotettu() {
+        lisaaOsumiaYmparoivatRuudutArvatuiksi();
         osumat.clear();
     }
 
@@ -146,6 +147,23 @@ public class Tekoaly {
             }
         }
         return true;
+    }
+    
+    private void lisaaOsumiaYmparoivatRuudutArvatuiksi() {
+        for (Ruutu ruutu : osumat) {
+            arvatut.addAll(haeRuutuaYmparoivatRuudut(ruutu));
+        }
+    }
+    
+    private ArrayList<Ruutu> haeRuutuaYmparoivatRuudut(Ruutu ruutu) {
+        ArrayList<Ruutu> ruudut = new ArrayList<>();
+        int x = ruutu.haeX();
+        int y = ruutu.haeY();
+        ruudut.add(new Ruutu(x + 1, y));
+        ruudut.add(new Ruutu(x - 1, y));
+        ruudut.add(new Ruutu(x, y + 1));
+        ruudut.add(new Ruutu(x, y - 1));
+        return ruudut;
     }
 
 }
