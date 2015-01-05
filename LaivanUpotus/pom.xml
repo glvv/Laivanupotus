@@ -50,10 +50,12 @@
         			<targetClasses>
             				<param>laivanupotus.logiikka.*</param>
             				<param>laivanupotus.domain.*</param>
+					<param>laivanupotus.testivalineet.*</param>
         			</targetClasses>
         			<targetTests>
             				<param>laivanupotus.logiikka.*</param>
             				<param>laivanupotus.domain.*</param>
+					<param>laivanupotus.testivalineet.*</param>
         			</targetTests>
     			</configuration>
 	</plugin>

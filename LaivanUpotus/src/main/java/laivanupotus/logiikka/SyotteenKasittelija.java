@@ -1,11 +1,20 @@
 package laivanupotus.logiikka;
 
+import laivanupotus.domain.Asetukset;
+
+/**
+ * Luokka tarjoaa metodeja syötteiden tarkistamiseen.
+ */
+
+/*
+ Luokka ei ole käytössä, koska virheellisiä syötteitä ei ole mahdollista antaa.
+ */
 public class SyotteenKasittelija {
 
     private final Asetukset asetukset;
 
     /**
-     * Luokka tarjoaa metodeja syötteiden tarkistamiseen.
+     * Konstruktori luo uuden Asetukset-olion, joka asetetaan oliomuuttujaksi.
      */
     public SyotteenKasittelija() {
         this.asetukset = new Asetukset();
@@ -60,6 +69,16 @@ public class SyotteenKasittelija {
         return false;
     }
 
+    /**
+     * Metodi tarkistaa, että laivan koko ja maara ovat kokonaislukuja
+     * annetuissa rajoissa. Jos laivan koko ja maara ovat annetuissa rajoissa,
+     * ne lisätään Asetukset-olioon, ja palautetaan true. Jos eivät, niin
+     * palautetaan false ja mitään ei aseteta.
+     *
+     * @param koko Laivan koko, eli kuinka monta ruutua laiva vie.
+     * @param maaraSyote Laivojen maara, kuinka monta laivaa?
+     * @return Onnistuiko asettaminen vai vai.
+     */
     public boolean lisaaLaiva(int koko, String maaraSyote) {
         if (tarkistaKokonaisluku(maaraSyote)) {
             int maara = Integer.parseInt(maaraSyote);
@@ -76,11 +95,11 @@ public class SyotteenKasittelija {
     private boolean tarkistaKokoJaMaara(int koko, int maara) {
         int kerroin = asetukset.haeLaivojenMaaranKerroin();
         if (koko == 1) {
-            return (maara > 0 && maara < (4 * kerroin));
+            return (maara > 0 && maara < (3 * kerroin));
         } else if (koko == 2) {
-            return (maara >= 0 && maara < (3 * kerroin));
+            return (maara >= 0 && maara < (2 * kerroin));
         } else if (koko == 3) {
-            return (maara >= 0 && maara < (3 * kerroin));
+            return (maara >= 0 && maara < (2 * kerroin));
         } else if (koko == 4 || koko == 5) {
             return (maara >= 0 && maara <= (1 * kerroin));
         }
@@ -132,6 +151,13 @@ public class SyotteenKasittelija {
         }
         return false;
     }
+
+    /**
+     * Metodi palauttaa laivojen maaran kertoimen, joka riippuu pelilaudan
+     * leveydestä ja pituudesta.
+     *
+     * @return Laivojen määrän kerroin.
+     */
     public int haeLaivojenMaaranKerroin() {
         return asetukset.haeLaivojenMaaranKerroin();
     }

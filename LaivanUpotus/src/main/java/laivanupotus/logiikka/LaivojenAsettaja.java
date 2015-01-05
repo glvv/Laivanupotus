@@ -1,5 +1,6 @@
 package laivanupotus.logiikka;
 
+import laivanupotus.domain.Asetukset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,8 +9,7 @@ import laivanupotus.domain.Laiva;
 import laivanupotus.domain.Ruutu;
 
 /**
- * Luokka tarjoaa toiminnallisuuden automaattiseen laivojen asettamiseen
- * ruudukkoon.
+ * Luokka tarjoaa toiminnallisuuden automaattiseen laivojen asettamiseen.
  */
 public class LaivojenAsettaja {
 
@@ -18,7 +18,7 @@ public class LaivojenAsettaja {
     private final Asetukset asetukset;
 
     /**
-     * Konstruktorissa luodaan uusi LaivojenAsettaja-olio
+     * Konstruktorissa luodaan uusi LaivojenAsettaja-olio.
      *
      * @param asetukset Pelin asetukset
      */
@@ -29,8 +29,9 @@ public class LaivojenAsettaja {
     }
 
     /**
-     * Metodi arpoo laivojen sijainnit Asetukset-olion sisältämän ohjeen mukaan
-     * ja palauttaa Laiva-oliot listana
+     * Metodi arpoo Asetukset-olion sisältämän ohjeen määräämän määrän ja koon mukaan
+     * ruutuja ja luo niistä Laiva-olioita, jotka
+     * se listana.
      *
      * @return Lista, joka sisältää luodut laivat
      */

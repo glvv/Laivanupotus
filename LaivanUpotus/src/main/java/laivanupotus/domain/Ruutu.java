@@ -8,6 +8,12 @@ public class Ruutu implements Comparable<Ruutu> {
     private final int x;
     private final int y;
 
+    /**
+     * Konstruktorissa ruudulle annetaan x ja y -koordinaatit.
+     *
+     * @param x Ruudun x-koordinaatti.
+     * @param y Ruudun y-koordinaatti.
+     */
     public Ruutu(int x, int y) {
         this.x = x;
         this.y = y;

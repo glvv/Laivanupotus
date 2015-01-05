@@ -5,11 +5,14 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import laivanupotus.domain.Ruutu;
-import laivanupotus.logiikka.Asetukset;
+import laivanupotus.domain.Asetukset;
 import laivanupotus.logiikka.Logiikka;
 import laivanupotus.logiikka.Tekoaly;
 
-public class LaivanupotusGUILogiikka {
+/**
+ * LaivanupotusGUIKasittelija muokkaa pelilautojen tilaa.
+ */
+public class LaivanupotusGUIKasittelija {
 
     private final Logiikka logiikka;
     private final HashMap<Integer, HashMap<Ruutu, JButton>> pelilaudat;
@@ -18,7 +21,7 @@ public class LaivanupotusGUILogiikka {
     private final LaivanupotusGUI gui;
     private Tekoaly tekoaly;
 
-    public LaivanupotusGUILogiikka(Asetukset asetukset, LaivanupotusGUI gui) {
+    public LaivanupotusGUIKasittelija(Asetukset asetukset, LaivanupotusGUI gui) {
         this.asetukset = asetukset;
         this.gui = gui;
         this.logiikka = new Logiikka(asetukset);
@@ -29,6 +32,11 @@ public class LaivanupotusGUILogiikka {
         tekoaly = null;
     }
 
+    /**
+     * Metodi luo Tekoaly - olion, jos tarpeellista, sekä asettaa toisen
+     * pelilaudan reagoimattomaksi ja näyttää sillä olevat laivat. Metodia tulee
+     * käyttää kun komponentit ovat luotu. Muuten Tekoäly ei toimi.
+     */
     public void tarkistaOnkoYksinPeliJaLuoTekoalyJosOn() {
         if (!asetukset.onkoKaksinpeli()) {
             this.tekoaly = new Tekoaly(asetukset);
@@ -37,6 +45,15 @@ public class LaivanupotusGUILogiikka {
         }
     }
 
+    /**
+     * Metodi välittää siirron logiikalle ja muokkaa pelilautaa tuloksen mukaan.
+     * Metodi tarkistaa onko pelaajan vuoro. Jos ei ole pelaajan vuoro, metodi
+     * ilmoittaa siitä tekstikenttään. Yksinpelissä metodikutsu suorittaa
+     * siirron jälkeen tekoälyn vuoron.
+     *
+     * @param ruutu
+     * @param pelilauta
+     */
     public void kokeileSiirto(Ruutu ruutu, int pelilauta) {
         if (logiikka.oikeaVuoro(pelilauta)) {
             asetaRuutuunKuuluvaNappulaOsutuksi(pelilauta, ruutu);
@@ -50,7 +67,7 @@ public class LaivanupotusGUILogiikka {
             tekstikentat.get(pelilauta).setText("Ei ole sinun vuorosi.");
         }
     }
-    
+
     private void asetaRuutuunKuuluvaNappulaOsutuksi(int pelilauta, Ruutu ruutu) {
         JButton ruudunNappula = pelilaudat.get(pelilauta).get(ruutu);
         ruudunNappula.setEnabled(false);
@@ -71,7 +88,7 @@ public class LaivanupotusGUILogiikka {
         tekstikentat.get(pelilauta).setText("Huti.");
         tarkistaJatkuukoPeliTeeKeinoalynVuoroJosYksinpeli();
     }
-    
+
     private void tarkistaJatkuukoPeliTeeKeinoalynVuoroJosYksinpeli() {
         logiikka.vuoroPelattu();
         jatkuukoPeli();
@@ -80,10 +97,24 @@ public class LaivanupotusGUILogiikka {
         }
     }
 
+    /**
+     * Metodilla lisätään JButton HashMap-olioon.
+     *
+     * @param nappula Lisättävä JButton.
+     * @param ruutu HashMap-olion avaimena toimiva Ruutu-olio.
+     * @param pelilauta Kumpaan pelilautaan JButton kuuluu.
+     */
     public void lisaaJButton(JButton nappula, Ruutu ruutu, int pelilauta) {
         pelilaudat.get(pelilauta).put(ruutu, nappula);
     }
 
+    /**
+     * Metodilla lisätään JTextField HashMap-olioon.
+     *
+     * @param tekstikentta Lisättävä JTextField-olio.
+     * @param pelilauta Avaimena toimiva pelilauta. Kumpaan pelilautaan
+     * JTextField kuuluu.
+     */
     public void lisaaJTextField(JTextField tekstikentta, int pelilauta) {
         tekstikentat.put(pelilauta, tekstikentta);
     }

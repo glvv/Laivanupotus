@@ -1,5 +1,7 @@
 package laivanupotus.logiikka;
 
+import laivanupotus.domain.Asetukset;
+import laivanupotus.testivalineet.TestiArpoja;
 import java.util.ArrayList;
 import laivanupotus.domain.Laiva;
 import laivanupotus.domain.Ruutu;

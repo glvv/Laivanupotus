@@ -1,4 +1,4 @@
-package laivanupotus.logiikka;
+package laivanupotus.domain;
 
 import java.util.HashMap;
 
@@ -15,7 +15,8 @@ public class Asetukset {
 
     /**
      * Konstruktorissa leveydeksi ja pituudeksi asetetaan alussa 10 Oliolle
-     * luodaan tyhjä HashMap laivojen tallettamista varten.
+     * luodaan tyhjä HashMap laivojen tallettamista varten. Kaksinpeli on
+     * oletuksena pois päältä.
      */
     public Asetukset() {
         laivatSaaKoskea = false;
@@ -32,6 +33,12 @@ public class Asetukset {
     public void asetaPituus(int pituus) {
         this.pelilautaPituus = pituus;
     }
+    
+    /*
+    Tekoäly ei tue pelejä, jossa laivat saavat koskea toisiinsa.
+    Laivojenasettaja tukee sääntöä.
+    Ominaisuutta ei voi laittaa päälle käyttöliittymässä.  
+     */
 
     public void laivatSaaKoskea(boolean laivatSaaKoskea) {
         this.laivatSaaKoskea = laivatSaaKoskea;
@@ -85,10 +92,21 @@ public class Asetukset {
         return laivatSaaKoskea;
     }
 
+    /**
+     * Metodi palauttaa kertoimen, jota käytetään määrittämään laivojen
+     * maksimimäärä. Kerroin riippuu pelilaudan leveydestä ja pituudesta.
+     *
+     * @return Laivojen määrän kerroin
+     */
     public int haeLaivojenMaaranKerroin() {
         return pelilautaLeveys * pelilautaPituus / 100;
     }
-    
+
+    /**
+     * Metodi palauttaa pelissä käytettävien laivojen yhteismäärän.
+     *
+     * @return Laivojen summa
+     */
     public int haeLaivojenMaara() {
         int laivoja = 0;
         for (Integer luku : laivat.values()) {
@@ -96,11 +114,11 @@ public class Asetukset {
         }
         return laivoja;
     }
-    
+
     public void asetaKaksinpeli(boolean onKaksinpeli) {
         kaksinpeli = onKaksinpeli;
     }
-    
+
     public boolean onkoKaksinpeli() {
         return kaksinpeli;
     }

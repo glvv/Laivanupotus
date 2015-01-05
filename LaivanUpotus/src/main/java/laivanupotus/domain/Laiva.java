@@ -3,7 +3,8 @@ package laivanupotus.domain;
 import java.util.HashMap;
 
 /**
- * Laiva kuvaa Laivanupotus-pelin laivaa.
+ * Laiva kuvaa Laivanupotus-pelin laivaa. Laiva-olio pitää kirjaa siihen
+ * kohdistuneista osumista.
  */
 public class Laiva {
 
@@ -11,8 +12,9 @@ public class Laiva {
     private final HashMap<Ruutu, Boolean> osumat;
 
     /**
-     * Konstruktorissa luodaan laiva, jolla 
-     * on parametrina annetut ruudut
+     * Konstruktorissa luodaan laiva, jolla on parametrina annetut ruudut.
+     * Alussa laivalle ei ole osumia.
+     *
      * @param ruudut Laivan muodostavat ruudut
      */
     public Laiva(Ruutu... ruudut) {
@@ -26,8 +28,11 @@ public class Laiva {
             osumat.put(ruutu, false);
         }
     }
+
     /**
-     * Metodi käy lapi laivan ruudut, jos yksikin on ilman osumaa palautetaan false
+     * Metodi käy lapi laivan ruudut, jos yksikin on ilman osumaa palautetaan
+     * false
+     *
      * @return Onko Laiva uponnut
      */
     public boolean uppoaako() {
@@ -43,10 +48,16 @@ public class Laiva {
         return ruudut;
     }
 
+    /**
+     * Metodi merkkaa laivalle osuman parametrissa annettuun ruutuun, jos se kuuluu laivan ruutuihin.
+     * @param osuma Ruutu, johon on osuttu.
+     */
     public void lisaaOsuma(Ruutu osuma) {
-        osumat.put(osuma, true);
+        if (osumat.keySet().contains(osuma)) {
+            osumat.put(osuma, true);    
+        }
     }
-    
+
     public HashMap haeOsumat() {
         return this.osumat;
     }

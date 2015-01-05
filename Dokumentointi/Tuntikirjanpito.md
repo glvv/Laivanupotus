@@ -61,3 +61,7 @@
 **4.1.2015**
 
 4h Tehty graafista käyttöliittymää.
+
+**5.1.2015**
+
+7h Graafinen käyttöliittymä tehty valmiiksi. Täydennetty JavaDoc-kuvauksia.

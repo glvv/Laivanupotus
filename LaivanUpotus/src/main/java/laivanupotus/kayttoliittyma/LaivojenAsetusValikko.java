@@ -12,8 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.WindowConstants;
-import laivanupotus.logiikka.Asetukset;
+import laivanupotus.domain.Asetukset;
 
+/**
+ * Valikossa voi asettaa laivojen maaran.
+ */
 public class LaivojenAsetusValikko implements Runnable {
 
     private JFrame frame;
@@ -55,8 +58,8 @@ public class LaivojenAsetusValikko implements Runnable {
         laivojenAsetus.add(aloitaPeli);
         return laivojenAsetus;
     }
-    
-    private JSlider[] luoLaivatSlider(){
+
+    private JSlider[] luoLaivatSlider() {
         int laivojenKerroin = asetukset.haeLaivojenMaaranKerroin();
         JSlider[] laivat = new JSlider[5];
         laivat[0] = luoJSlider(1, 2 * laivojenKerroin, "");
@@ -66,7 +69,7 @@ public class LaivojenAsetusValikko implements Runnable {
         laivat[4] = luoJSlider(0, 1 * laivojenKerroin, "");
         return laivat;
     }
-    
+
     private HashMap<Integer, String> tekstit() {
         HashMap<Integer, String> tekstit = new HashMap<>();
         tekstit.put(0, "Sukellusveneitä (1 ruutu)");
@@ -76,7 +79,7 @@ public class LaivojenAsetusValikko implements Runnable {
         tekstit.put(4, "Lentotukialuksia (5 ruutua)");
         return tekstit;
     }
-    
+
     private JPanel lisaaLaivat(JSlider[] laivat, JPanel panel) {
         HashMap<Integer, String> tekstit = tekstit();
         for (int i = 0; i < laivat.length; i++) {

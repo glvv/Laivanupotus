@@ -16,18 +16,22 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import laivanupotus.domain.Ruutu;
-import laivanupotus.logiikka.Asetukset;
+import laivanupotus.domain.Asetukset;
 
+/**
+ * LaivanupotusGUI sisältää 2 pelilautaa, joissa on nappulat siirron antamista varten.
+ * 
+ */
 public class LaivanupotusGUI implements Runnable {
 
     private JFrame frame;
     private final Asetukset asetukset;
-    private final LaivanupotusGUILogiikka logiikka;
+    private final LaivanupotusGUIKasittelija logiikka;
     private int pelilautaIndeksi;
-    
+
     public LaivanupotusGUI(Asetukset asetukset) {
         this.asetukset = asetukset;
-        this.logiikka = new LaivanupotusGUILogiikka(asetukset, this);
+        this.logiikka = new LaivanupotusGUIKasittelija(asetukset, this);
         this.pelilautaIndeksi = 1;
     }
 

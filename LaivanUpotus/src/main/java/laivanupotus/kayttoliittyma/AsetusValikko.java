@@ -12,8 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.WindowConstants;
-import laivanupotus.logiikka.Asetukset;
+import laivanupotus.domain.Asetukset;
 
+/**
+ * Asetusvalikossa voi asettaa pelilaudan leveyden,
+ * sekä yksinpelin tai kaksinpelin.
+ */
 public class AsetusValikko implements Runnable {
 
     private JFrame frame;
@@ -40,12 +44,12 @@ public class AsetusValikko implements Runnable {
         JPanel asetukset1 = luoAsetukset1();
         container.add(asetukset1);
     }
-    
+
     private JSlider luoJSlider(int vahintaan, int enintaan, String kuvaavaNimi) {
         JSlider slider = new JSlider(vahintaan, enintaan);
-        Hashtable<Integer, JLabel> minimiJaMaksimi = new Hashtable();        
-        minimiJaMaksimi.put(vahintaan, new JLabel(vahintaan + "") );
-        minimiJaMaksimi.put(enintaan, new JLabel(enintaan + "") );
+        Hashtable<Integer, JLabel> minimiJaMaksimi = new Hashtable();
+        minimiJaMaksimi.put(vahintaan, new JLabel(vahintaan + ""));
+        minimiJaMaksimi.put(enintaan, new JLabel(enintaan + ""));
         minimiJaMaksimi.put((enintaan - vahintaan) / 2 + vahintaan, new JLabel(kuvaavaNimi));
         slider.setLabelTable(minimiJaMaksimi);
         slider.setMajorTickSpacing(1);
@@ -53,9 +57,9 @@ public class AsetusValikko implements Runnable {
         slider.setPaintTicks(true);
         return slider;
     }
-    
+
     private JPanel luoAsetukset1() {
-        JPanel asetukset1 = new JPanel();        
+        JPanel asetukset1 = new JPanel();
         JRadioButton[] nappulat = lisaaMonivalintaYksinPeliVaiMoninPeli();
         JSlider leveysSlider = luoJSlider(10, 30, "Pelilaudan leveys");
         JButton asetaNappula = lisaaAsetustenAsetusNappula();
@@ -69,7 +73,7 @@ public class AsetusValikko implements Runnable {
         asetukset1.add(asetaNappula, BorderLayout.SOUTH);
         return asetukset1;
     }
-    
+
     private JRadioButton[] lisaaMonivalintaYksinPeliVaiMoninPeli() {
         JRadioButton[] nappulat = new JRadioButton[2];
         nappulat[0] = new JRadioButton("Kaksinpeli");
@@ -80,7 +84,7 @@ public class AsetusValikko implements Runnable {
         pelivalinta.add(nappulat[1]);
         return nappulat;
     }
-    
+
     private JButton lisaaAsetustenAsetusNappula() {
         JButton aseta = new JButton("Aseta");
         return aseta;

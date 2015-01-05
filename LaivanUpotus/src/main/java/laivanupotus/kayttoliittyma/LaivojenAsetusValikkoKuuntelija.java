@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
-import laivanupotus.logiikka.Asetukset;
+import laivanupotus.domain.Asetukset;
 
 public class LaivojenAsetusValikkoKuuntelija implements ActionListener {
 

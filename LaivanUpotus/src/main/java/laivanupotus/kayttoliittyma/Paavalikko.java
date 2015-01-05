@@ -7,6 +7,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+/**
+ * Päävalikossa voi päättää haluaako pelata oletusasetuksilla vai vaihtaa
+ * asetuksia.
+ *
+ */
 public class Paavalikko implements Runnable {
 
     private JFrame frame;

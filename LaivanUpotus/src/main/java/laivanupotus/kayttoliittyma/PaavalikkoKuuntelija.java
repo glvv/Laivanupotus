@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import laivanupotus.logiikka.Asetukset;
+import laivanupotus.domain.Asetukset;
 
 public class PaavalikkoKuuntelija implements ActionListener {
 

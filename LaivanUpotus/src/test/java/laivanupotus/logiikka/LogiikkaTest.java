@@ -1,5 +1,6 @@
 package laivanupotus.logiikka;
 
+import laivanupotus.domain.Asetukset;
 import java.util.ArrayList;
 import laivanupotus.domain.Laiva;
 import laivanupotus.domain.Ruutu;
@@ -79,7 +80,12 @@ public class LogiikkaTest {
     public void katsoSiirtoPalauttaaFalseKunSiirtoEiOsu() {
         assertEquals(false, logiikka.katsoSiirtoPelilaudasta(haeRuutuJokaEiOsu(2), 2));
     }
-
+    
+    private void upotaEnsimmainenLaiva(int pelilauta) {
+        Ruutu osuva = haeOsuvaRuutu(pelilauta);
+        logiikka.katsoSiirtoPelilaudasta(osuva, pelilauta);
+    }
+    
     @Test
     public void katsoSiirtoLisaaOsumanLaivaanJosSiirtoOsuu() {
         Ruutu osuva = haeOsuvaRuutu(1);
@@ -97,5 +103,89 @@ public class LogiikkaTest {
     public void tasoittavaVuoroPalauttaaTrueJosVuoroOnPariton() {
         assertEquals(true, logiikka.tasoittavaVuoroPelattu());
     }
-
+    
+    @Test
+    public void voittaakoJompikumpiPalauttaaTrueKunPelaaja1Voittaa() {
+        upotaEnsimmainenLaiva(1);
+        assertEquals(true, logiikka.voittaakoJompikumpi());
+    }
+    
+    @Test
+    public void voittaakoJompikumpiPalauttaaTrueKunPelaaja2Voittaa() {
+        upotaEnsimmainenLaiva(2);
+        assertEquals(true, logiikka.voittaakoJompikumpi());
+    }
+    
+    @Test
+    public void voittaakoJompikumpiPalauttaaFalseKunKumpikaanPelaajaEiVoita() {
+        assertEquals(false, logiikka.voittaakoJompikumpi());
+    }
+    
+    @Test
+    public void voittaakoPelaajaPalauttaaFalseJosPelaajaEiVoita() {
+        assertEquals(false, logiikka.voittaakoPelaaja(1));
+    }
+    
+    @Test
+    public void voittaakoPelaajaPalauttaaTrueJosPelaajaVoittaa() {
+        upotaEnsimmainenLaiva(1);
+        assertEquals(true, logiikka.voittaakoPelaaja(1));
+    }
+    
+    @Test
+    public void haeVoittajaPalauttaa0JosTasapeli() {
+        upotaEnsimmainenLaiva(1);
+        upotaEnsimmainenLaiva(2);
+        assertEquals(0, logiikka.haeVoittaja());
+    }
+    
+    @Test
+    public void haeVoittajaPalauttaa1JosPelaaja1Voittaa() {
+        upotaEnsimmainenLaiva(1);
+        assertEquals(1, logiikka.haeVoittaja());
+    }
+    
+    @Test
+    public void haeVoittajaPalauttaa2JosPelaaja2Voittaa() {
+        upotaEnsimmainenLaiva(2);
+        assertEquals(2, logiikka.haeVoittaja());
+    }
+    
+    @Test
+    public void oikeaVuoroPalauttaaFalseJosPelilaudanParillisuusEiVastaaVuoronParillisuutta() {
+        assertEquals(false, logiikka.oikeaVuoro(2));
+    }
+    
+    @Test
+    public void oikeaVuoroPalauttaaTrueJosPelilaudanParillisuusVastaaVuoronParillisuutta() {
+        assertEquals(true, logiikka.oikeaVuoro(1));
+    }
+    
+    @Test
+    public void upottikoSiirtoLaivanPalauttaaTrueJosSiirtoUpottiLaivan() {
+        Ruutu ruutu = haeOsuvaRuutu(1);
+        logiikka.katsoSiirtoPelilaudasta(ruutu, 1);
+        assertEquals(true, logiikka.upottikoSiirtoLaivan(ruutu, 1));
+    }
+    
+    @Test
+    public void upottikoSiirtoLaivanPalauttaaFalseJosSiirtoEiUpottanutLaivaa() {
+        Ruutu ruutu = haeRuutuJokaEiOsu(1);
+        logiikka.katsoSiirtoPelilaudasta(ruutu, 1);
+        assertEquals(false, logiikka.upottikoSiirtoLaivan(ruutu, 1));
+    }
+    
+    @Test
+    public void haeVoittajaPalauttaa4JosKukaanEiVoita() {
+        assertEquals(4, logiikka.haeVoittaja());
+    }
+    
+    @Test
+    public void haeLaivojenRuudutPalauttaaOikeatRuudut() {
+        Ruutu ruutu = haeOsuvaRuutu(1);
+        assertEquals(ruutu, logiikka.haeLaivojenRuudut(1).get(0));
+    }
+    
+    
+   
 }

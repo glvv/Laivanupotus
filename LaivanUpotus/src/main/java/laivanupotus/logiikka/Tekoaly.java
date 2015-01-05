@@ -1,5 +1,6 @@
 package laivanupotus.logiikka;
 
+import laivanupotus.domain.Asetukset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -7,6 +8,10 @@ import laivanupotus.domain.Ruutu;
 
 /**
  * Luokka tarjoaa metodin, jolla saadaan siirtoja Laivanupotus-peliin.
+ */
+
+/*
+ Tekoäly ei tue laivojen asettamista niin, että ne koskevat toisiinsa.
  */
 public class Tekoaly {
 
@@ -23,14 +28,14 @@ public class Tekoaly {
     }
 
     /**
-     * Metodi palauttaa satunnaisen ruudun jos se ei ole tehnyt osumia Jos
-     * osumia on yksi metodi palauttaa viereisen ruudun Jos osumia on enemmän
-     * kuin yksi metodi palauttaa ruudun jommastakummasta päästä Metodi
-     * tarkistaa, että ruudut ovat pelilaudalla, eikä niitä olle jo arvattu
-     * Metodin toimiminen vaatii lisaaOsuma ja laivaUpotettu - metodien
-     * käyttämisen
+     * Metodi palauttaa tekoälyn tekemän siirron. Metodi palauttaa satunnaisen
+     * ruudun jos se ei ole tehnyt osumia. Jos osumia on yksi metodi palauttaa
+     * viereisen ruudun. Jos osumia on enemmän kuin yksi, metodi palauttaa
+     * ruudun jommastakummasta päästä. Metodi tarkistaa, että ruudut ovat
+     * pelilaudalla, eikä niitä ole jo arvattu. Metodin toimiminen vaatii
+     * lisaaOsuma ja laivaUpotettu - metodien käyttämisen.
      *
-     * @see Tekoaly#laivaUpotettu() 
+     * @see Tekoaly#laivaUpotettu()
      * @see Tekoaly#lisaaOsuma(laivanupotus.domain.Ruutu)
      * @return Tekoalyn tekemä siirto
      */
@@ -47,11 +52,11 @@ public class Tekoaly {
     }
 
     /**
-     * Metodilla lisätään siirto, joka on osunut laivaan teeSiirto - metodi
+     * Metodilla lisätään siirto, jolla on osuttu laivaan. teeSiirto - metodi
      * käyttää tietoa edellisistä osumista
      *
      * @param siirto Osuttu Ruutu, jossa on laiva
-     * @see Tekoaly#teeSiirto() 
+     * @see Tekoaly#teeSiirto()
      */
     public void lisaaOsuma(Ruutu siirto) {
         osumat.add(siirto);
@@ -59,7 +64,7 @@ public class Tekoaly {
 
     /**
      * Metodia käytetään kertomaan tekoälylle, että osumien ympäriltä ei saa
-     * enää arvata ruutuja teeSiirto - metodi käyttää tietoa edellisistä
+     * enää arvata ruutuja. teeSiirto - metodi käyttää tietoa edellisistä
      * osumista
      *
      * @see Tekoaly#teeSiirto()
@@ -148,13 +153,13 @@ public class Tekoaly {
         }
         return true;
     }
-    
+
     private void lisaaOsumiaYmparoivatRuudutArvatuiksi() {
         for (Ruutu ruutu : osumat) {
             arvatut.addAll(haeRuutuaYmparoivatRuudut(ruutu));
         }
     }
-    
+
     private ArrayList<Ruutu> haeRuutuaYmparoivatRuudut(Ruutu ruutu) {
         ArrayList<Ruutu> ruudut = new ArrayList<>();
         int x = ruutu.haeX();

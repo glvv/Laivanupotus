@@ -1,5 +1,7 @@
 package laivanupotus.logiikka;
 
+import laivanupotus.domain.Asetukset;
+import laivanupotus.testivalineet.TestiArpoja;
 import laivanupotus.domain.Ruutu;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -168,6 +170,18 @@ public class TekoalyTest {
         testiarpoja.lisaaPalautusArvo(0);
         ruutu = tekoaly.teeSiirto();
         assertEquals(new Ruutu(8, 9), ruutu);
+    }
+    
+    @Test
+    public void teeSiirtoArvaaUudenRuudunJosArvattuRuutuOnUpotetunLaivanVieressa() {
+        tekoaly.lisaaOsuma(new Ruutu(5, 5));
+        tekoaly.laivaUpotettu();
+        testiarpoja.lisaaPalautusArvo(4);
+        testiarpoja.lisaaPalautusArvo(5);
+        testiarpoja.lisaaPalautusArvo(9);
+        testiarpoja.lisaaPalautusArvo(9);
+        ruutu = tekoaly.teeSiirto();
+        assertEquals(new Ruutu(9, 9), ruutu);
     }
     
 }
