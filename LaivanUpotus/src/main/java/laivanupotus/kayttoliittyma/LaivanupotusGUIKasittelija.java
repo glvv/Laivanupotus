@@ -7,7 +7,7 @@ import javax.swing.JTextField;
 import laivanupotus.domain.Ruutu;
 import laivanupotus.domain.Asetukset;
 import laivanupotus.logiikka.Logiikka;
-import laivanupotus.logiikka.Tekoaly;
+import laivanupotus.logiikka.TekoalyPelaaja;
 
 /**
  * LaivanupotusGUIKasittelija muokkaa pelilautojen tilaa.
@@ -19,7 +19,7 @@ public class LaivanupotusGUIKasittelija {
     private final HashMap<Integer, JTextField> tekstikentat;
     private final Asetukset asetukset;
     private final LaivanupotusGUI gui;
-    private Tekoaly tekoaly;
+    private TekoalyPelaaja tekoaly;
 
     public LaivanupotusGUIKasittelija(Asetukset asetukset, LaivanupotusGUI gui) {
         this.asetukset = asetukset;
@@ -33,13 +33,13 @@ public class LaivanupotusGUIKasittelija {
     }
 
     /**
-     * Metodi luo Tekoaly - olion, jos tarpeellista, sekä asettaa toisen
+     * Metodi luo TekoalyPelaaja - olion, jos tarpeellista, sekä asettaa toisen
      * pelilaudan reagoimattomaksi ja näyttää sillä olevat laivat. Metodia tulee
      * käyttää kun komponentit ovat luotu. Muuten Tekoäly ei toimi.
      */
     public void tarkistaOnkoYksinPeliJaLuoTekoalyJosOn() {
         if (!asetukset.onkoKaksinpeli()) {
-            this.tekoaly = new Tekoaly(asetukset);
+            this.tekoaly = new TekoalyPelaaja(asetukset, logiikka);
             asetaRuudutToimimattomiksi(2);
             naytaPelaajanLaivat();
         }
@@ -48,8 +48,8 @@ public class LaivanupotusGUIKasittelija {
     /**
      * Metodi välittää siirron logiikalle ja muokkaa pelilautaa tuloksen mukaan.
      * Metodi tarkistaa onko pelaajan vuoro. Jos ei ole pelaajan vuoro, metodi
-     * ilmoittaa siitä tekstikenttään. Yksinpelissä metodikutsu suorittaa
-     * siirron jälkeen tekoälyn vuoron.
+     * ilmoittaa siitä tekstikenttään, eikä tee muuta. Yksinpelissä metodikutsu
+     * suorittaa siirron jälkeen tekoälyn vuoron.
      *
      * @param ruutu
      * @param pelilauta
@@ -138,22 +138,20 @@ public class LaivanupotusGUIKasittelija {
     }
 
     private void tekoalynVuoro() {
-        tekoAlynSiirto();
+        tekoaly.teeSiirto();
+        paivitaTekoalynPelilauta();
+        tekoaly.vuoroPelattu();
+        paivitaUponneetLaivat(2);
         logiikka.vuoroPelattu();
         jatkuukoPeli();
     }
 
-    private void tekoAlynSiirto() {
-        Ruutu siirto = tekoaly.teeSiirto();
-        pelilaudat.get(2).get(siirto).setBackground(Color.GRAY);
-        if (logiikka.katsoSiirtoPelilaudasta(siirto, 2)) {
-            tekoaly.lisaaOsuma(siirto);
-            pelilaudat.get(2).get(siirto).setBackground(Color.RED);
-            if (logiikka.upottikoSiirtoLaivan(siirto, 2)) {
-                tekoaly.laivaUpotettu();
-            }
-            paivitaUponneetLaivat(2);
-            tekoAlynSiirto();
+    private void paivitaTekoalynPelilauta() {
+        for (Ruutu ruutu : tekoaly.haeTehdytSiirrot()) {
+            pelilaudat.get(2).get(ruutu).setBackground(Color.GRAY);
+        }
+        for (Ruutu ruutu : tekoaly.haeOsumat()) {
+            pelilaudat.get(2).get(ruutu).setBackground(Color.RED);
         }
     }
 

@@ -23,11 +23,11 @@ public class Logiikka {
      */
     public Logiikka(Asetukset asetukset) {
         this.pelilaudat = new HashMap<>();
-        arvoLaivatJaLuoPelaajat(asetukset);
+        arvoLaivatJaLuoPelilaudat(asetukset);
         this.vuoro = 1;
     }
 
-    private void arvoLaivatJaLuoPelaajat(Asetukset asetukset) {
+    private void arvoLaivatJaLuoPelilaudat(Asetukset asetukset) {
         LaivojenAsettaja asettaja = new LaivojenAsettaja(asetukset);
         ArrayList<Laiva> pelaaja1Laivat = asettaja.luoLaivatAutomaattisesti();
         ArrayList<Laiva> pelaaja2Laivat = asettaja.luoLaivatAutomaattisesti();

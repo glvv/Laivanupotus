@@ -62,11 +62,11 @@ public class LaivojenAsetusValikko implements Runnable {
     private JSlider[] luoLaivatSlider() {
         int laivojenKerroin = asetukset.haeLaivojenMaaranKerroin();
         JSlider[] laivat = new JSlider[5];
-        laivat[0] = luoJSlider(1, 2 * laivojenKerroin, "");
-        laivat[1] = luoJSlider(0, 2 * laivojenKerroin, "");
-        laivat[2] = luoJSlider(0, 1 * laivojenKerroin, "");
-        laivat[3] = luoJSlider(0, 1 * laivojenKerroin, "");
-        laivat[4] = luoJSlider(0, 1 * laivojenKerroin, "");
+        laivat[0] = luoJSlider(1, 2 * laivojenKerroin);
+        laivat[1] = luoJSlider(0, 2 * laivojenKerroin);
+        laivat[2] = luoJSlider(0, 1 * laivojenKerroin);
+        laivat[3] = luoJSlider(0, 1 * laivojenKerroin);
+        laivat[4] = luoJSlider(0, 1 * laivojenKerroin);
         return laivat;
     }
 
@@ -89,12 +89,11 @@ public class LaivojenAsetusValikko implements Runnable {
         return panel;
     }
 
-    private JSlider luoJSlider(int vahintaan, int enintaan, String kuvaavaNimi) {
+    private JSlider luoJSlider(int vahintaan, int enintaan) {
         JSlider slider = new JSlider(vahintaan, enintaan);
         Hashtable<Integer, JLabel> minimiJaMaksimi = new Hashtable();
         minimiJaMaksimi.put(vahintaan, new JLabel(vahintaan + ""));
         minimiJaMaksimi.put(enintaan, new JLabel(enintaan + ""));
-        minimiJaMaksimi.put((enintaan - vahintaan) / 2 + vahintaan, new JLabel(kuvaavaNimi));
         slider.setLabelTable(minimiJaMaksimi);
         slider.setMajorTickSpacing(1);
         slider.setPaintLabels(true);

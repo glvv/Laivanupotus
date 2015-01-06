@@ -149,18 +149,18 @@ public class SyotteenKasittelijaTest {
     }
     
     @Test
-    public void lisaaLaivaOnnistuuKunKokoOn1JaMaara3() {
-        assertEquals(true, sk.lisaaLaiva(1, "3"));
+    public void lisaaLaivaOnnistuuKunKokoOn1JaMaara2() {
+        assertEquals(true, sk.lisaaLaiva(1, "2"));
     }
     
     @Test
-    public void lisaaLaivaOnnistuuKunKokoOn2JaMaara2() {
-        assertEquals(true, sk.lisaaLaiva(2, "2"));
+    public void lisaaLaivaOnnistuuKunKokoOn2JaMaara1() {
+        assertEquals(true, sk.lisaaLaiva(2, "1"));
     }
     
     @Test
-    public void lisaaLaivaOnnistuuKunKokoOn3JaMaara2() {
-        assertEquals(true, sk.lisaaLaiva(3, "2"));
+    public void lisaaLaivaOnnistuuKunKokoOn3JaMaara1() {
+        assertEquals(true, sk.lisaaLaiva(3, "1"));
     }
     
     @Test

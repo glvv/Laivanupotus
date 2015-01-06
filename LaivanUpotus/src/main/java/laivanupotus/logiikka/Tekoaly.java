@@ -40,15 +40,14 @@ public class Tekoaly {
      * @return Tekoalyn tekemä siirto
      */
     public Ruutu teeSiirto() {
+        Ruutu arvaus;
         if (osumat.isEmpty()) {
-            Ruutu arvaus = arvaaSatunnainen();
-            arvatut.add(arvaus);
-            return arvaus;
+            arvaus = arvaaSatunnainen();
         } else {
-            Ruutu arvaus = arvaaOsumienPerusteella();
-            arvatut.add(arvaus);
-            return arvaus;
+            arvaus = arvaaOsumienPerusteella();
         }
+        arvatut.add(arvaus);
+        return arvaus;
     }
 
     /**
@@ -169,6 +168,10 @@ public class Tekoaly {
         ruudut.add(new Ruutu(x, y + 1));
         ruudut.add(new Ruutu(x, y - 1));
         return ruudut;
+    }
+
+    public ArrayList<Ruutu> haeOsumat() {
+        return osumat;
     }
 
 }

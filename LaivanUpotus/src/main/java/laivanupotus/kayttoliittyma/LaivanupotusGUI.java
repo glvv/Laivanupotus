@@ -61,6 +61,13 @@ public class LaivanupotusGUI implements Runnable {
         logiikka.lisaaJTextField(tekstikentta, pelilautaIndeksi);
         tekstikentta.setEditable(false);
         lautaJaTekstiKentta.add(tekstikentta, BorderLayout.NORTH);
+        JPanel nappulat = luoNappulat();
+        lautaJaTekstiKentta.add(nappulat, BorderLayout.CENTER);
+        pelilautaIndeksi++;
+        return lautaJaTekstiKentta;
+    }
+    
+    private JPanel luoNappulat() {
         int leveys = asetukset.haePelilautaLeveys();
         int pituus = asetukset.haePelilautaPituus();
         GridLayout grid = new GridLayout(leveys, pituus);
@@ -74,11 +81,10 @@ public class LaivanupotusGUI implements Runnable {
                 lauta1.add(nappula);
             }
         }
-        lautaJaTekstiKentta.add(lauta1, BorderLayout.CENTER);
-        pelilautaIndeksi++;
-        return lautaJaTekstiKentta;
+        return lauta1;
     }
-
+    
+        
     public JFrame getFrame() {
         return frame;
     }
