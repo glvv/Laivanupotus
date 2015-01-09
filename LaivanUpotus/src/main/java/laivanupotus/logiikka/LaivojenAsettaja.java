@@ -29,13 +29,14 @@ public class LaivojenAsettaja {
     }
 
     /**
-     * Metodi arpoo Asetukset-olion sisältämän ohjeen määräämän määrän ja koon mukaan
-     * ruutuja ja luo niistä Laiva-olioita, jotka
-     * se listana.
+     * Metodi arpoo Asetukset-olion sisältämän ohjeen määräämän määrän ja koon
+     * mukaan ruutuja ja luo niistä Laiva-olioita, jotka se listana.
      *
      * @return Lista, joka sisältää luodut laivat
+     * @throws java.lang.Exception Metodi heittää poikkeuksen jos
+     * pelilauta on liian pieni ja laivoja liikaa.
      */
-    public ArrayList luoLaivatAutomaattisesti() {
+    public ArrayList luoLaivatAutomaattisesti() throws Exception {
         this.varatutRuudut = new HashSet<>();
         ArrayList<Laiva> laivat = new ArrayList<>();
         for (Integer laivanKoko : asetukset.haeLaivat().keySet()) {

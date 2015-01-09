@@ -64,7 +64,7 @@ public class Tekoaly {
     /**
      * Metodia käytetään kertomaan tekoälylle, että osumien ympäriltä ei saa
      * enää arvata ruutuja. teeSiirto - metodi käyttää tietoa edellisistä
-     * osumista
+     * osumista.
      *
      * @see Tekoaly#teeSiirto()
      */

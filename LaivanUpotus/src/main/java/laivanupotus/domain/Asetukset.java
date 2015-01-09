@@ -17,6 +17,11 @@ public class Asetukset {
      * Konstruktorissa leveydeksi ja pituudeksi asetetaan alussa 10 Oliolle
      * luodaan tyhjä HashMap laivojen tallettamista varten. Kaksinpeli on
      * oletuksena pois päältä.
+     * Juuri luodulla Asetukset-oliolla ei ole yhtäkään laivaa. Ennen kuin Asetukset
+     * annetaan sitä tarvitsemalle oliolle, tulee laivoja lisätä.
+     * 
+     * @see Asetukset#asetaOletusLaivat() 
+     * @see Asetukset#lisaaLaiva(int, int) 
      */
     public Asetukset() {
         laivatSaaKoskea = false;

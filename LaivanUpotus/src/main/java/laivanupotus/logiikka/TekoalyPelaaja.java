@@ -5,7 +5,7 @@ import laivanupotus.domain.Asetukset;
 import laivanupotus.domain.Ruutu;
 
 /**
- * TekoalyPelaaja pitää käyttää ja päivitäää TekoAly-oliota.
+ * TekoalyPelaaja käyttää ja päivittää Tekoaly-oliota.
  */
 public class TekoalyPelaaja {
 

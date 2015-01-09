@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * Pelilauta pitää kirjaa laivoista ja siitä, missä ruudussa ne ovat.
+ * Pelilauta pitää kirjaa laivoista ja niiden sijainneista.
  */
 public class Pelilauta {
 

@@ -10,7 +10,7 @@ import laivanupotus.logiikka.Logiikka;
 import laivanupotus.logiikka.TekoalyPelaaja;
 
 /**
- * LaivanupotusGUIKasittelija muokkaa pelilautojen tilaa.
+ * LaivanupotusGUIKasittelija muokkaa pelilautojen grafiikkakomponenttien tilaa.
  */
 public class LaivanupotusGUIKasittelija {
 
@@ -33,7 +33,7 @@ public class LaivanupotusGUIKasittelija {
     }
 
     /**
-     * Metodi luo TekoalyPelaaja - olion, jos tarpeellista, sekä asettaa toisen
+     * Jos yksinpeli on päällä, metodi luo TekoalyPelaaja - olion, sekä asettaa toisen
      * pelilaudan reagoimattomaksi ja näyttää sillä olevat laivat. Metodia tulee
      * käyttää kun komponentit ovat luotu. Muuten Tekoäly ei toimi.
      */

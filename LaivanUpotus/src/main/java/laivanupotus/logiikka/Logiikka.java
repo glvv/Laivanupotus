@@ -18,7 +18,7 @@ public class Logiikka {
 
     /**
      * Konstruktori luo ja alustaa pelin komponentit.
-     *
+     * Konstruktori luo LaivojenAsettaja-olion, 
      * @param asetukset Pelin asetukset sisältävä olio
      */
     public Logiikka(Asetukset asetukset) {
@@ -28,11 +28,23 @@ public class Logiikka {
     }
 
     private void arvoLaivatJaLuoPelilaudat(Asetukset asetukset) {
-        LaivojenAsettaja asettaja = new LaivojenAsettaja(asetukset);
-        ArrayList<Laiva> pelaaja1Laivat = asettaja.luoLaivatAutomaattisesti();
-        ArrayList<Laiva> pelaaja2Laivat = asettaja.luoLaivatAutomaattisesti();
+        ArrayList<Laiva> pelaaja1Laivat = luolaivat(asetukset);
+        ArrayList<Laiva> pelaaja2Laivat = luolaivat(asetukset);
         pelilaudat.put(1, new Pelilauta(pelaaja1Laivat));
         pelilaudat.put(2, new Pelilauta(pelaaja2Laivat));
+    }
+    
+    private ArrayList<Laiva> luolaivat(Asetukset asetukset) {
+        ArrayList<Laiva> laivat;
+        LaivojenAsettaja asettaja = new LaivojenAsettaja(asetukset);
+        while (true) {
+            try {
+                laivat = asettaja.luoLaivatAutomaattisesti();
+                break;
+            } catch (Exception x) {
+            }
+        }
+        return laivat;
     }
 
     /**

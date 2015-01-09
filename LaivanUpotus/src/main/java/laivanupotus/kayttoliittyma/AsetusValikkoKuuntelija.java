@@ -2,13 +2,17 @@ package laivanupotus.kayttoliittyma;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 import laivanupotus.domain.Asetukset;
 
+/**
+ * Luokka asettaa asetukset olioon, pelilaudan leveyden, sekä pelimoodin.
+ * Tämän jälkeen luokka sulkee asetusvalikon ja avaa LaivojenAsetusValikko käyttöliittymän.
+ * @author raot
+ */
 public class AsetusValikkoKuuntelija implements ActionListener {
 
     private final JSlider leveysAsetin;

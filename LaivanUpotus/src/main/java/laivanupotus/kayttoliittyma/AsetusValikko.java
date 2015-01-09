@@ -16,7 +16,7 @@ import laivanupotus.domain.Asetukset;
 
 /**
  * Asetusvalikossa voi asettaa pelilaudan leveyden,
- * sekä yksinpelin tai kaksinpelin.
+ * sekä yksinpelin tai kaksinpelin. 
  */
 public class AsetusValikko implements Runnable {
 

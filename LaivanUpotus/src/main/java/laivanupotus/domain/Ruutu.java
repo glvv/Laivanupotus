@@ -63,7 +63,7 @@ public class Ruutu implements Comparable<Ruutu> {
 
     /**
      * Metodilla voi verrata kahta ruutua jos ja vain jos niiden x-koordinaatit
-     * ovat samat tai niiden y koordinaatit ovat samat Tällöin metodi vertaa
+     * ovat samat tai niiden y koordinaatit ovat samat. Tällöin metodi vertaa
      * sitä koordinaattia,joka ei ole sama
      *
      * @param t verrattava Ruutu-olio

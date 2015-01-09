@@ -3,7 +3,7 @@ package laivanupotus.logiikka;
 import laivanupotus.domain.Asetukset;
 
 /**
- * Luokka tarjoaa metodeja syötteiden tarkistamiseen.
+ * Luokka tarjoaa metodeja käyttäjän antamien syötteiden tarkistamiseen.
  */
 
 /*
@@ -134,7 +134,8 @@ public class SyotteenKasittelija {
     }
 
     /**
-     * Metodi tarkistaa, että syöte on kokonaisluku annetulta väliltä
+     * Metodi tarkistaa, että syöte on kokonaisluku annetulta väliltä.
+     * Syötteiden pitää olla välillä 1 - valintojen määrä.
      *
      * @param syote Tarkistettava syöte
      * @param valintoja Valintojen määrä

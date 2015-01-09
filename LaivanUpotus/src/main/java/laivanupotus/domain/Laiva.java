@@ -3,8 +3,9 @@ package laivanupotus.domain;
 import java.util.HashMap;
 
 /**
- * Laiva kuvaa Laivanupotus-pelin laivaa. Laiva-olio pitää kirjaa siihen
- * kohdistuneista osumista.
+ * Laiva kuvaa Laivanupotus-pelin laivaa. Laiva-olio pitää kirjaa sen
+ * muodostamista ruuduista sekä siihen kohdistuneista osumista. Laiva-oliolta
+ * voi kysyä uppoaako se.
  */
 public class Laiva {
 
@@ -49,12 +50,14 @@ public class Laiva {
     }
 
     /**
-     * Metodi merkkaa laivalle osuman parametrissa annettuun ruutuun, jos se kuuluu laivan ruutuihin.
+     * Metodi merkkaa laivalle osuman parametrissa annettuun ruutuun, jos se
+     * kuuluu laivan ruutuihin.
+     *
      * @param osuma Ruutu, johon on osuttu.
      */
     public void lisaaOsuma(Ruutu osuma) {
         if (osumat.keySet().contains(osuma)) {
-            osumat.put(osuma, true);    
+            osumat.put(osuma, true);
         }
     }
 

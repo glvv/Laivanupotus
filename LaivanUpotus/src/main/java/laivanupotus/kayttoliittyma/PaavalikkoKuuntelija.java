@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import laivanupotus.domain.Asetukset;
 
+/**
+ * Kuuntelija käynnistää pelin tai asetusvalikon riippuen siitä, mitä nappia on
+ * painettu.
+ */
 public class PaavalikkoKuuntelija implements ActionListener {
 
     private final JButton oletus;
@@ -18,10 +22,10 @@ public class PaavalikkoKuuntelija implements ActionListener {
         this.muutaAsetuksia = muutaAsetuksia;
         this.valikko = paavalikko;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent ae) {
-        valikko.dispose();         
+        valikko.dispose();
         if (ae.getSource() == oletus) {
             Asetukset asetukset = new Asetukset();
             asetukset.asetaOletusLaivat();
@@ -32,5 +36,5 @@ public class PaavalikkoKuuntelija implements ActionListener {
             SwingUtilities.invokeLater(asetukset);
         }
     }
-    
+
 }
