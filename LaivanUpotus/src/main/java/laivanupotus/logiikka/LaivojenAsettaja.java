@@ -30,7 +30,7 @@ public class LaivojenAsettaja {
 
     /**
      * Metodi arpoo Asetukset-olion sisältämän ohjeen määräämän määrän ja koon
-     * mukaan ruutuja ja luo niistä Laiva-olioita, jotka se listana.
+     * mukaan ruutuja ja luo niistä Laiva-olioita, jotka se palauttaa listana.
      *
      * @return Lista, joka sisältää luodut laivat
      * @throws java.lang.Exception Metodi heittää poikkeuksen jos
@@ -53,7 +53,7 @@ public class LaivojenAsettaja {
         this.arpoja = arpoja;
     }
 
-    private Ruutu[] arvoRuudutLaivalle(int koko) {
+    private Ruutu[] arvoRuudutLaivalle(int koko) throws Exception {
         Ruutu ensimmainenRuutu = arvoRuutu();
         boolean laivaOnPystySuorassa = (arpoja.nextInt(2) == 1);
         Ruutu[] ruudut = new Ruutu[koko];
