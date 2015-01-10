@@ -48,8 +48,20 @@ public class LaivojenAsettajaTest {
         testiarpoja.lisaaPalautusArvo(vaaka0pysty1);
     }
 
+    private ArrayList<Laiva> luoLaivat() {
+        ArrayList<Laiva> lista;
+        while (true) {
+            try {
+            lista = asettaja.luoLaivatAutomaattisesti();
+            break;
+            } catch (Exception x) {   
+            }
+        }
+        return lista;
+    }
+    
     private boolean tarkistaEttaLaivassaOnOikeatRuudut(int laivanIndeksi, Ruutu... odotetut) {
-        ArrayList<Laiva> lista = asettaja.luoLaivatAutomaattisesti();
+        ArrayList<Laiva> lista = luoLaivat();
         Laiva tarkistettava = lista.get(laivanIndeksi);
         Ruutu[] laivanRuudut = tarkistettava.haeRuudut();
         if (laivanRuudut.length == odotetut.length) {
@@ -80,7 +92,7 @@ public class LaivojenAsettajaTest {
     @Test
     public void asetaLaivatAutomaattisestiEiPalautaNull() {
         lisaaPalautusArvot(5, 5, 1);
-        ArrayList<Laiva> lista = asettaja.luoLaivatAutomaattisesti();
+        ArrayList<Laiva> lista = luoLaivat();
         assertEquals(true, lista != null);
     }
 

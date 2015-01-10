@@ -29,8 +29,8 @@ public class Logiikka {
 
     private void arvoLaivatJaLuoPelilaudat(Asetukset asetukset) {
         ArrayList<Laiva> pelaaja1Laivat = luolaivat(asetukset);
-        ArrayList<Laiva> pelaaja2Laivat = luolaivat(asetukset);
         pelilaudat.put(1, new Pelilauta(pelaaja1Laivat));
+        ArrayList<Laiva> pelaaja2Laivat = luolaivat(asetukset);
         pelilaudat.put(2, new Pelilauta(pelaaja2Laivat));
     }
     
